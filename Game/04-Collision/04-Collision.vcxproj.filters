@@ -37,6 +37,9 @@
     <Filter Include="Source Files\Util">
       <UniqueIdentifier>{d09e1f90-ecee-48dc-89ab-2d2a8bf7da9d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Resource Manager">
+      <UniqueIdentifier>{6e2f0cc6-9585-46c5-a9dd-7a3213ee8824}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Simon.h">
@@ -65,6 +68,12 @@
     </ClInclude>
     <ClInclude Include="Textures.h">
       <Filter>Header Files\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureManager.h">
+      <Filter>Source Files\Resource Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="SpritesManager.h">
+      <Filter>Source Files\Resource Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -97,6 +106,12 @@
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureManager.cpp">
+      <Filter>Source Files\Resource Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="SpritesManager.cpp">
+      <Filter>Source Files\Resource Manager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

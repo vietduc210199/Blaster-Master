@@ -42,7 +42,7 @@ void CTorch::Render()
 	}
 
 	animations[ani]->Render(x,y);
-	//RenderBoundingBox();
+	RenderBoundingBox();
 }
 
 void CTorch::SetState(int state)

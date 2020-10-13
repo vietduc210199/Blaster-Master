@@ -126,6 +126,8 @@
     <ClInclude Include="debug.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="SpritesManager.h" />
+    <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Torch.h" />
     <ClInclude Include="Brick.h" />
     <ClInclude Include="Simon.h" />
@@ -137,6 +139,8 @@
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="SpritesManager.cpp" />
+    <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="Torch.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Brick.cpp" />

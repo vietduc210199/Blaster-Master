@@ -32,6 +32,8 @@
 #include "Torch.h"
 #include "Brick.h"
 
+#include "TextureManager.h"
+
 #include<iostream>
 #include<fstream>
 #include<string>
@@ -46,12 +48,7 @@
 
 #define MAX_FRAME_RATE 120
 
-#define ID_TEX_SIMON 0
-#define ID_TEX_ENEMY 10
-#define ID_TEX_MISC 20
-#define ID_TEX_TORCH 30
 
-#define ID_TEX_ENTRANCESTAGE 100
 CGame * game;
 
 CSimon* SIMON;
@@ -126,8 +123,11 @@ void CSampleKeyHander::KeyState(BYTE* states)
 		/*SIMON->Sit();*/
 		SIMON->SetSit(true);
 	}
+	//else if(game->IsKeyDown())
 	else
 		SIMON->SetState(SIMON_STATE_IDLE);
+	
+
 }
 
 LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -151,16 +151,12 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 */
 void LoadResources()
 {
-	CTextures* textures = CTextures::GetInstance();
+	TextureManager* TexManager = TexManager->getInstance();
+
 	CSprites* sprites = CSprites::GetInstance();
 	CAnimations* animations = CAnimations::GetInstance();
 
-	textures->Add(ID_TEX_SIMON, L"textures\\Simon.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(ID_TEX_TORCH, L"textures\\object.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(ID_TEX_MISC, L"textures\\brick1.png", D3DCOLOR_XRGB(0, 0, 0));
-	textures->Add(ID_TEX_ENEMY, L"textures\\enemies.png", D3DCOLOR_XRGB(3, 26, 110));
-	textures->Add(ID_TEX_ENTRANCESTAGE, L"textures\\entrance.png", D3DCOLOR_XRGB(255, 255, 255));
-	LPDIRECT3DTEXTURE9 texEntrance = textures->Get(ID_TEX_ENTRANCESTAGE);
+	LPDIRECT3DTEXTURE9 texEntrance = TexManager->getData()->Get(ID_TEX_ENTRANCESTAGE);
 
 	int l = 0, r = 32;
 	for (int i = 1; i <=20; i++)
@@ -178,14 +174,8 @@ void LoadResources()
 		r += 32;
 	}
 
-	
 
-	textures->Add(ID_TEX_BBOX, L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
-
-
-	
-
-	LPDIRECT3DTEXTURE9 texSIMON = textures->Get(ID_TEX_SIMON);
+	LPDIRECT3DTEXTURE9 texSIMON = TexManager->getData()->Get(ID_TEX_SIMON);
 	vector<int> numbers;
 	
 	int flag = 0;
@@ -212,12 +202,12 @@ void LoadResources()
 	sprites->Add(10099, 215, 120, 231, 135, texSIMON);		// die 
 
 	
-	LPDIRECT3DTEXTURE9 texMisc = textures->Get(ID_TEX_MISC);
+	LPDIRECT3DTEXTURE9 texMisc = TexManager->getData()->Get(ID_TEX_MISC);
 	sprites->Add(90001, 0, 0, 32, 32, texMisc);
-	LPDIRECT3DTEXTURE9 texTorch = textures->Get(ID_TEX_TORCH);
+	LPDIRECT3DTEXTURE9 texTorch = TexManager->getData()->Get(ID_TEX_TORCH);
 	sprites->Add(90002, 47, 25, 64, 56, texTorch);
 
-	LPDIRECT3DTEXTURE9 texEnemy = textures->Get(ID_TEX_ENEMY);
+	LPDIRECT3DTEXTURE9 texEnemy = TexManager->getData()->Get(ID_TEX_ENEMY);
 
 	LPANIMATION ani;
 	

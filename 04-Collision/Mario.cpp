@@ -27,7 +27,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if ( GetTickCount() - untouchable_start > MARIO_UNTOUCHABLE_TIME) 
 	{
 		untouchable_start = 0;
-		untouchable = 0;
+		untouchable = 0;	
 	}
 
 	// No collision occured, proceed normally
