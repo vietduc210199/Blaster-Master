@@ -75,6 +75,9 @@
     <ClInclude Include="SpritesManager.h">
       <Filter>Source Files\Resource Manager</Filter>
     </ClInclude>
+    <ClInclude Include="AnimationsManager.h">
+      <Filter>Source Files\Resource Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Simon.cpp">
@@ -111,6 +114,9 @@
       <Filter>Source Files\Resource Manager</Filter>
     </ClCompile>
     <ClCompile Include="SpritesManager.cpp">
+      <Filter>Source Files\Resource Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationsManager.cpp">
       <Filter>Source Files\Resource Manager</Filter>
     </ClCompile>
   </ItemGroup>

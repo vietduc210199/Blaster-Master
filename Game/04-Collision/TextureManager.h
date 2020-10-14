@@ -25,14 +25,14 @@ class TextureManager
 		TexList = CTextures::GetInstance();
 	}
 
-	void LoadTexture();
+	void LoadResources();
 
 public:
 	static TextureManager* getInstance() {
 		if (__instance==NULL)
 		{
 			__instance = new TextureManager;
-			__instance->LoadTexture();
+			__instance->LoadResources();
 		}
 		return __instance;
 	}

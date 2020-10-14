@@ -2,7 +2,7 @@
 
 SpritesManager* SpritesManager::__instance = NULL;
 
-void SpritesManager::LoadSprites()
+void SpritesManager::LoadResources()
 {
 	TextureManager* TexManager = TexManager->getInstance();
 

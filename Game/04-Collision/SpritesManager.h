@@ -25,14 +25,14 @@ class SpritesManager
 		sprites = CSprites::GetInstance();
 	}
 
-	void LoadSprites();
+	void LoadResources();
 public:
 	static SpritesManager* getInstance()
 	{
 		if (__instance == NULL)
 		{
 			__instance = new SpritesManager;
-			__instance->LoadSprites();
+			__instance->LoadResources();
 		}
 		return __instance;
 	}

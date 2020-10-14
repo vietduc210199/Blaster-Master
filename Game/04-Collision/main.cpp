@@ -34,21 +34,21 @@
 
 #include "TextureManager.h"
 #include "SpritesManager.h"
+#include "AnimationsManager.h"
 
 #include<iostream>
 #include<fstream>
 #include<string>
 #include<queue>
 
-#define WINDOW_CLASS_NAME L"SampleWindow"
-#define MAIN_WINDOW_TITLE L"04 - Collision"
+#define WINDOW_CLASS_NAME L"Castlevania"
+#define MAIN_WINDOW_TITLE L"Castlevania"
 
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(255, 255, 200)
 #define SCREEN_WIDTH 450
 #define SCREEN_HEIGHT 230
 
 #define MAX_FRAME_RATE 120
-
 
 CGame * game;
 
@@ -152,86 +152,20 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 */
 void LoadResources()
 {
-	TextureManager* TexManager = TexManager->getInstance();
-
-	SpritesManager* spritesManager = spritesManager->getInstance();
-
-	CAnimations* animations = CAnimations::GetInstance();
-
-	LPANIMATION ani;
-	
-	ani = new CAnimation(100);	// idle right
-	ani->Add(10001);
-	animations->Add(400, ani);
-	ani = new CAnimation(100);	// idle left
-	ani->Add(10011);
-	animations->Add(401, ani);
-
-	ani = new CAnimation(100);	// walk right
-	ani->Add(10002);
-	ani->Add(10003);
-	animations->Add(500, ani);
-    ani = new CAnimation(100);	//  walk left
-	ani->Add(10012);
-	ani->Add(10013);
-	animations->Add(501, ani);
-
-	ani = new CAnimation(100);	// attack right
-	ani->Add(10004);
-	ani->Add(10005);
-	ani->Add(10006);
-	animations->Add(402, ani);
-	ani = new CAnimation(100);	// attack left
-	ani->Add(10014);
-	ani->Add(10015);
-	ani->Add(10016);
-	animations->Add(502, ani);
-
-	ani = new CAnimation(100);	// jump right
-	ani->Add(10007);
-	animations->Add(403, ani);
-	ani = new CAnimation(100);	// jump right
-	ani->Add(10017);
-	animations->Add(503, ani);
-
-	ani = new CAnimation(100);	// sit right
-	ani->Add(10008);
-	animations->Add(404, ani);
-	ani = new CAnimation(100);	// sit right
-	ani->Add(10018);
-	animations->Add(504, ani);
-
-	ani = new CAnimation(100);		// brick
-	ani->Add(90001);
-	animations->Add(1000, ani);
-
-	ani = new CAnimation(100);		// torch
-	ani->Add(90002);
-	animations->Add(1001, ani);
-	
-	ani = new CAnimation(100);		//mornig star
-	ani->Add(20001);
-	ani->Add(20002);
-	ani->Add(20003);
-	animations->Add(600, ani);
-	ani = new CAnimation(100);//left morning starr
-	ani->Add(20011);
-	ani->Add(20012);
-	ani->Add(20013);
-	animations->Add(601, ani);
+	AnimationsManager* animations = animations->getInstance();
 	
 	SIMON = new CSimon();
 
-	SIMON->AddAnimation(400);		// idle right 
-	SIMON->AddAnimation(401);		// idle left 
-    SIMON->AddAnimation(500);		// walk right 
-	SIMON->AddAnimation(501);		// walk left 
-	SIMON->AddAnimation(402);//attack right
-	SIMON->AddAnimation(502);//attack left
-	SIMON->AddAnimation(403);//jump right
-	SIMON->AddAnimation(503);//jump left
-	SIMON->AddAnimation(404);//sit right
-	SIMON->AddAnimation(504);//siy left
+	SIMON->AddAnimation(400);	// idle right 
+	SIMON->AddAnimation(401);	// idle left 
+    SIMON->AddAnimation(500);	// walk right 
+	SIMON->AddAnimation(501);	// walk left 
+	SIMON->AddAnimation(402);	//attack right
+	SIMON->AddAnimation(502);	//attack left
+	SIMON->AddAnimation(403);	//jump right
+	SIMON->AddAnimation(503);	//jump left
+	SIMON->AddAnimation(404);	//sit right
+	SIMON->AddAnimation(504);	//sit left
 
     SIMON->SetPosition(50.0f, 0);
 	
@@ -296,7 +230,6 @@ void Update(DWORD dt)
 		CGame::GetInstance()->SetCamPos(cx, 0.0f);///cy
 	}
 }
-
 /*
 	Render a frame
 */

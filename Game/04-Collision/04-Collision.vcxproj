@@ -122,6 +122,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AnimationsManager.h" />
     <ClInclude Include="MS.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="Game.h" />
@@ -135,6 +136,7 @@
     <ClInclude Include="Textures.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AnimationsManager.cpp" />
     <ClCompile Include="MS.cpp" />
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="Game.cpp" />

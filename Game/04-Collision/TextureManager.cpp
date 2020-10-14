@@ -3,7 +3,7 @@
 
 TextureManager* TextureManager::__instance = NULL;
 
-void TextureManager::LoadTexture()
+void TextureManager::LoadResources()
 {
 	TexList->Add(ID_TEX_SIMON, L"textures\\Simon.png", D3DCOLOR_XRGB(255, 0, 255));
 	TexList->Add(ID_TEX_TORCH, L"textures\\object.png", D3DCOLOR_XRGB(255, 0, 255));
