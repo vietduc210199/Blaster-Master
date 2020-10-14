@@ -3,7 +3,7 @@
 #include <Windows.h>
 #include <d3dx9.h>
 #include <vector>
-
+#include "Textures.h"
 #include "Sprites.h"
 
 
@@ -46,8 +46,11 @@ public:
 	int nx;	 
 
 	int state;
-
+	boolean active = true;
 	DWORD dt; 
+    CTextures* texture;
+	CSprite* sprite;
+	CAnimation* animation;
 
 	vector<LPANIMATION> animations;
 
@@ -56,7 +59,7 @@ public:
 	void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
 	void GetPosition(float &x, float &y) { x = this->x; y = this->y; }
 	void GetSpeed(float &vx, float &vy) { vx = this->vx; vy = this->vy; }
-
+	virtual void SetActive(boolean a) { active = a; };
 	int GetState() { return this->state; }
 
 	void RenderBoundingBox();
@@ -74,11 +77,22 @@ public:
 	void AddAnimation(int aniId);
 
 	CGameObject();
-
+	bool CheckCollision(CGameObject* object);
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom) = 0;
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
 	virtual void Render() = 0;
 	virtual void SetState(int state) { this->state = state; }
+	RECT CGameObject::GetBound()
+	{
+		RECT rect;
+		float l, t, r, b;
+		GetBoundingBox(l, t, r, b);
+		rect.left = l;
+		rect.top = t;
+		rect.right = r;
+		rect.bottom = b;
+		return rect;
+	}
 
 
 	~CGameObject();

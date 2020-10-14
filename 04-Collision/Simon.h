@@ -59,6 +59,17 @@ public:
 		jump = 0;
 		attack = 0;
 		sit = false;
+
+		this->AddAnimation(400);	// idle right 
+		this->AddAnimation(401);	// idle left 
+		this->AddAnimation(500);	// walk right 
+		this->AddAnimation(501);	// walk left 
+		this->AddAnimation(402);	//attack right
+		this->AddAnimation(502);	//attack left
+		this->AddAnimation(403);	//jump right
+		this->AddAnimation(503);	//jump left
+		this->AddAnimation(404);	//sit right
+		this->AddAnimation(504);	//sit left
 	}
 	void StandUp();
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects = NULL);

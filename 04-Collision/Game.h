@@ -70,9 +70,20 @@ public:
 	LPD3DXSPRITE GetSpriteHandler() { return this->spriteHandler; }
 
 	void SetCamPos(float x, float y) { cam_x = x; cam_y = y; }
+	static bool CGame::AABB(RECT rect1, RECT rect2)
+	{
 
-	static CGame * GetInstance();
+		if (rect1.left > rect2.right || rect1.right < rect2.left || rect1.top > rect2.bottom || rect1.bottom < rect2.top)
+		{
+			return false;
+		}
 
+		return true;
+	}
+
+	HWND getHWND() { return this->hWnd; }
+
+	static CGame* GetInstance();
 	~CGame();
 };
 

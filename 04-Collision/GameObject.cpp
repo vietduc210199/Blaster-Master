@@ -130,7 +130,20 @@ void CGameObject::RenderBoundingBox()
 
 	CGame::GetInstance()->Draw(x, y, bbox, rect.left, rect.top, rect.right, rect.bottom, 32);
 }
+bool CGameObject::CheckCollision(CGameObject* object)
+{
+	if (CGame::GetInstance()->AABB(this->GetBound(), object->GetBound()))
+	{
+		return true;
+	}
 
+	LPCOLLISIONEVENT e = SweptAABBEx(object);
+	if (e->t > 0 && e->t <= 1.0f)
+	{
+		return true;
+	}
+	delete e;
+}
 void CGameObject::AddAnimation(int aniId)
 {
 	LPANIMATION ani = CAnimations::GetInstance()->Get(aniId);

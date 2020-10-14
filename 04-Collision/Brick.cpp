@@ -1,7 +1,14 @@
+#include <algorithm>
 #include "Brick.h"
+#include "debug.h"
+#include "Game.h"
+
+#include "Torch.h"
 
 void CBrick::Render()
 {
+	if (active != true)
+		return;
 	animations[0]->Render(x, y);
 	RenderBoundingBox();
 }

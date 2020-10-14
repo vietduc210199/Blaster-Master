@@ -1,72 +1,142 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
+    <Filter Include="Framework">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Object">
+      <UniqueIdentifier>{cc9419de-2927-42f4-a9c0-e267cc105049}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player">
+      <UniqueIdentifier>{4923d4dd-88d8-41ec-84d1-0d37c4ace9da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Animation">
+      <UniqueIdentifier>{fce57436-bb6f-4d9e-a2b6-23d518dd8ca5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Map">
+      <UniqueIdentifier>{1cd4d484-9f49-4855-bc4e-82240d1028d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Board">
+      <UniqueIdentifier>{6677e511-5419-4d99-8281-dc05181be2c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Debug">
+      <UniqueIdentifier>{5176d342-1fb9-4e00-bb29-77145642192f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\GameTime">
+      <UniqueIdentifier>{d578b338-1d20-4de2-99a2-4af46b45211a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Grid">
+      <UniqueIdentifier>{4b7815da-7fc1-40fe-a57a-58347401a507}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Scene">
+      <UniqueIdentifier>{42800186-11ab-4ba2-b1af-b7b961fbf21f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Sound">
+      <UniqueIdentifier>{9c01e5c2-80eb-4455-ae1c-43152912b26e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Camera">
+      <UniqueIdentifier>{a0692433-cae8-438b-8a0b-f49a47fa6f7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Animation\Resources Manager">
+      <UniqueIdentifier>{821f7376-c38d-4bea-a007-09bdcedb6ac7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Ground">
+      <UniqueIdentifier>{b90dac65-4825-4550-89d0-2d0ed63e0cb0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Boss">
+      <UniqueIdentifier>{78a8409b-328e-4460-a55c-2de5fa611475}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Item">
+      <UniqueIdentifier>{2c74058c-c332-4641-8d99-475402bef960}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Enemy">
+      <UniqueIdentifier>{8fbe90f7-84cb-4a7d-8767-e726dc493155}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Effect">
+      <UniqueIdentifier>{85b67941-69d2-4684-bf9c-8d160995aa10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Weapon">
+      <UniqueIdentifier>{d0292507-7514-41a3-9135-b0cbf500e593}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Simon.h">
+      <Filter>Player</Filter>
+    </ClInclude>
     <ClInclude Include="debug.h">
-      <Filter>Header Files</Filter>
+      <Filter>Framework\Debug</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
-      <Filter>Header Files</Filter>
+      <Filter>Framework</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Mario.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sprites.h">
-      <Filter>Header Files</Filter>
+      <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="Textures.h">
-      <Filter>Header Files</Filter>
+      <Filter>Framework\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprites.h">
+      <Filter>Framework\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationsManager.h">
+      <Filter>Framework\Animation\Resources Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="SpritesManager.h">
+      <Filter>Framework\Animation\Resources Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureManager.h">
+      <Filter>Framework\Animation\Resources Manager</Filter>
     </ClInclude>
     <ClInclude Include="Brick.h">
-      <Filter>Header Files</Filter>
+      <Filter>Object\Ground</Filter>
     </ClInclude>
-    <ClInclude Include="Goomba.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Torch.h">
+      <Filter>Object\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="MS.h">
+      <Filter>Object\Weapon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Simon.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
     <ClCompile Include="debug.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Framework\Debug</Filter>
     </ClCompile>
     <ClCompile Include="Game.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Framework</Filter>
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Mario.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Sprites.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Object</Filter>
     </ClCompile>
     <ClCompile Include="Textures.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Framework\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprites.cpp">
+      <Filter>Framework\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationsManager.cpp">
+      <Filter>Framework\Animation\Resources Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="SpritesManager.cpp">
+      <Filter>Framework\Animation\Resources Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureManager.cpp">
+      <Filter>Framework\Animation\Resources Manager</Filter>
     </ClCompile>
     <ClCompile Include="Brick.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Object\Ground</Filter>
     </ClCompile>
-    <ClCompile Include="Goomba.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Torch.cpp">
+      <Filter>Object\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="MS.cpp">
+      <Filter>Object\Weapon</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
