@@ -7,6 +7,14 @@
 #include "Game.h"
 #include "GameObject.h"
 #include "Textures.h"
+
+#include "TextureManager.h"
+
+#include<iostream>
+#include<fstream>
+#include<string>
+#include<queue>
+
 class SpritesManager
 {
 	static SpritesManager* __instance;
