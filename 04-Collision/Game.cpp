@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "debug.h"
+#include "SceneManager.h"
 
 CGame * CGame::__instance = NULL;
 
@@ -74,12 +75,12 @@ int CGame::IsKeyDown(int KeyCode)
 	return (keyStates[KeyCode] & 0x80) > 0;
 }
 
-void CGame::InitKeyboard(LPKEYEVENTHANDLER handler)
+void CGame::InitKeyboard()
 {
 	HRESULT
 		hr = DirectInput8Create
 		(
-			(HINSTANCE)GetWindowLong(hWnd, GWL_HINSTANCE),
+		(HINSTANCE)GetWindowLong(hWnd, GWL_HINSTANCE),
 			DIRECTINPUT_VERSION,
 			IID_IDirectInput8, (VOID**)&di, NULL
 		);
@@ -93,7 +94,7 @@ void CGame::InitKeyboard(LPKEYEVENTHANDLER handler)
 	hr = di->CreateDevice(GUID_SysKeyboard, &didv, NULL);
 
 	// TO-DO: put in exception handling
-	if (hr != DI_OK) 
+	if (hr != DI_OK)
 	{
 		DebugOut(L"[ERROR] CreateDevice failed!\n");
 		return;
@@ -110,6 +111,7 @@ void CGame::InitKeyboard(LPKEYEVENTHANDLER handler)
 	hr = didv->SetDataFormat(&c_dfDIKeyboard);
 
 	hr = didv->SetCooperativeLevel(hWnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
+
 
 
 	// IMPORTANT STEP TO USE BUFFERED DEVICE DATA!
@@ -138,14 +140,13 @@ void CGame::InitKeyboard(LPKEYEVENTHANDLER handler)
 		return;
 	}
 
-	this->keyHandler = handler;
 
 	DebugOut(L"[INFO] Keyboard has been initialized successfully\n");
 }
 
 void CGame::ProcessKeyboard()
 {
-	HRESULT hr; 
+	HRESULT hr;
 
 	// Collect all key states first
 	hr = didv->GetDeviceState(sizeof(keyStates), keyStates);
@@ -155,21 +156,21 @@ void CGame::ProcessKeyboard()
 		if ((hr == DIERR_INPUTLOST) || (hr == DIERR_NOTACQUIRED))
 		{
 			HRESULT h = didv->Acquire();
-			if (h==DI_OK)
-			{ 
+			if (h == DI_OK)
+			{
 				DebugOut(L"[INFO] Keyboard re-acquired!\n");
 			}
-			else return;
+			else
+				return;
 		}
 		else
 		{
-			//DebugOut(L"[ERROR] DINPUT::GetDeviceState failed. Error: %d\n", hr);
+			DebugOut(L"[ERROR] DINPUT::GetDeviceState failed. Error: %d\n", hr);
 			return;
 		}
 	}
 
-	keyHandler->KeyState((BYTE *)&keyStates);
-
+	SceneManager::GetInstance()->KeyState((BYTE*)&keyStates);
 
 
 	// Collect all buffered events
@@ -177,7 +178,7 @@ void CGame::ProcessKeyboard()
 	hr = didv->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), keyEvents, &dwElements, 0);
 	if (FAILED(hr))
 	{
-		//DebugOut(L"[ERROR] DINPUT::GetDeviceData failed. Error: %d\n", hr);
+		DebugOut(L"[ERROR] DINPUT::GetDeviceData failed. Error: %d\n", hr);
 		return;
 	}
 
@@ -187,9 +188,9 @@ void CGame::ProcessKeyboard()
 		int KeyCode = keyEvents[i].dwOfs;
 		int KeyState = keyEvents[i].dwData;
 		if ((KeyState & 0x80) > 0)
-			keyHandler->OnKeyDown(KeyCode);
+			SceneManager::GetInstance()->OnKeyDown(KeyCode);
 		else
-			keyHandler->OnKeyUp(KeyCode);
+			SceneManager::GetInstance()->OnKeyUp(KeyCode);
 	}
 }
 

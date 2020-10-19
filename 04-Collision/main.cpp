@@ -1,45 +1,11 @@
-/* =============================================================
-	INTRODUCTION TO GAME PROGRAMMING SE102
 
-	SAMPLE 04 - COLLISION
-
-	This sample illustrates how to:
-
-		1/ Implement SweptAABB algorithm between moving objects
-		2/ Implement a simple (yet effective) collision frame work
-
-	Key functions:
-		CGame::SweptAABB
-		CGameObject::SweptAABBEx
-		CGameObject::CalcPotentialCollisions
-		CGameObject::FilterCollision
-
-		CGameObject::GetBoundingBox
-
-================================================================ */
-
-#include <windows.h>
-#include <d3d9.h>
-#include <d3dx9.h>
 
 #include "debug.h"
 #include "Game.h"
-#include "GameObject.h"
-#include "Textures.h"
 
-#include "SIMON.h"
-#include "MS.h"
-#include "Torch.h"
-#include "Brick.h"
+#include "SceneManager.h"
+#include "SceneGame.h"
 
-#include "TextureManager.h"
-#include "SpritesManager.h"
-#include "AnimationsManager.h"
-
-#include<iostream>
-#include<fstream>
-#include<string>
-#include<queue>
 
 #define WINDOW_CLASS_NAME L"Castlevania"
 #define MAIN_WINDOW_TITLE L"Castlevania"
@@ -50,86 +16,9 @@
 
 #define MAX_FRAME_RATE 120
 
+SceneManager * _sceneManager;
+
 CGame * game;
-
-CSimon* SIMON;
-CMS* MS;
-
-vector<LPGAMEOBJECT> objects;
-
-class CSampleKeyHander : public CKeyEventHandler
-{
-	virtual void KeyState(BYTE* states);
-	virtual void OnKeyDown(int KeyCode);
-	virtual void OnKeyUp(int KeyCode);
-};
-
-CSampleKeyHander* keyHandler;
-
-void CSampleKeyHander::OnKeyDown(int KeyCode)
-{
-	DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
-	switch (KeyCode)
-	{
-	case DIK_SPACE:
-		SIMON->SetState(SIMON_STATE_JUMP);
-		SIMON->StartJump();
-		break;
-	case DIK_A:
-		if (game->IsKeyDown(DIK_RIGHT) || game->IsKeyDown(DIK_LEFT))
-		{
-			return;
-		}
-		MS->StartAttack();
-		MS->SetState(WHIP_STATE_ATTACK);
-		MS->SetActive(true);
-		SIMON->SetState(SIMON_STATE_ATTACK);
-		SIMON->StartAttack();
-		break;
-	case DIK_Q:
-		if (SIMON->GetActive() == true)
-		{
-			SIMON->SetActive(false);
-		}
-		else SIMON->SetActive(true);
-		break;
-	}
-}
-
-void CSampleKeyHander::OnKeyUp(int KeyCode)
-{
-	if (KeyCode == 208) {
-		SIMON->StandUp();
-	}
-	DebugOut(L"[INFO] KeyUp: %d\n", KeyCode);
-}
-
-void CSampleKeyHander::KeyState(BYTE* states)
-{
-	// disable control key when SIMON die 
-	if (SIMON->GetState() == SIMON_STATE_DIE) return;
-	if (game->IsKeyDown(DIK_RIGHT))
-	{
-		SIMON->SetState(SIMON_STATE_WALKING_RIGHT);
-		SIMON->SetRight(1);
-	}
-	else if (game->IsKeyDown(DIK_LEFT))
-	{
-		SIMON->SetState(SIMON_STATE_WALKING_LEFT);
-		SIMON->SetRight(0);
-	}
-	else if (game->IsKeyDown(DIK_DOWN))
-	{
-		SIMON->SetState(SIMON_STATE_SIT);
-		/*SIMON->Sit();*/
-		SIMON->SetSit(true);
-	}
-	//else if(game->IsKeyDown())
-	else
-		SIMON->SetState(SIMON_STATE_IDLE);
-	
-
-}
 
 LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -152,35 +41,7 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 */
 void LoadResources()
 {
-	AnimationsManager* animations = animations->getInstance();
-	
-	SIMON = new CSimon();
-
-    SIMON->SetPosition(50.0f, 0);
-	
-	MS = new CMS();
-	MS->GetSimon(SIMON);
-	
-	/*SIMON->SetMS(MS);*/
-	for (int i = 0; i < 4; i++)
-	{
-		CTorch* torch = new CTorch();
-		torch->SetPosition(150 + i * 150.0f, 130);
-		objects.push_back(torch);
-		if (SIMON->CheckCollision(torch))
-		{
-			torch->SetActive(false);
-		}
-	}
-	for (int i = 0; i < 100; i++)
-	{
-		CBrick* brick = new CBrick();
-		brick->SetPosition(0 + i * 10.0f, 160);
-		objects.push_back(brick);
-		/*brick->SetActive(false);*/
-	}
-	objects.push_back(SIMON);
-	objects.push_back(MS);
+	_sceneManager->LoadResources();	
 }
 
 /*
@@ -189,28 +50,7 @@ void LoadResources()
 */
 void Update(DWORD dt)
 {
-	// We know that SIMON is the first object in the list hence we won't add him into the colliable object list
-	// TO-DO: This is a "dirty" way, need a more organized way 
-	vector<LPGAMEOBJECT> coObjects;
-	vector<LPGAMEOBJECT> collide;
-	for (int i = 0; i < objects.size(); i++)
-	{
-		coObjects.push_back(objects[i]);
-	}
-	for (int i = 0; i < objects.size(); i++)
-	{
-		objects[i]->Update(dt, &coObjects);
-	}
-	// Update camera to follow SIMON
-	float cx, cy;
-	//CGame::GetInstance()->SetCamPos(0.0f, 0.0f /*cy*/);
-	SIMON->GetPosition(cx, cy);
-	cx -= SCREEN_WIDTH / 2;
-	cy -= SCREEN_HEIGHT / 2;
-	if (cx < 650/ 2 && cx>0)
-	{
-		CGame::GetInstance()->SetCamPos(cx, 0.0f);///cy
-	}
+	_sceneManager->Update(dt);
 }
 /*
 	Render a frame
@@ -227,44 +67,11 @@ void Render()
 		d3ddv->ColorFill(bb, NULL, BACKGROUND_COLOR);
 
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
-
-		CSprites* sprites = CSprites::GetInstance();
-		int x=0, y=0;
-		int flag = 1;
-		/*sprites->Get(1)->Draw(0,0 );
-		sprites->Get(2)->Draw(0, 32);
-		sprites->Get(3)->Draw(0, 64);*/
 		
-		//for (int i = 1; i <= 38; i++)
-		//{
-		int i, j;
-		ifstream file_entrance("entrance.txt");
-		int number;
-		queue<int>entr;
-		if (file_entrance.is_open())
-		{
-			while (!file_entrance.eof())
-			{
-				file_entrance >> number;
-				entr.push(number);
-			}
-		}
-		for (i = 0; i < 6*32; i=i+32)
-		{
-			for (j = 0; j < 24*32; j=j+32)
-				{
-					sprites->Get(entr.front())->Draw(j, i);
-					entr.pop();
-				}
-		}
-		for (int i = 0; i < objects.size(); i++)
-			objects[i]->Render();
-
-		
+		_sceneManager->Render();
 
 		spriteHandler->End();
 		
-
 		d3ddv->EndScene();
 	}
 
@@ -360,16 +167,19 @@ int Run()
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
+
 	HWND hWnd = CreateGameWindow(hInstance, nCmdShow, SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	game = CGame::GetInstance();
 	game->Init(hWnd);
 
-	keyHandler = new CSampleKeyHander();
-	game->InitKeyboard(keyHandler);
+	game->InitKeyboard();
 
+	_sceneManager = SceneManager::GetInstance();
 
-	LoadResources();
+	//LoadResources();
+
+	_sceneManager->SetScene(new SceneGame());
 
 	SetWindowPos(hWnd, 0, 0, 0, SCREEN_WIDTH * 2, SCREEN_HEIGHT * 2, SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
 
