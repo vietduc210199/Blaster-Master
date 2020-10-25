@@ -70,6 +70,7 @@ public:
 	LPD3DXSPRITE GetSpriteHandler() { return this->spriteHandler; }
 
 	void SetCamPos(float x, float y) { cam_x = x; cam_y = y; }
+	
 	static bool CGame::AABB(RECT rect1, RECT rect2)
 	{
 

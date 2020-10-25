@@ -4,6 +4,8 @@
 
 SceneGame::SceneGame()
 {
+	camera = camera::GetInstance();
+
 	LoadResources();
 
 	SetScene(ID_SCENE_LEVEL_ENTRANCE);
@@ -143,7 +145,7 @@ void SceneGame::Update(DWORD dt)
 	cy -= SCREEN_HEIGHT / 2;
 	if (cx < 650 / 2 && cx>0)
 	{
-		CGame::GetInstance()->SetCamPos(cx, 0.0f);///cy
+		camera->SetCamPos(cx, 0.0f);///cy
 	}
 }
 

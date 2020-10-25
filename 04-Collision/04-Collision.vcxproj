@@ -124,6 +124,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AnimationsManager.h" />
+    <ClInclude Include="camera.h" />
     <ClInclude Include="MS.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="Game.h" />
@@ -141,6 +142,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnimationsManager.cpp" />
+    <ClCompile Include="camera.cpp" />
     <ClCompile Include="MS.cpp" />
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="Game.cpp" />

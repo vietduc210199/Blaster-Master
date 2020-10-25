@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "Scene.h"
+#include "camera.h"
 #include "AnimationsManager.h"
 
 #include "Simon.h"
@@ -14,6 +15,8 @@
 class SceneGame : public Scene 
 {
 private:
+	camera* camera;
+
 	CSimon* simon;
 	CMS* MS;
 
