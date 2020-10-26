@@ -1,4 +1,5 @@
 #include "SceneGame.h"
+#include "define.h"
 
 
 
@@ -143,7 +144,7 @@ void SceneGame::Update(DWORD dt)
 	simon->GetPosition(cx, cy);
 	cx -= SCREEN_WIDTH / 2;
 	cy -= SCREEN_HEIGHT / 2;
-	if (cx < 650 / 2 && cx>0)
+	if (cx < 1000 / 2 && cx>0)
 	{
 		camera->SetCamPos(cx, 0.0f);///cy
 	}

@@ -1,4 +1,5 @@
 #include "SceneManager.h"
+#include "define.h"
 SceneManager* SceneManager::__instance = NULL;
 
 
@@ -15,11 +16,7 @@ void SceneManager::SetScene(Scene* x)
 {
 	Scene* scene_temp = __scene;
 	__scene = x;
-	if (scene_temp)
-	{
-		delete(scene_temp);
-		scene_temp = nullptr;
-	}
+	SAFE_DELETE(scene_temp);
 }
 
 void SceneManager::KeyState(BYTE* state)

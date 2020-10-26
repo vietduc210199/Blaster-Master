@@ -1,10 +1,11 @@
-#pragma once
+﻿#pragma once
 
 #include <Windows.h>
 #include <d3dx9.h>
 #include <vector>
 #include "Textures.h"
 #include "Sprites.h"
+#include "define.h"
 
 
 using namespace std;
@@ -37,6 +38,12 @@ public:
 	float x; 
 	float y;
 
+	int id;
+	
+	eType type; // Loại Object
+	int direction;	// hướng -1 : trái, 1: phải
+
+
 	float dx;	// dx = vx*dt
 	float dy;	// dy = vy*dt
 
@@ -61,6 +68,11 @@ public:
 	void GetSpeed(float &vx, float &vy) { vx = this->vx; vy = this->vy; }
 	virtual void SetActive(boolean a) { active = a; };
 	int GetState() { return this->state; }
+
+	void SetDirection(int d);
+	int GetDirection();
+	void SetId(int ID);
+	int GetId();
 
 	void RenderBoundingBox();
 

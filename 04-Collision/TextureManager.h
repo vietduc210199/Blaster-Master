@@ -7,6 +7,7 @@
 #include "Game.h"
 #include "GameObject.h"
 #include "Textures.h"
+#include "define.h"
 
 #define ID_TEX_SIMON 0
 #define ID_TEX_ENEMY 10
@@ -36,6 +37,7 @@ public:
 		}
 		return __instance;
 	}
+
 
 	CTextures* getData()
 	{

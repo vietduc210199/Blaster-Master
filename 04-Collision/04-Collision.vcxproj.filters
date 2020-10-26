@@ -59,6 +59,9 @@
     <Filter Include="Object\Weapon">
       <UniqueIdentifier>{d0292507-7514-41a3-9135-b0cbf500e593}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Framework\define">
+      <UniqueIdentifier>{d18d059d-004e-4ba6-9141-54b248998c29}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Simon.h">
@@ -108,6 +111,15 @@
     </ClInclude>
     <ClInclude Include="camera.h">
       <Filter>Framework\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Grid.h">
+      <Filter>Framework\Grid</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit.h">
+      <Filter>Framework\Grid</Filter>
+    </ClInclude>
+    <ClInclude Include="define.h">
+      <Filter>Framework\define</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -161,6 +173,15 @@
     </ClCompile>
     <ClCompile Include="camera.cpp">
       <Filter>Framework\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Grid.cpp">
+      <Filter>Framework\Grid</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit.cpp">
+      <Filter>Framework\Grid</Filter>
+    </ClCompile>
+    <ClCompile Include="define.cpp">
+      <Filter>Framework\define</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -113,6 +113,26 @@ void CGameObject::FilterCollision(
 }
 
 
+void CGameObject::SetDirection(int d)
+{
+	direction = d;
+}
+
+int CGameObject::GetDirection()
+{
+	return direction;
+}
+
+void CGameObject::SetId(int ID)
+{
+	this->id = ID;
+}
+
+int CGameObject::GetId()
+{
+	return this->id;
+}
+
 void CGameObject::RenderBoundingBox()
 {
 	D3DXVECTOR3 p(x, y, 0);

@@ -6,15 +6,16 @@
 #include "Simon.h"
 #include "Torch.h"
 #include "Brick.h"
+#include "Grid.h"
 
 #define ID_SCENE_LEVEL_ENTRANCE 1
 
-#define SCREEN_WIDTH 450
-#define SCREEN_HEIGHT 230
 
 class SceneGame : public Scene 
 {
 private:
+	Grid* grid;
+
 	camera* camera;
 
 	CSimon* simon;

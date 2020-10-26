@@ -2,6 +2,8 @@
 
 #include "debug.h"
 #include "Game.h"
+#include "define.h"
+
 
 #include "SceneManager.h"
 #include "SceneGame.h"
@@ -10,9 +12,6 @@
 #define WINDOW_CLASS_NAME L"Castlevania"
 #define MAIN_WINDOW_TITLE L"Castlevania"
 
-#define BACKGROUND_COLOR D3DCOLOR_XRGB(255, 255, 200)
-#define SCREEN_WIDTH 450
-#define SCREEN_HEIGHT 230
 
 #define MAX_FRAME_RATE 120
 
@@ -64,7 +63,7 @@ void Render()
 	if (d3ddv->BeginScene())
 	{
 		// Clear back buffer with a color
-		d3ddv->ColorFill(bb, NULL, BACKGROUND_COLOR);
+		d3ddv->ColorFill(bb, NULL, COLOR_BACKGROUND_DEFAULT);
 
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 		
