@@ -10,7 +10,7 @@
 
 using namespace std;
 
-#define ID_TEX_BBOX -100		// special texture to draw object bounding box
+//#define ID_TEX_BBOX -100		// special texture to draw object bounding box
 
 class CGameObject; 
 typedef CGameObject * LPGAMEOBJECT;
@@ -40,7 +40,7 @@ public:
 
 	int id;
 	
-	eType type; // Loại Object
+	int type; // Loại Object
 	int direction;	// hướng -1 : trái, 1: phải
 
 
@@ -60,6 +60,7 @@ public:
 	CAnimation* animation;
 
 	vector<LPANIMATION> animations;
+	void LoadAnimations(string source);
 
 public: 
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }

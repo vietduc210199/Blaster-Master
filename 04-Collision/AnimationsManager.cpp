@@ -56,6 +56,7 @@ void AnimationsManager::LoadResources()
 
 	ani = new CAnimation(100);		// torch
 	ani->Add(90002);
+	ani->Add(90003);
 	animations->Add(1001, ani);
 
 	ani = new CAnimation(100);		//mornig star

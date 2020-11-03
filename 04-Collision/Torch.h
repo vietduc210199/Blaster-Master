@@ -23,7 +23,8 @@ class CTorch : public CGameObject
 public: 	
 	CTorch()
 	{
-		this->AddAnimation(1001);
+		this->LoadAnimations("ReadFile\\Ani\\Torchani.txt");
+		//this->AddAnimation(1001);
 	}
 	boolean active = true;
 	virtual void SetState(int state);

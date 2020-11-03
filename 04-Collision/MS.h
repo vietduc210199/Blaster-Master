@@ -39,8 +39,9 @@ public:
 		type = WHIP_NORMAL;
 		attack = 0;
 
-		this->AddAnimation(600);
-		this->AddAnimation(601);
+		this->LoadAnimations("ReadFile\\Ani\\MSani.txt");
+		/*this->AddAnimation(600);
+		this->AddAnimation(601);*/
 	}
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	virtual void Render();

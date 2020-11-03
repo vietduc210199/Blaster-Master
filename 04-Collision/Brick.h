@@ -11,7 +11,8 @@ class CBrick : public CGameObject
 	public:
 		CBrick()
 		{
-			this->AddAnimation(1000);
+			this->LoadAnimations("ReadFile\\Ani\\Brickani.txt");
+			//this->AddAnimation(1000);
 		}
 		boolean active = true;
 		void SetActive(boolean a) { active = a; }
