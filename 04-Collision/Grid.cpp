@@ -1,40 +1,65 @@
 #include "Grid.h"
 
-Grid::~Grid()
+void Grid::InsertIntoGrid(CGameObject* object, int rowstart, int colstart, int rowend, int colend)
 {
-	for (int i = 0; i < GRID_CELL_MAX_ROW; i++)
-		for (int j = 0; j < GRID_CELL_MAX_COLUMN; j++)
+	this->rowstart = rowstart;
+	this->rowend = rowend;
+	this->colstart = colstart;
+	this->colend = colend;
+	
+	for (int i = this->rowstart; i <= this->rowend; i++)
+	{
+		for (int j = this->colstart; j <= this->colend; j++)
+		{
+			cells[i][j].push_back(object);
+		}
+	}
+}
+
+void Grid::GetListCollisionFromGrid(camera* Camera, vector<CGameObject*>& listColObjects)
+{
+	int rowCam = Camera->GetCam_y() / CELL_HEIGHT;
+	int colCam = Camera->GetCam_x() / CELL_WIDTH;
+
+	listColObjects.clear();
+	listTemp1.clear();
+
+	for (int j = 0; j <= (SCREEN_HEIGHT - 15) / CELL_HEIGHT; j++)
+	{
+		for (int i = 0; i <= SCREEN_WIDTH / CELL_WIDTH; i++)
+		{
+			TakeObjectsFromCell(j + rowCam, i + colCam, listColObjects);
+		}
+	}
+}
+
+void Grid::TakeObjectsFromCell(int rowIndex, int colIndex, vector<CGameObject*>& listColObjects)
+{
+	for (int i = 0; i < cells[rowIndex][colIndex].size(); i++)
+	{
+		if (cells[rowIndex][colIndex].at(i)->GetActive() == true)
+		{
+			if (listTemp1.find(cells[rowIndex][colIndex].at(i)) == listTemp1.end())
+			{
+				listTemp1.insert(cells[rowIndex][colIndex].at(i));
+				listColObjects.push_back(cells[rowIndex][colIndex].at(i));
+			}
+		}
+	}
+}
+
+void Grid::ClearGrid()
+{
+	for (int i = 0; i <= maprow; i++)
+	{
+		for (int j = 0; j <= mapcol; j++)
 		{
 			cells[i][j].clear();
 		}
+	}
 }
 
-void Grid::SetFile(char* str)
+Grid::~Grid()
 {
-	filepath = str;
 }
 
-CGameObject* Grid::GetNewObject(int type, float x, float y, int w, int h, int Model)
-{
-	return nullptr;
-}
-
-void Grid::Insert(int id, int type, int direction, float x, float y, int w, int h, int Model)
-{
-
-	int top = (int)(y / GRID_CELL_HEIGHT);
-	int bottom = (int)((y + h) / GRID_CELL_HEIGHT);
-	int left = (int)(x / GRID_CELL_WIDTH);
-	int right = (int)((x + w) / GRID_CELL_WIDTH);
-
-	CGameObject* obj = GetNewObject(type, x, y, w, h, Model);
-	if (obj == NULL)
-		return;
-
-	obj->SetId(id);
-	obj->SetDirection(direction);
-
-	for (int i = top; i <= bottom; i++)
-		for (int j = left; j <= right; j++)
-			cells[i][j].push_back(obj);
-}

@@ -3,6 +3,7 @@
 class SceneManager
 {
 	static SceneManager* __instance;
+	SceneManager* __currentScene;
 	Scene* __scene;
 public:
 	SceneManager();
@@ -15,13 +16,15 @@ public:
 		return __instance;
 	}
 
+	SceneManager* GetCurrentScene();
+
 	void SetScene(Scene* x);
 
 	void KeyState(BYTE* state);
 	void OnKeyDown(int KeyCode);
 	void OnKeyUp(int KeyCode);
 
-	void LoadResources();
+	//void LoadResources();
 	void Update(DWORD dt);
 	void Render();
 

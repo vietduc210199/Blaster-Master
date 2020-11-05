@@ -22,8 +22,8 @@ using namespace std;
 #define COLOR_KEY D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.0f) 
 
 
-#define SCREEN_WIDTH 326
-#define SCREEN_HEIGHT 230 
+#define SCREEN_WIDTH 320
+#define SCREEN_HEIGHT 255
 
 
 
@@ -34,6 +34,20 @@ using namespace std;
 #define COLOR_BACKGROUND_DEFAULT D3DCOLOR_XRGB(0, 0, 0) // Màu đen
 
 #define TIME_LIMIT_WAIT_RESET_GAME 300 // Thời gian chờ vẽ màn màu đen khi reset game
+
+//Source file
+#define SOURCE_ENTRANCE_PNG L"textures\\entrance_tilemap.png"
+#define SOURCE_ENTRANCE_TXT "ReadFile\\Map\\entrance.txt"
+#define SOURCE_CASTLE_PNG L"textures\\castle_tilemap.png"
+#define SOURCE_CASTLE_TXT "ReadFile\\Map\\castle.txt"
+#define SOURCE_ENTRANCE_ELEMENT_TXT "ReadFile\\SceneElement\\Scene1.txt"
+#define SOURCE_CASTLE_ELEMENT_TXT "ReadFile\\SceneElement\\Scene2.txt"
+#define SOURCE_TORCH_ELEMENT_TXT "ReadFile\\SceneElement\\Torch.txt"
+#define SOURCE_STAGE_ENTRANCE_TXT "ReadFile\\SceneElement\\StageScene1.txt"
+#define SOURCE_STAGE_CASTLE_TXT "ReadFile\\SceneElement\\StageScene2.txt"
+#define SOURCE_OBJECT_SCENE1_TXT "ReadFile\\Objects\\ObjectsScene1.txt"
+#define SOURCE_OBJECT_SCENE2_TXT "ReadFile\\Objects\\ObjectsScene2.txt"
+#define SOURCE_PANTHER_POS_TXT "ReadFile\\Objects\\PantherPos.txt"
 
 
 
@@ -50,18 +64,42 @@ enum eType
 	ID_TEX_SHEART = 7,
 	ID_TEX_MSUP = 8,
 	ID_TEX_AXE = 9,
-	//ID_TEX_ENTRANCESTAGE = 10,
+	ID_TEX_ENTRANCESTAGE = 10,
 	ID_TEX_CASTLE = 11,
 	ID_TEX_UNDERGROUND = 12,
 	ID_TEX_BBOX = 13,
 	ID_TEX_ENEMY = 14,
 
+	//map
+	BRICK = 0,
+	BREAKABLE_BRICK = 2,
+	TORCH = 1,
+	STAGECHANGER = 3,
+
+	//BRICK
+	BRICK_STATE_NORMAL = - 1,
+	BBRICK_STATE_MONEY_BRICK = 0,
+	BBRICK_STATE_CHIKEN_BRICK = 1,
+	BBRICK_STATE_DOUBLE_SHOOT_BRICK = 2,
+	BBRICK_STATE_NORMAL = 3,
+	BBRICK_STATE_MONEY = 4,
+	BBRICK_STATE_CHIKEN = 5,
+	BBRICK_STATE_DOUBLE_SHOOT = 6,
+
+	BBRICK_ANI_BRICK = 0,
+	BBRICK_ANI_CHIKEN_BRICK = 1,
+	BBRICK_ANI_MONEY = 2,
+	BBRICK_ANI_CHIKEN = 3,
+	BBRICK_ANI_DOUBLE_SHOOT = 4,
+	
+	
+	//
 	SIMON = 01,
 	SIMON_TRANS = 02,
 	SIMON_DEADTH = 03,
 
 	// object nền
-	BRICK = 21,
+	//BRICK = 21,
 	TEX_BRICK_MODEL_1 = 22,
 	TEX_BRICK_MODEL_2 = 23,
 	TEX_BRICK_MODEL_3 = 24,
@@ -71,7 +109,7 @@ enum eType
 	TEX_BRICK_MODEL_3_4_32 = 28,
 
 	// object
-	TORCH = 41,
+	//TORCH = 41,
 	OBJECT_HIDDEN = 42,
 	CANDLE = 43,
 	STAIR = 44,

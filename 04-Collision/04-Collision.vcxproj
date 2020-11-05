@@ -125,7 +125,6 @@
   <ItemGroup>
     <ClInclude Include="AnimationsManager.h" />
     <ClInclude Include="camera.h" />
-    <ClInclude Include="define.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="MS.h" />
     <ClInclude Include="debug.h" />
@@ -135,18 +134,18 @@
     <ClInclude Include="SceneGame.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SpritesManager.h" />
+    <ClInclude Include="Stage.h" />
     <ClInclude Include="TextureManager.h" />
+    <ClInclude Include="TileMap.h" />
     <ClInclude Include="Torch.h" />
     <ClInclude Include="Brick.h" />
     <ClInclude Include="Simon.h" />
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="Textures.h" />
-    <ClInclude Include="Unit.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnimationsManager.cpp" />
     <ClCompile Include="camera.cpp" />
-    <ClCompile Include="define.cpp" />
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="MS.cpp" />
     <ClCompile Include="debug.cpp" />
@@ -156,14 +155,15 @@
     <ClCompile Include="SceneGame.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SpritesManager.cpp" />
+    <ClCompile Include="Stage.cpp" />
     <ClCompile Include="TextureManager.cpp" />
+    <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="Torch.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="Simon.cpp" />
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="Textures.cpp" />
-    <ClCompile Include="Unit.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

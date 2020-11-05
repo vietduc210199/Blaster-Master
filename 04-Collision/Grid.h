@@ -1,33 +1,36 @@
 ﻿#pragma once
-#include "Unit.h"
-#include "define.h"
-#include "Game.h"
+#include <vector>
 #include "GameObject.h"
+#include <set>
+#include "define.h"
 #include "camera.h"
+
+#define CELL_WIDTH 80 //320/4
+#define CELL_HEIGHT 60 //240/4	
+
+//each cell in grid = 1/16 screen
 
 using namespace std;
 
-#define GRID_CELL_WIDTH (SCREEN_WIDTH/4.0f)
-#define GRID_CELL_HEIGHT (SCREEN_HEIGHT/4.0f)
-
-#define GRID_CELL_MAX_ROW 20 // số dòng tối đa;
-#define GRID_CELL_MAX_COLUMN 100 // số cột tối đa
-
 class Grid
 {
-private:
-	vector<CGameObject*> cells[GRID_CELL_MAX_ROW][GRID_CELL_MAX_COLUMN];
-	char* filepath;
 public:
-	Grid();
+	Grid()
+	{
+	}
+	int maprow, mapcol;
+
+	void InsertIntoGrid(CGameObject* object, int rowstart, int colstart, int rowend, int colend);
+	void GetListCollisionFromGrid(camera* Camera, vector<CGameObject*>& listColObjects);
+	void TakeObjectsFromCell(int rowIndex, int colIndex, vector<CGameObject*>& listColObjects);
+	void ClearGrid();
 	~Grid();
+private:
 
-	void SetFile(char* str); //đọc các Objects từ file
-	void ReloadGrid();
-
-	CGameObject* GetNewObject(int type, float x, float y, int w, int h, int Model); 
-	void Insert(int id, int type, int direction, float x, float y, int w, int h, int Model); //Thêm object vào grid
-	void GetListObject(vector<CGameObject*>& ListObj, camera* camera);
+	vector<LPGAMEOBJECT> cells[200][200];
+	set<CGameObject*> listTemp1;  //set: tồn tại 1 object duy nhất đó và ko trùng
+	int rowstart, rowend, colstart, colend, rowIndex, colIndex;
+	bool isRevive = false;
 
 };
 

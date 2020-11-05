@@ -68,6 +68,7 @@ public:
 	void GetPosition(float &x, float &y) { x = this->x; y = this->y; }
 	void GetSpeed(float &vx, float &vy) { vx = this->vx; vy = this->vy; }
 	virtual void SetActive(boolean a) { active = a; };
+	virtual boolean GetActive() { return active; };
 	int GetState() { return this->state; }
 
 	void SetDirection(int d);

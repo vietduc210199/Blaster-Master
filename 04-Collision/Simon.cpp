@@ -159,6 +159,16 @@ void CSimon::SetState(int state)
 	}
 }
 
+void CSimon::SetStartPoint(int a)
+{
+	this->startpoint = a;
+}
+
+void CSimon::SetEndPoint(int a)
+{
+	this->endpoint = a;
+}
+
 void CSimon::StandUp()
 {
 	y = y - PULL_UP_SIMON_AFTER_SITTING;

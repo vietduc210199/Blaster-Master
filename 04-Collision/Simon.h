@@ -51,6 +51,8 @@ class CSimon: public CGameObject
 	int right;
 	bool active = true;
 	bool sit = false;
+	int startpoint;
+	int endpoint;
 	DWORD jump_start;
 	DWORD attack_start;
 public: 
@@ -69,6 +71,8 @@ public:
 	void SetRight(int right) {
 		right = right;
 	};
+	void SetStartPoint(int a);
+	void SetEndPoint(int a);
 	boolean GetActive() { return active; };
 	void SetActive(boolean a) {
 		active = a;

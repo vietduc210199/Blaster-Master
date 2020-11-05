@@ -13,8 +13,7 @@
 //#define ID_TEX_ENEMY 10
 //#define ID_TEX_MISC 20
 //#define ID_TEX_TORCH 30
-//
-#define ID_TEX_ENTRANCESTAGE 100
+//#define ID_TEX_ENTRANCESTAGE 100
 
 class TextureManager
 {

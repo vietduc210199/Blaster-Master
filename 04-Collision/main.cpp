@@ -40,7 +40,7 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 */
 void LoadResources()
 {
-	_sceneManager->LoadResources();	
+	//_sceneManager->LoadResources();	
 }
 
 /*

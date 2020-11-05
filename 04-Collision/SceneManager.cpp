@@ -12,6 +12,11 @@ SceneManager::~SceneManager()
 {
 }
 
+SceneManager* SceneManager::GetCurrentScene()
+{
+	return this->__currentScene;
+}
+
 void SceneManager::SetScene(Scene* x)
 {
 	Scene* scene_temp = __scene;
@@ -34,10 +39,10 @@ void SceneManager::OnKeyUp(int KeyCode)
 	__scene->OnKeyUp(KeyCode);
 }
 
-void SceneManager::LoadResources()
-{
-	__scene->LoadResources();
-}
+//void SceneManager::LoadResources()
+//{
+//	//__scene->LoadResources();
+//}
 
 void SceneManager::Update(DWORD dt)
 {
