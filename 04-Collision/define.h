@@ -50,6 +50,19 @@ using namespace std;
 #define SOURCE_PANTHER_POS_TXT "ReadFile\\Objects\\PantherPos.txt"
 
 
+//SIMON
+#define SIMON_JUMP_TIME             500
+#define SIMON_ATTACK_TIME           300
+#define SIMON_EAT_TIME              500
+#define SIMON_AUTO_GO_TIME          1200
+#define SIMON_AUTO_GO_SCENE1          1000
+#define SIMON_UNTOUCHABLE_TIME  3000
+#define	SIMON_IS_DAMAGED_TIME 450
+#define SIMON_START_UNDERGROUND 1579
+
+
+
+
 
 // ID của Sprite, object
 enum eType

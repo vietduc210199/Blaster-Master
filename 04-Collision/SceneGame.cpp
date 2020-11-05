@@ -300,10 +300,49 @@ void SceneGame::InitGame()
 
 void SceneGame::Update(DWORD dt)
 {
-	// We know that SIMON is the first object in the list hence we won't add him into the colliable object list
-	// TO-DO: This is a "dirty" way, need a more organized way 
+	//Push Objects
+
 	vector<LPGAMEOBJECT> coObjects;
 	vector<LPGAMEOBJECT> collide;
+
+	grid->GetListCollisionFromGrid(camera, ObjectsFromGrid);
+
+	bricks.clear();
+
+	for (int i = 0; i < ObjectsFromGrid.size(); i++)
+	{
+		coObjects.push_back(ObjectsFromGrid[i]);
+	}
+
+	for (int i = 0; i < coObjects.size(); i++)
+	{
+		if (coObjects.at(i)->type == BRICK)
+			bricks.push_back(coObjects[i]);
+	}
+
+	//Adjust Camera to Simon
+	if (camera->GetCam_x() + SCREEN_WIDTH != endmap)
+	{
+		if (simon->x - camera->GetCam_x() <= 100 && SimonMove == true)
+		{
+			simon->StartAutoWalking(SIMON_AUTO_GO_TIME * 2);
+		}
+		if (camera->GetCamMove() == 0 && simon->nx >= 0)
+		{
+			if ((simon->x + SIMON_IDLE_BBOX_WIDTH) - camera->GetCam_x() >= SCREEN_WIDTH / 2)
+				camera->SetCamPos((simon->x + SIMON_IDLE_BBOX_WIDTH) - SCREEN_WIDTH / 2, 0);
+		}
+		if (simon->nx < 0)
+		{
+			camera->SetCamPos((simon->x + SIMON_IDLE_BBOX_WIDTH) - SCREEN_WIDTH / 2, 0);
+		}
+		if (simon->GetStartPoint() == SIMON_START_UNDERGROUND)
+		{
+			camera->SetCamPos((simon->x + SIMON_IDLE_BBOX_WIDTH) - SCREEN_WIDTH / 2, 200);
+
+		}
+	}
+
 	for (int i = 0; i < listobj.size(); i++)
 	{
 		coObjects.push_back(listobj[i]);
@@ -313,15 +352,15 @@ void SceneGame::Update(DWORD dt)
 		listobj[i]->Update(dt, &coObjects);
 	}
 	// Update camera to follow SIMON
-	float cx, cy;
+	//float cx, cy;
 	//CGame::GetInstance()->SetCamPos(0.0f, 0.0f /*cy*/);
-	simon->GetPosition(cx, cy);
-	cx -= SCREEN_WIDTH / 2;
-	cy -= SCREEN_HEIGHT / 2;
-	if (cx < 1000 / 2 && cx>0)
-	{
-		camera->SetCamPos(cx, 0.0f);///cy
-	}
+	//simon->GetPosition(cx, cy);
+	//cx -= SCREEN_WIDTH / 2;
+	//cy -= SCREEN_HEIGHT / 2;
+	//if (cx < 1000 / 2 && cx>0)
+	//{
+	//	camera->SetCamPos(cx, 0.0f);///cy
+	//}
 }
 
 void SceneGame::Render()
@@ -329,32 +368,7 @@ void SceneGame::Render()
 	CSprites* sprites = CSprites::GetInstance();
 	int x = 0, y = 0;
 	int flag = 1;
-	/*sprites->Get(1)->Draw(0,0 );
-	sprites->Get(2)->Draw(0, 32);
-	sprites->Get(3)->Draw(0, 64);*/
-
-	//for (int i = 1; i <= 38; i++)
-	//{
-	//int i, j;
-	//ifstream file_entrance("entrance.txt");
-	//int number;
-	//queue<int>entr;
-	//if (file_entrance.is_open())
-	//{
-	//	while (!file_entrance.eof())
-	//	{
-	//		file_entrance >> number;
-	//		entr.push(number);
-	//	}
-	//}
-	//for (i = 0; i < 6 * 32; i = i + 32)
-	//{
-	//	for (j = 0; j < 24 * 32; j = j + 32)
-	//	{
-	//		sprites->Get(entr.front())->Draw(j, i);
-	//		entr.pop();
-	//	}
-	//}
+	
 	Tile->DrawMap(camera);
 	for (int i = 0; i < listobj.size(); i++)
 		listobj[i]->Render();

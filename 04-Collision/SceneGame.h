@@ -32,8 +32,12 @@ private:
 
 	int currentLevel;
 
+	vector<LPGAMEOBJECT> bricks;
+
+	vector<LPGAMEOBJECT> ObjectsFromGrid;
 	vector<LPGAMEOBJECT> listobj;
 
+	bool SimonMove = false;
 
 	//read from file
 	int hiddenmoneyposx;

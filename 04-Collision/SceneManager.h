@@ -24,7 +24,6 @@ public:
 	void OnKeyDown(int KeyCode);
 	void OnKeyUp(int KeyCode);
 
-	//void LoadResources();
 	void Update(DWORD dt);
 	void Render();
 

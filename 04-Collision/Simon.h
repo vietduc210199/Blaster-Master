@@ -51,10 +51,16 @@ class CSimon: public CGameObject
 	int right;
 	bool active = true;
 	bool sit = false;
+	int autowalking;
+	
+	float autowalkingtime;
+
 	int startpoint;
 	int endpoint;
 	DWORD jump_start;
 	DWORD attack_start;
+	DWORD autowalking_start;
+
 public: 
 	CSimon() : CGameObject()
 	{
@@ -72,6 +78,7 @@ public:
 		right = right;
 	};
 	void SetStartPoint(int a);
+	int GetStartPoint() { return this->startpoint; }
 	void SetEndPoint(int a);
 	boolean GetActive() { return active; };
 	void SetActive(boolean a) {
@@ -79,6 +86,7 @@ public:
 	}
 	void StartJump() { jump = 1; jump_start = GetTickCount(); }
 	void StartAttack() { attack = 1; attack_start = GetTickCount(); }
+	void StartAutoWalking (float a){ { autowalking = 1; autowalking_start = GetTickCount(); autowalkingtime = a; } }
 	void SetSit(boolean a) { sit= a; };
 	void CheckCollisionWithGround(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects);
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
