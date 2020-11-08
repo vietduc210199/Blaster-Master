@@ -19,7 +19,7 @@ SceneGame::SceneGame()
 	MS = new CMS();
 	MS->GetSimon(simon);
 
-	SetScene(ID_SCENE_LEVEL_ENTRANCE);
+	//SetScene(ID_SCENE_LEVEL_ENTRANCE);
 }
 
 SceneGame::~SceneGame()
@@ -27,58 +27,58 @@ SceneGame::~SceneGame()
 
 }
 
-void SceneGame::SetScene(int IDLevel)
-{
-	currentLevel = IDLevel;
-	if (IDLevel == ID_SCENE_LEVEL_ENTRANCE)
-	{
-		simon->SetPosition(50.0f, 0);
-
-	
-
-		for (int i = 0; i < 4; i++)
-		{
-			CTorch* torch = new CTorch();
-			torch->SetPosition(150 + i * 150.0f, 130);
-			listobj.push_back(torch);
-			if (simon->CheckCollision(torch))
-			{
-				torch->SetActive(false);
-			}
-		}
-		for (int i = 0; i < 100; i++)
-		{
-			CBrick* brick = new CBrick();
-			brick->SetPosition(0 + i * 10.0f, 160);
-			listobj.push_back(brick);
-			/*brick->SetActive(false);*/
-		}
-		listobj.push_back(simon);
-		listobj.push_back(MS);
-	}
-}
 
 void SceneGame::KeyState(BYTE* state)
 {
 	// disable control key when SIMON die 
-	if (simon->GetState() == SIMON_STATE_DIE) return;
-	if (CGame::GetInstance()->IsKeyDown(DIK_RIGHT))
+	if (simon->GetState() == SIMON_STATE_DIE || simon->GetChangeColorTime() != 0) return;
+	if (game->IsKeyDown(DIK_RIGHT) && !game->IsKeyDown(DIK_DOWN) && simon->GetJumpTime() == 0 && simon->GetOnStair() == false && camera->GetCamMove() == false && simon->GetIsDamaged() == 0)
 	{
-		simon->SetState(SIMON_STATE_WALKING_RIGHT);
-		simon->SetRight(1);
+		if (simon->GetHealth() != 0)
+		{
+			if (simon->GetAutoWalkingTime() == 0)
+				simon->SetState(SIMON_STATE_WALKING_RIGHT);
+		}
 	}
-	else if (CGame::GetInstance()->IsKeyDown(DIK_LEFT))
+	else if (game->IsKeyDown(DIK_LEFT) && !game->IsKeyDown(DIK_DOWN) && simon->GetJumpTime() == 0 && simon->GetOnStair() == false && camera->GetCamMove() == false && simon->GetIsDamaged() == 0)
 	{
-		simon->SetState(SIMON_STATE_WALKING_LEFT);
-		simon->SetRight(0);
+		if (simon->GetHealth() != 0)
+		{
+			if (simon->GetAutoWalkingTime() == 0)
+				simon->SetState(SIMON_STATE_WALKING_LEFT);
+		}
 	}
-	else if (CGame::GetInstance()->IsKeyDown(DIK_DOWN))
+	else if (game->IsKeyDown(DIK_DOWN) && camera->GetCamMove() == false && simon->GetIsDamaged() == 0)
 	{
-		simon->SetState(SIMON_STATE_SIT);
-		/*SIMON->Sit();*/
-		simon->SetSit(true);
+		if (simon->GetHealth() != 0)
+		{
+			if (simon->GetAutoWalkingTime() == 0)
+			{
+				if (simon->GetOnStair() == false)
+				{
+					simon->SetState(SIMON_STATE_SIT);
+					simon->SetSit(true);
+				}
+				else if (simon->GetOnStair() == true)
+				{
+					simon->SetState(SIMON_STATE_WALKING_DOWN_STAIR);
+				}
+			}
+		}
 	}
-	//else if(game->IsKeyDown())
+	else if (game->IsKeyDown(DIK_UP) && camera->GetCamMove() == false && simon->GetIsDamaged() == 0)
+	{
+		if (simon->GetHealth() != 0)
+		{
+			if (simon->GetAutoWalkingTime() == 0)
+			{
+				if (simon->GetOnStair() == true)
+				{
+					simon->SetState(SIMON_STATE_WALKING_UP_STAIR);
+				}
+			}
+		}
+	}
 	else
 		simon->SetState(SIMON_STATE_IDLE);
 
@@ -87,29 +87,58 @@ void SceneGame::KeyState(BYTE* state)
 void SceneGame::OnKeyDown(int KeyCode)
 {
 	DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
+	if (simon->GetState() == SIMON_STATE_DIE || simon->GetChangeColorTime() != 0 || simon->GetAutoWalkingTime() != 0 || camera->GetCamMove() == true || simon->GetIsDamaged() != 0 || simon->GetHealth() == 0) return;
 	switch (KeyCode)
 	{
-	case DIK_SPACE:
-		simon->SetState(SIMON_STATE_JUMP);
-		simon->StartJump();
+	case DIK_S:
+		if (simon->GetOnStair() == false)
+		{
+			if (simon->GetOnGround())
+			{
+				simon->SetState(SIMON_STATE_JUMP);
+				if (game->IsKeyDown(DIK_RIGHT) || game->IsKeyDown(DIK_LEFT))
+				{
+					simon->StartJumpMove();
+				}
+				else simon->StartJump();
+			}
+		}
 		break;
 	case DIK_A:
-		if (CGame::GetInstance()->IsKeyDown(DIK_RIGHT) || CGame::GetInstance()->IsKeyDown(DIK_LEFT))
+		if (simon->GetAttackTime() == 0)
 		{
-			return;
+			if (game->IsKeyDown(DIK_RIGHT) || game->IsKeyDown(DIK_LEFT))
+			{
+				return;
+			}
+			
+			if (!game->IsKeyDown(DIK_UP))
+			{
+				//MS->SetState(MS_STATE_ATTACK);
+				MS->SetActive(true);
+				if (game->IsKeyDown(DIK_DOWN))
+				{
+					simon->SetState(SIMON_STATE_SIT);
+					simon->StartSitAttack();
+					MS->StartAttack();
+					simon->SetJump(0);
+				}
+				else {
+					simon->SetState(SIMON_STATE_ATTACK);
+					simon->StartAttack();
+					MS->StartAttack();
+					simon->SetJump(0);
+				}
+				if (simon->GetLevel() == SIMON_LEVEL_MS_2)
+				{
+					MS->SetState(MS_STATE_ATTACK_2);
+				}
+				if (simon->GetLevel() == SIMON_LEVEL_MS_3)
+				{
+					MS->SetState(MS_STATE_ATTACK_3);
+				}
+			}
 		}
-		MS->StartAttack();
-		MS->SetState(WHIP_STATE_ATTACK);
-		MS->SetActive(true);
-		simon->SetState(SIMON_STATE_ATTACK);
-		simon->StartAttack();
-		break;
-	case DIK_Q:
-		if (simon->GetActive() == true)
-		{
-			simon->SetActive(false);
-		}
-		else simon->SetActive(true);
 		break;
 	}
 }
@@ -117,7 +146,8 @@ void SceneGame::OnKeyDown(int KeyCode)
 void SceneGame::OnKeyUp(int KeyCode)
 {
 	if (KeyCode == 208) {
-		simon->StandUp();
+		if (simon->GetSit() == true)
+			simon->StandUp();
 	}
 	DebugOut(L"[INFO] KeyUp: %d\n", KeyCode);
 }
@@ -125,13 +155,11 @@ void SceneGame::OnKeyUp(int KeyCode)
 void SceneGame::LoadResources(LPCWSTR picturePath, int idTex, const char* filepath, int scene)
 {
 	camera->SetCamPos(0, 0);
-	LoadSceneObject(scene);
 	grid->ClearGrid();
 	stages.clear();
 	LoadSceneElement(scene);
-	
+	LoadSceneObject(scene);
 	LoadStageVaribale(scene);
-
 	Tile = new TileMap(picturePath, idTex, 42, 0);
 	Tile->LoadMap(filepath);
 	simon->SetPosition(stages.at(0)->simonposx, stages.at(0)->simonposy);
@@ -308,6 +336,7 @@ void SceneGame::Update(DWORD dt)
 	grid->GetListCollisionFromGrid(camera, ObjectsFromGrid);
 
 	bricks.clear();
+	torchs.clear();
 
 	for (int i = 0; i < ObjectsFromGrid.size(); i++)
 	{
@@ -316,9 +345,20 @@ void SceneGame::Update(DWORD dt)
 
 	for (int i = 0; i < coObjects.size(); i++)
 	{
-		if (coObjects.at(i)->type == BRICK)
+		switch (coObjects.at(i)->type)
+		{
+		case eType::BRICK:
 			bricks.push_back(coObjects[i]);
+			break;
+		case eType::TORCH:
+			torchs.push_back(coObjects[i]);
+			break;
+		default:
+			break;
+		}
 	}
+
+
 
 	//Adjust Camera to Simon
 	if (camera->GetCam_x() + SCREEN_WIDTH != endmap)
@@ -327,7 +367,7 @@ void SceneGame::Update(DWORD dt)
 		{
 			simon->StartAutoWalking(SIMON_AUTO_GO_TIME * 2);
 		}
-		if (camera->GetCamMove() == 0 && simon->nx >= 0)
+		if (camera->GetCamMove() == 0 && simon->nx > 0)
 		{
 			if ((simon->x + SIMON_IDLE_BBOX_WIDTH) - camera->GetCam_x() >= SCREEN_WIDTH / 2)
 				camera->SetCamPos((simon->x + SIMON_IDLE_BBOX_WIDTH) - SCREEN_WIDTH / 2, 0);
@@ -339,7 +379,171 @@ void SceneGame::Update(DWORD dt)
 		if (simon->GetStartPoint() == SIMON_START_UNDERGROUND)
 		{
 			camera->SetCamPos((simon->x + SIMON_IDLE_BBOX_WIDTH) - SCREEN_WIDTH / 2, 200);
+		}
 
+	}
+
+	//Weapon collision with torch
+	for (int i = 0; i < torchs.size(); i++)
+	{
+		CTorch* torch = dynamic_cast<CTorch*>(torchs[i]);
+		if (MS->CheckCollision(torch) /*|| dagger->CheckCollision(torch) || Axe->CheckCollision(torch)*/)
+		{
+			if (torch->GetState() == TORCH_STATE_INVI_POT_TORCH)
+			{
+				torch->StartDieTime();
+				torch->FirstX = torch->x;
+				//dagger->SetActive(false);
+				torch->SetState(TORCH_STATE_INVI_POT);
+			}
+			if (torch->GetState() == TORCH_STATE_AXE_TORCH)
+			{
+				torch->StartDieTime();
+				torch->FirstX = torch->x;
+				//dagger->SetActive(false);
+				torch->SetState(TORCH_STATE_AXE);
+			}
+			if (torch->GetState() == TORCH_STATE_NORMAL || torch->GetState() == TORCH_STATE_CANDLE)
+			{
+				torch->StartDieTime();
+				torch->FirstX = torch->x;
+				//dagger->SetActive(false);
+				MS->MSUpDropTime++;
+				int a;
+				srand(time(NULL));
+				a = rand() % 30 + 1;
+				if (MS->MSUpDropTime < 3)
+				{
+					torch->SetState(TORCH_STATE_MSUP);
+				}
+				else
+					switch (a)
+					{
+					case 1:
+					case 2:
+					case 3:
+					case 4:
+					case 5:
+					case 6:
+					case 7:
+					case 8:
+					case 9:
+					case 10:
+					case 11:
+					case 12:
+					case 13:
+					case 14:
+					case 15:
+					case 16:
+					case 17:
+					case 18:
+					case 19:
+					case 20:
+					case 21:
+					case 22:
+					case 23:
+					case 24:
+					case 25:
+						torch->SetState(TORCH_STATE_SHEART); break;
+					case 26:
+						torch->SetState(TORCH_STATE_LHEART); break;
+					case 27:
+						torch->SetState(TORCH_STATE_DAGGER); break;
+					case 28:
+						torch->SetState(TORCH_STATE_HOLYWATER); break;
+					case 29:
+						torch->SetState(TORCH_STATE_CROSS); break;
+					case 30:
+						torch->SetState(TORCH_STATE_AXE); break;
+					}
+			}
+		}
+	}
+
+	//Simon collision with torch
+	for (int i = 0; i < torchs.size(); i++)
+	{
+		CTorch* torch = dynamic_cast<CTorch*>(torchs[i]);
+		if (simon->CheckCollision(torch))
+		{
+			switch (torch->GetState())
+			{
+			case TORCH_STATE_CANDLE:
+			case TORCH_STATE_NORMAL:
+			case TORCH_STATE_INVI_POT_TORCH:
+			case TORCH_STATE_AXE_TORCH:
+				break;
+			case TORCH_STATE_LHEART:
+				torch->SetActive(false);
+				simon->SetHealth(-3);
+				break;
+			case TORCH_STATE_SHEART:
+				simon->SetHealth(-1);
+				torch->SetActive(false);
+				break;
+			case TORCH_STATE_CHIKEN:
+				torch->SetActive(false);
+				simon->SetHealth(-5);
+				break;
+			case TORCH_STATE_CROSS:
+				torch->SetActive(false);
+				simon->SetEatCross(true);
+				//enemy.clear();
+				break;
+			case TORCH_STATE_CLOCK:
+				torch->SetActive(false);
+				//StopEnemyStart();
+				break;
+			case TORCH_STATE_INVI_POT:
+				torch->SetActive(false);
+				simon->StartIsUnTouchable(SIMON_UNTOUCHABLE_TIME * 2);
+				break;
+			case TORCH_STATE_MONEY1:
+				torch->SetActive(false);
+				break;
+			case TORCH_STATE_MONEY2:
+				torch->SetActive(false);
+				break;
+			case TORCH_STATE_MONEY3:
+				torch->SetActive(false);
+				break;
+			case TORCH_STATE_MONEY4:
+				torch->SetActive(false);
+				break;
+			case TORCH_STATE_MSUP:
+				torch->SetActive(false);
+				simon->StartChangeColor();
+				if (simon->GetLevel() == SIMON_LEVEL_MS_1)
+				{
+					simon->SetLevel(SIMON_LEVEL_MS_2);
+				}
+				else if (simon->GetLevel() == SIMON_LEVEL_MS_2)
+				{
+					simon->SetLevel(SIMON_LEVEL_MS_3);
+				}
+				break;
+			case TORCH_STATE_DAGGER:
+				torch->SetActive(false);
+				simon->SetThrowDagger(true);
+				simon->SetThrowAxe(false);
+				simon->SetThrowHolyWater(false);
+				break;
+			case TORCH_STATE_AXE:
+				torch->SetActive(false);
+				simon->SetThrowDagger(false);
+				simon->SetThrowAxe(true);
+				simon->SetThrowHolyWater(false);
+				break;
+			case TORCH_STATE_HOLYWATER:
+				torch->SetActive(false);
+				simon->SetThrowDagger(false);
+				simon->SetThrowAxe(false);
+				simon->SetThrowHolyWater(true);
+				break;
+			case TORCH_STATE_DOUBLE_SHOOT:
+				torch->SetActive(false);
+				simon->SetNumWeapon(2);
+			}
 		}
 	}
 
@@ -347,29 +551,32 @@ void SceneGame::Update(DWORD dt)
 	{
 		coObjects.push_back(listobj[i]);
 	}
-	for (int i = 0; i < listobj.size(); i++)
+	for (int i = 0; i < bricks.size(); i++)
 	{
-		listobj[i]->Update(dt, &coObjects);
+		bricks[i]->Update(dt, &bricks);
 	}
-	// Update camera to follow SIMON
-	//float cx, cy;
-	//CGame::GetInstance()->SetCamPos(0.0f, 0.0f /*cy*/);
-	//simon->GetPosition(cx, cy);
-	//cx -= SCREEN_WIDTH / 2;
-	//cy -= SCREEN_HEIGHT / 2;
-	//if (cx < 1000 / 2 && cx>0)
-	//{
-	//	camera->SetCamPos(cx, 0.0f);///cy
-	//}
+	for (int i = 0; i < torchs.size(); i++)
+	{
+		torchs[i]->Update(dt, &bricks);
+	}
+
+	camera->Update(dt, startpoint, endpoint);
+	simon->Update(dt, &bricks);
+	MS->Update(dt, &bricks);
 }
 
 void SceneGame::Render()
 {
-	CSprites* sprites = CSprites::GetInstance();
-	int x = 0, y = 0;
-	int flag = 1;
 	
 	Tile->DrawMap(camera);
-	for (int i = 0; i < listobj.size(); i++)
-		listobj[i]->Render();
+	for (int i = 0; i < bricks.size(); i++)
+	{
+		bricks[i]->Render(camera);
+	}
+	for (int i = 0; i < torchs.size(); i++)
+	{
+		torchs[i]->Render(camera);
+	}
+	simon->Render(camera);
+	MS->Render(camera);
 }

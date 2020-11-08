@@ -6,6 +6,7 @@
 #include "Textures.h"
 #include "Sprites.h"
 #include "define.h"
+#include "camera.h"
 
 
 using namespace std;
@@ -51,10 +52,20 @@ public:
 	float vy;
 
 	int nx;	 
+	float FirstX;
 
 	int state;
+	int level = 1;
 	boolean active = true;
+	
+	bool isOnGround;
+	bool isStop;
+
+	int die = 0;
+
 	DWORD dt; 
+	DWORD dietime_start;
+
     CTextures* texture;
 	CSprite* sprite;
 	CAnimation* animation;
@@ -69,6 +80,8 @@ public:
 	void GetSpeed(float &vx, float &vy) { vx = this->vx; vy = this->vy; }
 	virtual void SetActive(boolean a) { active = a; };
 	virtual boolean GetActive() { return active; };
+	void StartDieTime() { die = 1; dietime_start = GetTickCount(); }
+
 	int GetState() { return this->state; }
 
 	void SetDirection(int d);
@@ -76,7 +89,6 @@ public:
 	void SetId(int ID);
 	int GetId();
 
-	void RenderBoundingBox();
 
 	LPCOLLISIONEVENT SweptAABBEx(LPGAMEOBJECT coO);
 	void CalcPotentialCollisions(vector<LPGAMEOBJECT> *coObjects, vector<LPCOLLISIONEVENT> &coEvents);
@@ -92,10 +104,14 @@ public:
 
 	CGameObject();
 	bool CheckCollision(CGameObject* object);
+	virtual void Collision(vector<LPGAMEOBJECT>* coObjects);
+	virtual void CollisionOccurred(vector<LPGAMEOBJECT>* coObjects);
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom) = 0;
+	void RenderBoundingBox(camera* camera);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
-	virtual void Render() = 0;
+	virtual void Render(camera* camera) = 0;
 	virtual void SetState(int state) { this->state = state; }
+	virtual void SetLevel(int level) { this->level = level; }
 	RECT CGameObject::GetBound()
 	{
 		RECT rect;

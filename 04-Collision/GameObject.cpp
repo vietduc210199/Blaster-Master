@@ -160,22 +160,29 @@ int CGameObject::GetId()
 	return this->id;
 }
 
-void CGameObject::RenderBoundingBox()
+void CGameObject::RenderBoundingBox(camera* camera)
 {
-	D3DXVECTOR3 p(x, y, 0);
-	RECT rect;
+	if (active == true)
+	{
+		D3DXVECTOR3 p((int)x, (int)y, 0);
+		RECT rect;
 
-	LPDIRECT3DTEXTURE9 bbox = CTextures::GetInstance()->Get(ID_TEX_BBOX);
+		LPDIRECT3DTEXTURE9 bbox = CTextures::GetInstance()->Get(ID_TEX_BBOX);
 
-	float l,t,r,b; 
+		float l, t, r, b;
 
-	GetBoundingBox(l, t, r, b);
-	rect.left = 0;
-	rect.top = 0;
-	rect.right = (int)r - (int)l;
-	rect.bottom = (int)b - (int)t;
+		GetBoundingBox(l, t, r, b);
+		rect.left = 0;
+		rect.top = 0;
+		rect.right = (int)r - (int)l;
+		rect.bottom = (int)b - (int)t;
 
-	CGame::GetInstance()->Draw(x, y, bbox, rect.left, rect.top, rect.right, rect.bottom, 86);
+
+		D3DXVECTOR2 pos = camera->transform(l, t);
+
+
+		CGame::GetInstance()->Draw(pos.x, pos.y, bbox, rect.left, rect.top, rect.right, rect.bottom, 80);
+	}
 }
 bool CGameObject::CheckCollision(CGameObject* object)
 {
@@ -190,6 +197,48 @@ bool CGameObject::CheckCollision(CGameObject* object)
 		return true;
 	}
 	delete e;
+}
+void CGameObject::Collision(vector<LPGAMEOBJECT>* coObjects)
+{
+	vector<LPCOLLISIONEVENT> coEvents;
+	vector<LPCOLLISIONEVENT> coEventsResult;
+	coEvents.clear();
+	CalcPotentialCollisions(coObjects, coEvents);
+	if (coEvents.size() == 0)
+	{
+		if (!isStop)
+		{
+			x += dx;
+			y += dy;
+		}
+		isOnGround = false;
+	}
+	else
+	{
+		float min_tx, min_ty, nx = 0, ny;
+		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+		// block 
+		if (!isStop)
+		{
+			if (ny == 1)
+				y += dy;
+		}
+		if (ny == -1)
+		{
+			y += min_ty * dy + ny * 0.2f;
+			isOnGround = true;
+		}
+		if (state == ENEMY_STATE_SHEART)
+		{
+			if (ny == -1) { isOnGround = true; vy = 0; vx = 0; }
+		}
+		CollisionOccurred(coObjects);
+	}
+	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+}
+void CGameObject::CollisionOccurred(vector<LPGAMEOBJECT>* coObjects)
+{
+
 }
 void CGameObject::AddAnimation(int aniId)
 {

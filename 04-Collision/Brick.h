@@ -1,6 +1,8 @@
 #pragma once
 #include "GameObject.h"
 #include "Simon.h"
+#include "camera.h"
+#include "define.h"
 #define BRICK_BBOX_WIDTH 16
 #define BRICK_BBOX_HEIGHT 16
 
@@ -8,6 +10,7 @@
 class CBrick : public CGameObject
 {
 	int multwidth;
+	boolean active = true;
 
 	public:
 		CBrick()
@@ -25,8 +28,9 @@ class CBrick : public CGameObject
 		{
 			type = a;
 		}
-		boolean active = true;
-		void SetActive(boolean a) { active = a; }
-	virtual void Render();
+		
+	void SetActive(boolean a) { active = a; }
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
+	virtual void Render(camera* camera);
 	virtual void GetBoundingBox(float &l, float &t, float &r, float &b);
 };

@@ -33,11 +33,15 @@ private:
 	int currentLevel;
 
 	vector<LPGAMEOBJECT> bricks;
+	vector<LPGAMEOBJECT> torchs;
 
 	vector<LPGAMEOBJECT> ObjectsFromGrid;
 	vector<LPGAMEOBJECT> listobj;
 
 	bool SimonMove = false;
+
+	float startpoint, endpoint, camstoppoint;
+
 
 	//read from file
 	int hiddenmoneyposx;

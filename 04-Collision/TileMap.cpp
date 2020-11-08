@@ -59,19 +59,23 @@ void TileMap::DrawMap(camera* camera)
 	remain_y = fmod(camera->GetCam_y(), height);
 	remain_x = fmod(camera->GetCam_x(), width);
 
+
 	int colCamLeft = camera->GetCam_x() / width;
 	int colCamRight = colCamLeft + SCREEN_WIDTH / width;
 	int rowCamTop = camera->GetCam_y() / height;
 	int rowCamBottom = rowCamTop + SCREEN_HEIGHT / height;
 
-	for(int j = colCamLeft; j <= colCamRight; j++)
-		for (int i = rowCamTop; i <= rowCamBottom; i++)
+
+	for (int j = colCamLeft; j <= colCamRight; j++)
+	{
+		for (int i = rowCamTop; i < rowCamBottom; i++)
 		{
 			float pos_x = (j - colCamLeft) * width - remain_x + translate_x;
 			float pos_y = (i - rowCamTop) * height - remain_y + translate_y;
 			int index = listTile[i][j];
 			sprites->Get(index)->Draw(pos_x, pos_y, 255);
 		}
+	}
 }
 
 void TileMap::Update()

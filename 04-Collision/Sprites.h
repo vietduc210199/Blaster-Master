@@ -69,11 +69,12 @@ public:
 	{
 		return currentFrame;
 	};
-	void SetCurrentFrame()
+	void SetCurrentcFrame(int cf)
 	{
-		this->currentFrame = -1;
+		this->currentFrame = cf;
 	}
 	void Render(float x, float y, int alpha=255);
+	void Render(D3DXVECTOR2 pos, int alpha);
 };
 
 typedef CAnimation *LPANIMATION;

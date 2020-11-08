@@ -47,6 +47,11 @@ void CAnimation::Add(int spriteId, DWORD time)
 	frames.push_back(frame);
 }
 
+void CAnimation::Render(D3DXVECTOR2 pos, int alpha)
+{
+	Render(pos.x, pos.y, alpha);
+}
+
 void CAnimation::Render(float x, float y, int alpha)
 {
 	DWORD now = GetTickCount();

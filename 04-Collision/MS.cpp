@@ -1,126 +1,192 @@
 #include "MS.h"
 #include "Simon.h"
+#include "define.h"
 
 void CMS::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 
-	CGameObject::Update(dt);
-
-	vector<LPCOLLISIONEVENT> coEvents;
-	vector<LPCOLLISIONEVENT> coEventsResult;
-	coEvents.clear();
-
-	CalcPotentialCollisions(coObjects, coEvents);
-	
-	if (GetTickCount() - attack_start > MS_ATTACK_TIME)
+	if (GetTickCount() - attack_start > 300)
 	{
-		attack_start = 0;
+		if (active == true)
+			attack_start = 0;
 		attack = 0;
 	}
-	SetWhipFacing();
-	float min_tx, min_ty, nx = 0, ny;
-
-	FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
-
-	// block 
-	x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
-	y += min_ty * dy + ny * 0.4f;
-
-	if (nx != 0) vx = 0;
-	if (ny != 0) vy = 0;
-
-	for (UINT i = 0; i < coEventsResult.size(); i++) {
-
-		LPCOLLISIONEVENT e = coEventsResult[i];
-
-		//if (dynamic_cast<FirePilar*>(e->obj))
-		//{
-		//	FirePilar* fire = dynamic_cast<FirePilar*>(e->obj);
-		//	if (e->ny < 0) {
-
-		//	}
-		//	//delete FirePilar here
-		//}
-	}
-	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+	AdjustMSPos();
 }
 
-void CMS::Render() {
-	if (active != true || simon->vx != 0)
+void CMS::Render(camera* camera) {
+	if (simon->vx != 0)
 	{
 		return;
 	}
-	if (attack == 0)
-	{
-		active = false;
-	}
 	int ani;
-		if (simon->nx > 0)
+	if (active == true)
+	{
+		if (state == MS_STATE_ATTACK)
+		{
+			if (attack == 0)
+			{
+				active = false;
+			}
+			if (simon->nx > 0)
 			{
 				ani = 0;
 			}
-			else 
-				ani = 1; 
-    int alpha = 255;
-	animations[ani]->Render(x, y, alpha);
+			else
+				ani = 1;
+			int alpha = 255;
+			animations[ani]->Render(camera->transform(x, y), alpha);
 
-	RenderBoundingBox();
+			RenderBoundingBox(camera);
+		}
+		if (state == MS_STATE_ATTACK_2)
+		{
+			if (attack == 0)
+			{
+				active = false;
+			}
+			if (simon->nx > 0)
+			{
+				ani = 2;
+			}
+			else
+				ani = 3;
+			int alpha = 255;
+			animations[ani]->Render(camera->transform(x, y), alpha);
+
+			RenderBoundingBox(camera);
+		}
+		if (state == MS_STATE_ATTACK_3)
+		{
+			if (attack == 0)
+			{
+				active = false;
+			}
+			if (simon->nx > 0)
+			{
+				ani = 4;
+			}
+			else
+				ani = 5;
+			int alpha = 255;
+			animations[ani]->Render(camera->transform(x, y), alpha);
+
+			RenderBoundingBox(camera);
+		}
+
+	}
 }
 
 void CMS::SetState(int state) {
 	CGameObject::SetState(state);
-
-	switch (state)
-	{
-	case WHIP_STATE_ATTACK:
-		isAttack = true;
-		break;
-
-	}
-
 }
-void CMS::SetWhipFacing()
+
+void CMS::AdjustMSPos()
 {
-	if (simon->nx > 0)
+	if (attack != 0)
+	{
+		if (state == MS_STATE_ATTACK || MS_STATE_ATTACK_2)
 		{
+			if (simon->nx > 0)
+			{
+				if (GetTickCount() - attack_start <= 120) {
+					x = simon->x - 5;
+					y = simon->y + 3.5;
+				}
 
-		if (animations[0]->GetCurrentFrame() == 0) {
-			x = simon->x - 7;
-			y = simon->y + 2;
-		}
+				else if (GetTickCount() - attack_start <= 240) {
+					x = simon->x - 5;
+					y = simon->y + 1;
+				}
 
-		else if (animations[0]->GetCurrentFrame() == 1) {
-			x = simon->x - 16;
-			y = simon->y;
-		}
+				else if (GetTickCount() - attack_start <= 360) {
+					x = simon->x + 27;
+					y = simon->y + 7;
+				}
+			}
+			else if (simon->nx < 0)
+			{
+				if (GetTickCount() - attack_start <= 120) {
+					x = simon->x + 24;
+					y = simon->y + 3.5;
+				}
 
-		else if (animations[0]->GetCurrentFrame() == 2) {
-			x = simon->x + 16;
-			y = simon->y + 6;
+				else if (GetTickCount() - attack_start <= 240) {
+					x = simon->x + 24;
+					y = simon->y + 1;
+				}
+
+				else if (GetTickCount() - attack_start <= 360) {
+					x = simon->x - 22;
+					y = simon->y + 7;
+				}
+			}
 		}
-		}
-	else if (simon->nx < 0)
+		if (state == MS_STATE_ATTACK_3)
 		{
-			if (animations[1]->GetCurrentFrame() == 0) {
-				x = simon->x + 18;
-				y = simon->y + 2;
-			}
+			if (simon->nx > 0)
+			{
+				if (GetTickCount() - attack_start <= 120) {
+					x = simon->x - 5;
+					y = simon->y + 3.5;
+				}
 
-			else if (animations[1]->GetCurrentFrame() == 1) {
-				x = simon->x + 16;
-				y = simon->y;
-			}
+				else if (GetTickCount() - attack_start <= 240) {
+					x = simon->x - 6;
+					y = simon->y + 1;
+				}
 
-			else if (animations[1]->GetCurrentFrame() == 2) {
-				x = simon->x - 20;
-				y = simon->y + 6;
+				else if (GetTickCount() - attack_start <= 360) {
+					x = simon->x + 25;
+					y = simon->y + 7;
+				}
+			}
+			else if (simon->nx < 0)
+			{
+				if (GetTickCount() - attack_start <= 120) {
+					x = simon->x + 24;
+					y = simon->y + 3.5;
+				}
+
+				else if (GetTickCount() - attack_start <= 240) {
+					x = simon->x + 24;
+					y = simon->y + 2;
+				}
+
+				else if (GetTickCount() - attack_start <= 360) {
+					x = simon->x - 28;
+					y = simon->y + 7;
+				}
 			}
 		}
 	}
+}
+
 void CMS::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	top = y;
-	left = x;
-	right = x + 22;
-	bottom = y + 10;
+	if (active == true)
+	{
+		if (state == MS_STATE_ATTACK_3)
+		{
+			if (GetTickCount() - attack_start >= 240)
+			{
+				top = y;
+				left = x;
+				right = x + 40;
+				bottom = y + 10;
+			}
 
+
+
+		}
+		else if (state == MS_STATE_ATTACK || state == MS_STATE_ATTACK_2)
+		{
+			if (GetTickCount() - attack_start >= 240)
+			{
+				top = y;
+				left = x;
+				right = x + 24;
+				bottom = y + 10;
+			}
+		}
+	}
 }

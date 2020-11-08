@@ -4,11 +4,10 @@
 #include "GameObject.h"
 #include "MS.h"
 
-#define SIMON_WALKING_SPEED		0.1f 
+#define SIMON_WALKING_SPEED		0.07f 
 //0.1f
-#define SIMON_JUMP_SPEED_Y		0.5f
-#define SIMON_JUMP_DEFLECT_SPEED 0.2f
-#define SIMON_GRAVITY			0.002f
+#define SIMON_JUMP_SPEED_Y		0.22f
+#define SIMON_JUMP_DEFLECT_SPEED 0.1f
 #define SIMON_DIE_DEFLECT_SPEED	 0.5f
 #define PULL_UP_SIMON_AFTER_SITTING 10.0f
 
@@ -47,47 +46,223 @@
 class CSimon: public CGameObject
 {
 	int jump;
+	int jumpmove;
 	int attack;
+	int sitattack;
 	int right;
-	bool active = true;
-	bool sit = false;
+	int changecolor;
 	int autowalking;
-	
-	float autowalkingtime;
-
+	int isDamaged;
+	int isUntouchable;
+	int alpha;
+	int numweapon;
 	int startpoint;
 	int endpoint;
+	int untouchabletime;
+	int health;
+	float autowalkingtime;
+	bool active = true;
+	bool sit = false;
+	bool jumping = false;
+	bool isOnStair = false;
+	bool isStairUp = true;
+	bool isThrowDagger = false;
+	bool isThrowAxe = false;
+	bool isThrowHolyWater = true;
+	bool autowalkingdoor = false;
+	bool isEatCross;
+	bool isEatClock;
 	DWORD jump_start;
 	DWORD attack_start;
+	DWORD sitattack_start;
+	DWORD changecolor_start;
 	DWORD autowalking_start;
+	DWORD autowalkingdoor_start;
+	DWORD isDamaged_start;
+	DWORD isUntouchable_start;
 
 public: 
 	CSimon() : CGameObject()
 	{
 		this->LoadAnimations("ReadFile\\Ani\\simonani.txt");
-		this->type = eType::SIMON;
+		numweapon = 1;
+		health = 16;
 		jump = 0;
 		attack = 0;
-		sit = false;
+		sitattack = 0;
+		changecolor = 0;
+		autowalking = 0;
+		isDamaged = 0;
+		isUntouchable = 0;
+		isOnGround = true;
+		alpha = 255;
+		level = SIMON_LEVEL_MS_1;
 	}
-	void StandUp();
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects = NULL);
-	virtual void Render();
-	void SetState(int state);
-	void SetRight(int right) {
-		right = right;
+	int GetLevel()
+	{
+		return this->level;
+	}
+	int GetChangeColorTime()
+	{
+		return changecolor;
+	}
+	int GetAttackTime()
+	{
+		return this->attack;
+	}
+	int GetJumpTime()
+	{
+		return this->jump;
+	}
+	int GetAutoWalkingTime()
+	{
+		return this->autowalking;
+	}
+	int GetIsDamaged()
+	{
+		return isDamaged;
+	}
+	int GetUntouchable()
+	{
+		return this->isUntouchable;
+	}
+	int GetAlpha()
+	{
+		return this->alpha;
+	}
+	int GetNumWeapon()
+	{
+		return numweapon;
+	}
+	int GetStartPoint()
+	{
+		return startpoint;
+	}
+	int GetEndPOint()
+	{
+		return endpoint;
+	}
+	int GetHealth()
+	{
+		return health;
+	}
+	boolean GetSit()
+	{
+		return sit;
+	}
+	boolean GetOnGround()
+	{
+		return isOnGround;
+	}
+	boolean GetOnStair()
+	{
+		return isOnStair;
+	}
+	boolean GetStairUp()
+	{
+		return isStairUp;
+	}
+	boolean GetEatCross()
+	{
+		return isEatCross;
+	}
+	boolean GetEatClock()
+	{
+		return isEatClock;
+	}
+	boolean GetActive() 
+	{ 
+		return active; 
 	};
-	void SetStartPoint(int a);
-	int GetStartPoint() { return this->startpoint; }
-	void SetEndPoint(int a);
-	boolean GetActive() { return active; };
-	void SetActive(boolean a) {
+	boolean GetThrowDagger() { return isThrowDagger; }
+	boolean GetThrowAxe() { return isThrowAxe; }
+	boolean GetThrowHolyWater() { return isThrowHolyWater; }
+	void SetState(int state);
+	void SetLevel(int level)	
+	{
+		CGameObject::SetLevel(level);
+	}
+	void SetOnStair(bool a) {
+		isOnStair = a;
+	};
+	void SetStairUp(bool a) {
+		isStairUp = a;
+	};
+	void SetActive(boolean a) 
+	{
 		active = a;
 	}
+	void SetOnGround(boolean a)
+	{
+		isOnGround = a;
+	}
+	void SetAlpha(int a)
+	{
+		alpha = a;
+	}
+	void SetEatCross(bool a) {
+		isEatCross = a;
+	}
+	void SetEatClock(bool a) {
+		isEatClock = a;
+	}
+	void SetThrowDagger(bool a)
+	{
+		isThrowDagger = a;
+	}
+	void SetThrowAxe(bool a)
+	{
+		isThrowAxe = a;
+	}
+	void SetThrowHolyWater(bool a)
+	{
+		isThrowHolyWater = a;
+	}
+	void SetNumWeapon(int a)
+	{
+		numweapon = a;
+	}
+	void SetStartPoint(int a);
+	void SetEndPoint(int a);
+	void SetHealth(int a)
+	{
+		health = health - a;
+	}
+	void SetHealthToZero()
+	{
+		health = 0;
+	}
 	void StartJump() { jump = 1; jump_start = GetTickCount(); }
-	void StartAttack() { attack = 1; attack_start = GetTickCount(); }
-	void StartAutoWalking (float a){ { autowalking = 1; autowalking_start = GetTickCount(); autowalkingtime = a; } }
-	void SetSit(boolean a) { sit= a; };
-	void CheckCollisionWithGround(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects);
+	void StartJumpMove() { jumpmove = 1; jump_start = GetTickCount(); }
+	void StartAttack() 
+	{ 
+		attack = 1; attack_start = GetTickCount(); 
+		RestartAttack();
+	}
+	void StartSitAttack() {
+		sitattack = 1; sitattack_start = GetTickCount();
+		RestartAttack();
+	}
+	void RestartAttack()
+	{
+		animations[SIMON_ANI_ATTACK_RIGHT]->SetCurrentcFrame(-1);
+		animations[SIMON_ANI_ATTACK_LEFT]->SetCurrentcFrame(-1);
+		animations[SIMON_ANI_SIT_ATTACK_RIGHT]->SetCurrentcFrame(-1);
+		animations[SIMON_ANI_SIT_ATTACK_LEFT]->SetCurrentcFrame(-1);
+	}
+	void StartChangeColor() { changecolor = 1; changecolor_start = GetTickCount(); vx = 0; }
+	void StartAutoWalking(float a) { autowalking = 1; autowalking_start = GetTickCount(); autowalkingtime = a; }
+	void StartIsDamaged() { isDamaged = 1; isDamaged_start = GetTickCount(); RestartAttack(); }
+	void StartIsUnTouchable(int a) { isUntouchable = 1; isUntouchable_start = GetTickCount(); untouchabletime = a; }
+	void SetSit(boolean a) { sit = a; };
+	void SetJump(int a) { jump = a; }
+
+	void SitDown();
+	void StandUp();
+
+
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
+	virtual void Render(camera* camera);
+
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 };

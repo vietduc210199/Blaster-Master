@@ -1,31 +1,62 @@
 #pragma once
 #include "GameObject.h"
 
-#define TORCH_WALKING_SPEED 0.05f;
 
-#define TORCH_BBOX_WIDTH 16
-#define TORCH_BBOX_HEIGHT 15
-#define TORCH_BBOX_HEIGHT_DIE 9
-
-#define TORCH_STATE_WALKING 100
-#define TORCH_STATE_DIE 200
-
-#define TORCH_ANI_WALKING 0
-#define TORCH_ANI_DIE 1
 
 class CTorch : public CGameObject
 {
-	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
-	virtual void Render();
-
-
+	int ani = 0;
+	int normalwidth;
+	int normalheight;
+	int candlewidth;
+	int candleheight;
+	int sheartswidth;
+	int sheartheight;
+	int lheartwidth;
+	int lheartheight;
+	int daggerwidth;
+	int daggerheight;
+	int moneywidth;
+	int moneyheight;
+	int otherswidth;
+	int othersheight;
+	int end;
 public: 	
 	CTorch()
 	{
 		this->LoadAnimations("ReadFile\\Ani\\Torchani.txt");
-		//this->AddAnimation(1001);
+		LoadElementFromFile(SOURCE_TORCH_ELEMENT_TXT);
+		type = TORCH;
+		isOnGround = false;
 	}
-	boolean active = true;
-	virtual void SetState(int state);
+	~CTorch();
+
+	int GetState()
+	{
+		return state;
+	}
+	void SetState(int state)
+	{
+		this->state = state;
+	}
+	void SetType(int a)
+	{
+		type = a;
+	}
+	void LoadElementFromFile(string source);
+	RECT GetBound()
+	{
+		RECT rect;
+		float l, t, r, b;
+		GetBoundingBox(l, t, r, b);
+		rect.left = l;
+		rect.top = t;
+		rect.right = r;
+		rect.bottom = b;
+		return rect;
+	}
+	void CollisionOccurred(vector<LPGAMEOBJECT>* coObjects) override;
+	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
+	virtual void Render(camera* camera);
 };
