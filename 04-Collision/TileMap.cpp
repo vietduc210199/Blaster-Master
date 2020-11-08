@@ -54,15 +54,15 @@ void TileMap::LoadMap(const char* filepath)
 	fclose(pFile);
 }
 
-void TileMap::DrawMap(camera* camera)
+void TileMap::DrawMap(Camera* camera)
 {
-	remain_y = fmod(camera->GetCam_y(), height);
-	remain_x = fmod(camera->GetCam_x(), width);
+	remain_y = fmod(camera->GetPosition().y, height);
+	remain_x = fmod(camera->GetPosition().x, width);
 
 
-	int colCamLeft = camera->GetCam_x() / width;
+	int colCamLeft = camera->GetPosition().x / width;
 	int colCamRight = colCamLeft + SCREEN_WIDTH / width;
-	int rowCamTop = camera->GetCam_y() / height;
+	int rowCamTop = camera->GetPosition().y / height;
 	int rowCamBottom = rowCamTop + SCREEN_HEIGHT / height;
 
 

@@ -160,7 +160,7 @@ int CGameObject::GetId()
 	return this->id;
 }
 
-void CGameObject::RenderBoundingBox(camera* camera)
+void CGameObject::RenderBoundingBox(Camera* camera)
 {
 	if (active == true)
 	{

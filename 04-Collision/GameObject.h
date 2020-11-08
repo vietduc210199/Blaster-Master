@@ -107,9 +107,9 @@ public:
 	virtual void Collision(vector<LPGAMEOBJECT>* coObjects);
 	virtual void CollisionOccurred(vector<LPGAMEOBJECT>* coObjects);
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom) = 0;
-	void RenderBoundingBox(camera* camera);
+	void RenderBoundingBox(Camera* camera);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
-	virtual void Render(camera* camera) = 0;
+	virtual void Render(Camera* camera) = 0;
 	virtual void SetState(int state) { this->state = state; }
 	virtual void SetLevel(int level) { this->level = level; }
 	RECT CGameObject::GetBound()

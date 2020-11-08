@@ -1,41 +1,16 @@
 #include "camera.h"
 #include "define.h"
 
-camera* camera::__instance = NULL;
-
-camera::camera()
+Camera::Camera()
 {
 }
 
-camera::~camera()
+Camera::~Camera()
 {
 }
 
-void camera::SetCamPos(float x, float y)
+void Camera::Update(DWORD dt, float start, float end)
 {
-	cam_x = x;
-	cam_y = y;
-	CGame::GetInstance()->SetCamPos(x, y);
-}
-
-void camera::SetStartPoint(int a)
-{
-	this->startpoint = a;
-}
-
-void camera::SetEndPoint(int a)
-{
-	this->endpoint = a;
-}
-
-D3DXVECTOR2 camera::transform(float x_world, float y_world)
-{
-	return D3DXVECTOR2(x_world - cam_x, y_world - cam_y);;
-}
-
-void camera::Update(DWORD dt, float start, float end)
-{
-
 	if (GetTickCount() - cammove_start > cameramovetime)
 	{
 		cammove_start = 0;
@@ -61,4 +36,21 @@ void camera::Update(DWORD dt, float start, float end)
 				cam_x = endpoint - SCREEN_WIDTH;
 			}
 	}
+}
+
+
+void Camera::SetCamera(float x, float y)
+{
+	cam_x = x;
+	cam_y = y;
+}
+
+D3DXVECTOR2 Camera::GetPosition()
+{
+	return D3DXVECTOR2(cam_x, cam_y);
+}
+
+D3DXVECTOR2 Camera::transform(float x_world, float y_world)
+{
+	return D3DXVECTOR2(x_world - cam_x, y_world - cam_y);
 }

@@ -31,6 +31,6 @@ class CBrick : public CGameObject
 		
 	void SetActive(boolean a) { active = a; }
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
-	virtual void Render(camera* camera);
+	virtual void Render(Camera* camera);
 	virtual void GetBoundingBox(float &l, float &t, float &r, float &b);
 };

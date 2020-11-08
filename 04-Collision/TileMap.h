@@ -21,7 +21,7 @@ public:
 		alpha = a;
 	}
 	void LoadMap(const char* filepath);
-	void DrawMap(camera* camera);
+	void DrawMap(Camera* camera);
 	void Update();
 	~TileMap();
 

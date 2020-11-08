@@ -262,7 +262,7 @@ public:
 
 
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
-	virtual void Render(camera* camera);
+	virtual void Render(Camera* camera);
 
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 };

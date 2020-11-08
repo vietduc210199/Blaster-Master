@@ -36,7 +36,7 @@ void CBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 
-void CBrick::Render(camera* camera)
+void CBrick::Render(Camera* camera)
 {
 	if (active != true)
 		return;

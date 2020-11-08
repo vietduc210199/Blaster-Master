@@ -13,7 +13,7 @@ void CMS::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	AdjustMSPos();
 }
 
-void CMS::Render(camera* camera) {
+void CMS::Render(Camera* camera) {
 	if (simon->vx != 0)
 	{
 		return;

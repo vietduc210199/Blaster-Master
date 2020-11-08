@@ -5,9 +5,10 @@
 
 SceneGame::SceneGame()
 {
-	camera = camera::GetInstance();
-	game = CGame::GetInstance();
 	
+	game = CGame::GetInstance();
+	camera = new Camera();
+
 	AnimationsManager* animations = AnimationsManager::getInstance();
 	grid = new Grid();
 	simon = new CSimon();
@@ -154,7 +155,7 @@ void SceneGame::OnKeyUp(int KeyCode)
 
 void SceneGame::LoadResources(LPCWSTR picturePath, int idTex, const char* filepath, int scene)
 {
-	camera->SetCamPos(0, 0);
+	camera->SetCamera(0, 0);
 	grid->ClearGrid();
 	stages.clear();
 	LoadSceneElement(scene);
@@ -361,24 +362,24 @@ void SceneGame::Update(DWORD dt)
 
 
 	//Adjust Camera to Simon
-	if (camera->GetCam_x() + SCREEN_WIDTH != endmap)
+	if (camera->GetPosition().x + SCREEN_WIDTH != endmap)
 	{
-		if (simon->x - camera->GetCam_x() <= 100 && SimonMove == true)
+		if (simon->x - camera->GetPosition().x <= 100 && SimonMove == true)
 		{
 			simon->StartAutoWalking(SIMON_AUTO_GO_TIME * 2);
 		}
 		if (camera->GetCamMove() == 0 && simon->nx > 0)
 		{
-			if ((simon->x + SIMON_IDLE_BBOX_WIDTH) - camera->GetCam_x() >= SCREEN_WIDTH / 2)
-				camera->SetCamPos((simon->x + SIMON_IDLE_BBOX_WIDTH) - SCREEN_WIDTH / 2, 0);
+			if ((simon->x + SIMON_IDLE_BBOX_WIDTH) - camera->GetPosition().x >= SCREEN_WIDTH / 2)
+				camera->SetCamera((simon->x + SIMON_IDLE_BBOX_WIDTH) - SCREEN_WIDTH / 2, 0);
 		}
 		if (simon->nx < 0)
 		{
-			camera->SetCamPos((simon->x + SIMON_IDLE_BBOX_WIDTH) - SCREEN_WIDTH / 2, 0);
+			camera->SetCamera((simon->x + SIMON_IDLE_BBOX_WIDTH) - SCREEN_WIDTH / 2, 0);
 		}
 		if (simon->GetStartPoint() == SIMON_START_UNDERGROUND)
 		{
-			camera->SetCamPos((simon->x + SIMON_IDLE_BBOX_WIDTH) - SCREEN_WIDTH / 2, 200);
+			camera->SetCamera((simon->x + SIMON_IDLE_BBOX_WIDTH) - SCREEN_WIDTH / 2, 200);
 		}
 
 	}

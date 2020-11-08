@@ -16,10 +16,10 @@ void Grid::InsertIntoGrid(CGameObject* object, int rowstart, int colstart, int r
 	}
 }
 
-void Grid::GetListCollisionFromGrid(camera* Camera, vector<CGameObject*>& listColObjects)
+void Grid::GetListCollisionFromGrid(Camera* Camera, vector<CGameObject*>& listColObjects)
 {
-	int rowCam = (Camera->GetCam_y()) / (CELL_HEIGHT);
-	int colCam = (Camera->GetCam_x()) / (CELL_WIDTH);
+	int rowCam = (Camera->GetPosition().y) / (CELL_HEIGHT);
+	int colCam = (Camera->GetPosition().x) / (CELL_WIDTH);
 
 	listColObjects.clear();
 	listTemp1.clear();

@@ -23,7 +23,7 @@ private:
 	Stage* stage;
 	TileMap* Tile;
 
-	camera* camera;
+	Camera* camera;
 
 	CSimon* simon;
 	CMS* MS;

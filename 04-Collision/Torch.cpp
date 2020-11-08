@@ -139,7 +139,7 @@ void CTorch::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	Collision(coObjects);
 }
 
-void CTorch::Render(camera* camera)
+void CTorch::Render(Camera* camera)
 {
 	if (active != true)
 		return;
