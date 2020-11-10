@@ -58,6 +58,7 @@ public:
 	int level = 1;
 	boolean active = true;
 	
+	bool isTouchable;
 	bool isOnGround;
 	bool isStop;
 

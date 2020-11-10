@@ -137,6 +137,19 @@ using namespace std;
 #define WHIP_LONG_BOX_WIDTH		18
 #define WHIP_LONG_BOX_HEIGHT	15
 
+//--------------MAP------------
+//brick
+//Invisible Objects
+#define INVI_WIDTH 10
+#define INVI_HEIGHT 10
+	//Stage Changer
+#define SC_TYPE_CHANGE_SCENE 1006
+#define SC_TYPE_DOOR 1001
+#define SC_TYPE_UNDER_GROUND 1002
+#define SC_TYPE_DOOR_BOSS 1003
+#define SC_TYPE_AUTO_HELPER 1004
+#define SC_TYPE_CHANGE_STAGE 1005
+#define SC_TYPE_UNDER_TO_LAND 1007
 
 //Torch
 #define TORCH_STATE_NORMAL 0
