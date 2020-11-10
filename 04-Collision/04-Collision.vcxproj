@@ -126,6 +126,7 @@
     <ClInclude Include="AnimationsManager.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="Grid.h" />
+    <ClInclude Include="InviObjects.h" />
     <ClInclude Include="MS.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="Game.h" />
@@ -147,6 +148,7 @@
     <ClCompile Include="AnimationsManager.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="Grid.cpp" />
+    <ClCompile Include="InviObjects.cpp" />
     <ClCompile Include="MS.cpp" />
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="Game.cpp" />

@@ -9,6 +9,7 @@
 #include "Grid.h"
 #include "TileMap.h"
 #include "Stage.h"
+#include "InviObjects.h"
 
 #define ID_SCENE_LEVEL_ENTRANCE 1
 #define ID_SCENE_LEVEL_CASTLE 2
@@ -22,6 +23,7 @@ private:
 	vector<Stage*> stages;
 	Stage* stage;
 	TileMap* Tile;
+	InviObjects* InObj;
 
 	Camera* camera;
 
@@ -34,6 +36,8 @@ private:
 
 	vector<LPGAMEOBJECT> bricks;
 	vector<LPGAMEOBJECT> torchs;
+	vector<LPGAMEOBJECT> invisibleobjects;
+
 
 	vector<LPGAMEOBJECT> ObjectsFromGrid;
 	vector<LPGAMEOBJECT> listobj;

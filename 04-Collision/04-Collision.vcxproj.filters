@@ -59,6 +59,9 @@
     <Filter Include="Framework\Map">
       <UniqueIdentifier>{1cd4d484-9f49-4855-bc4e-82240d1028d0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\InviObjects">
+      <UniqueIdentifier>{6c86b91b-52ea-4bed-8f4c-195ffc0a8a17}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Simon.h">
@@ -117,6 +120,9 @@
     </ClInclude>
     <ClInclude Include="Stage.h">
       <Filter>Framework\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="InviObjects.h">
+      <Filter>Object\InviObjects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -179,6 +185,9 @@
     </ClCompile>
     <ClCompile Include="Stage.cpp">
       <Filter>Framework\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="InviObjects.cpp">
+      <Filter>Object\InviObjects</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
