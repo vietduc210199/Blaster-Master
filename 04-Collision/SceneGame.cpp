@@ -14,7 +14,8 @@ SceneGame::SceneGame()
 	simon = new CSimon();
 
 
-	LoadResources(SOURCE_ENTRANCE_PNG, eType::ID_TEX_ENTRANCESTAGE, SOURCE_ENTRANCE_TXT, ID_SCENE_LEVEL_ENTRANCE);
+	//LoadResources(SOURCE_ENTRANCE_PNG, eType::ID_TEX_ENTRANCESTAGE, SOURCE_ENTRANCE_TXT, ID_SCENE_LEVEL_ENTRANCE);
+	LoadResources(SOURCE_CASTLE_PNG, eType::ID_TEX_CASTLE, SOURCE_CASTLE_TXT, ID_SCENE_LEVEL_CASTLE);
 	
 
 	MS = new CMS();
@@ -564,7 +565,7 @@ void SceneGame::Update(DWORD dt)
 				InOb->SetActive(false);
 				simon->StartAutoWalking(SIMON_AUTO_GO_SCENE1);
 			}
-		/*	else if (InOb->type == SC_TYPE_DOOR)
+			/*else if (InOb->type == SC_TYPE_DOOR)
 			{
 				InOb->SetActive(false);
 				if (simon->x >= InOb->x - 24)
@@ -579,8 +580,8 @@ void SceneGame::Update(DWORD dt)
 				simon->SetEndPoint(stages.at(stagename)->endpoint);
 				camera->SetEndPoint(stages.at(stagename)->endpoint);
 				SimonMove = true;
-			}
-			else if (InOb->type == SC_TYPE_CHANGE_STAGE)
+			}*/
+			/*else if (InOb->type == SC_TYPE_CHANGE_STAGE)
 			{
 				InOb->SetActive(false);
 				camera->StartCamMove(CAM_MOVE_TIME2);
@@ -589,8 +590,8 @@ void SceneGame::Update(DWORD dt)
 				simon->SetStartPoint(stages.at(stagename)->startpoint);
 				camera->SetStartPoint(stages.at(stagename)->startpoint);
 				endpoint = stages.at(stagename)->endpoint;
-			}
-			else if (InOb->type == SC_TYPE_UNDER_GROUND)
+			}*/
+			/*else if (InOb->type == SC_TYPE_UNDER_GROUND)
 			{
 				if (simon->GetStartPoint() == stages.at(1)->startpoint)
 				{
@@ -614,8 +615,8 @@ void SceneGame::Update(DWORD dt)
 				camera->SetStartPoint(stages.at(stagename)->startpoint);
 				camera->SetEndPoint(stages.at(stagename)->endpoint);
 				simon->SetPosition(stages.at(stagename)->simonposx, stages.at(stagename)->simonposy);
-			}
-			else if (InOb->type == SC_TYPE_UNDER_TO_LAND)
+			}*/
+			/*else if (InOb->type == SC_TYPE_UNDER_TO_LAND)
 			{
 				if (simon->GetStartPoint() == stages.at(1)->startpoint)
 				{
@@ -638,13 +639,13 @@ void SceneGame::Update(DWORD dt)
 				camera->SetStartPoint(stages.at(stagename)->startpoint);
 				camera->SetEndPoint(stages.at(stagename)->endpoint);
 				simon->SetPosition(stages.at(stagename)->simonposx, stages.at(stagename)->simonposy);
-			}
-			else if (InOb->type == MONEY_SPAWNER)
+			}*/
+			/*else if (InOb->type == MONEY_SPAWNER)
 			{
 				InOb->SetActive(false);
 				hiddenmoney->SetActive(true);
-			}
-			else if (InOb->type == GHOUL_SPAWNER)
+			}*/
+			/*else if (InOb->type == GHOUL_SPAWNER)
 			{
 				if (spawndelayghoul == 0)
 				{
@@ -668,16 +669,16 @@ void SceneGame::Update(DWORD dt)
 					SpawnDelayGhoulStart();
 				}
 
-			}
-			else if (InOb->type == PANTHER_SPAWNER)
+			}*/
+			/*else if (InOb->type == PANTHER_SPAWNER)
 			{
 				if (spawndelaypanther == 0)
 				{
 					LoadPantherPosFromFile(SOURCE_PANTHER_POS_TXT);
 					SpawnDelayPantherStart();
 				}
-			}
-			else if (InOb->type == BAT_SPAWNER)
+			}*/
+			/*else if (InOb->type == BAT_SPAWNER)
 			{
 				if (spawndelaybat == 0)
 				{
@@ -688,8 +689,8 @@ void SceneGame::Update(DWORD dt)
 					SpawnDelayBatStart();
 				}
 
-			}
-			else if (InOb->type == FISHMAN_SPAWNER)
+			}*/
+		/*	else if (InOb->type == FISHMAN_SPAWNER)
 			{
 				if (spawndelayfishman == 0)
 				{
@@ -713,28 +714,31 @@ void SceneGame::Update(DWORD dt)
 					SpawnDelayFishmanStart();
 				}
 
-			}
-			else if (InOb->type == BOSS_SPAWNER)
+			}*/
+			/*else if (InOb->type == BOSS_SPAWNER)
 			{
 				InOb->SetActive(false);
 				phantombat->SetActive(true);
-			}
+			}*/
 			else if (InOb->type == STAIR_TYPE_RIGHT_UP_HELPER)
 			{
-				if (game->IsKeyDown(DIK_UP) && SIMON->GetOnStair() == false)
+				//DebugOut(L"stair type RIGHT up helper");
+				if (game->IsKeyDown(DIK_UP) && simon->GetOnStair() == false)
 				{
 					simon->SetState(SIMON_STATE_WALKING_LEFT);
 				}
 			}
 			else if (InOb->type == STAIR_TYPE_LEFT_UP_HELPER)
 			{
-				if (game->IsKeyDown(DIK_UP) && SIMON->GetOnStair() == false)
+				//DebugOut(L"stair type LEFT up helper");
+				if (game->IsKeyDown(DIK_UP) && simon->GetOnStair() == false)
 				{
 					simon->SetState(SIMON_STATE_WALKING_RIGHT);
 				}
 			}
 			else if (InOb->type == STAIR_TYPE_UP_RIGHT)
 			{
+			DebugOut(L"COLISION with STAIR_TYPE_UP_RIGHT");
 				if (game->IsKeyDown(DIK_UP))
 				{
 					if (InOb->x - simon->x <= 5)
@@ -828,7 +832,7 @@ void SceneGame::Update(DWORD dt)
 					simon->SetOnStair(false);
 					simon->SetStairUp(true);
 				}
-			}*/
+			}
 		}
 	}
 	
