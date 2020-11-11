@@ -341,7 +341,7 @@ void CSimon::SetState(int state)
 		vy = -SIMON_DIE_DEFLECT_SPEED;
 		break;
 	case SIMON_STATE_ATTACK:
-		vx = 0;
+			vx = 0;
 		break;
 	case SIMON_STATE_SIT:
 		vx = 0;

@@ -53,7 +53,7 @@ using namespace std;
 
 //SIMON
 #define SIMON_WALKING_SPEED		    0.07f 
-#define SIMON_WALKING_STAIR_SPEED		    0.05f 
+#define SIMON_WALKING_STAIR_SPEED		    0.03f 
 #define	SIMON_AUTO_WALKING_STAIR_SPEED   0.2f
 #define SIMON_JUMP_SPEED_X			0.12f
 #define SIMON_JUMP_SPEED_Y		    0.22f

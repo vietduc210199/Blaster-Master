@@ -35,9 +35,10 @@ void SceneGame::KeyState(BYTE* state)
 	if (simon->GetState() == SIMON_STATE_DIE || simon->GetChangeColorTime() != 0) return;
 	if (game->IsKeyDown(DIK_RIGHT) && !game->IsKeyDown(DIK_DOWN) && simon->GetJumpTime() == 0 && simon->GetOnStair() == false && camera->GetCamMove() == false && simon->GetIsDamaged() == 0)
 	{
+		
 		if (simon->GetHealth() != 0)
 		{
-			if (simon->GetAutoWalkingTime() == 0)
+			if (simon->GetAutoWalkingTime() == 0 && simon->GetAttackTime() == 0)
 				simon->SetState(SIMON_STATE_WALKING_RIGHT);
 		}
 	}
@@ -45,7 +46,7 @@ void SceneGame::KeyState(BYTE* state)
 	{
 		if (simon->GetHealth() != 0)
 		{
-			if (simon->GetAutoWalkingTime() == 0)
+			if (simon->GetAutoWalkingTime() == 0 && simon->GetAttackTime() == 0)
 				simon->SetState(SIMON_STATE_WALKING_LEFT);
 		}
 	}
@@ -108,10 +109,8 @@ void SceneGame::OnKeyDown(int KeyCode)
 	case DIK_A:
 		if (simon->GetAttackTime() == 0)
 		{
-			if (game->IsKeyDown(DIK_RIGHT) || game->IsKeyDown(DIK_LEFT))
-			{
+			if (!simon->isOnGround)
 				return;
-			}
 			
 			if (!game->IsKeyDown(DIK_UP))
 			{
