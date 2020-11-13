@@ -14,10 +14,7 @@ void CMS::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 }
 
 void CMS::Render(Camera* camera) {
-	if (simon->vx != 0)
-	{
-		return;
-	}
+	
 	int ani;
 	if (active == true)
 	{
@@ -165,7 +162,14 @@ void CMS::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	if (active == true)
 	{
-		if (state == MS_STATE_ATTACK_3)
+		if (GetTickCount() - attack_start < 240)
+		{
+			top = 0;
+			left = 0;
+			right = 0;
+			bottom = 0;
+		}
+		else if (state == MS_STATE_ATTACK_3)
 		{
 			if (GetTickCount() - attack_start >= 240)
 			{
@@ -174,9 +178,6 @@ void CMS::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 				right = x + 40;
 				bottom = y + 10;
 			}
-
-
-
 		}
 		else if (state == MS_STATE_ATTACK || state == MS_STATE_ATTACK_2)
 		{

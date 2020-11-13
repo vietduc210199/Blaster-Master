@@ -108,13 +108,9 @@ void SceneGame::OnKeyDown(int KeyCode)
 		break;
 	case DIK_A:
 		if (simon->GetAttackTime() == 0)
-		{
-			if (!simon->isOnGround)
-				return;
-			
+		{		
 			if (!game->IsKeyDown(DIK_UP))
 			{
-				//MS->SetState(MS_STATE_ATTACK);
 				MS->SetActive(true);
 				if (game->IsKeyDown(DIK_DOWN))
 				{
@@ -360,28 +356,7 @@ void SceneGame::Update(DWORD dt)
 		}
 	}
 
-	//Adjust Camera to Simon
-	if (camera->GetPosition().x + SCREEN_WIDTH != endmap)
-	{
-		if (simon->x - camera->GetPosition().x <= 100 && SimonMove == true)
-		{
-			simon->StartAutoWalking(SIMON_AUTO_GO_TIME * 2);
-		}
-		if (camera->GetCamMove() == 0 && simon->nx > 0)
-		{
-			if ((simon->x + SIMON_IDLE_BBOX_WIDTH) - camera->GetPosition().x >= SCREEN_WIDTH / 2)
-				camera->SetCamera((simon->x + SIMON_IDLE_BBOX_WIDTH) - SCREEN_WIDTH / 2, 0);
-		}
-		if (simon->nx < 0)
-		{
-			camera->SetCamera((simon->x + SIMON_IDLE_BBOX_WIDTH) - SCREEN_WIDTH / 2, 0);
-		}
-		if (simon->GetStartPoint() == SIMON_START_UNDERGROUND)
-		{
-			camera->SetCamera((simon->x + SIMON_IDLE_BBOX_WIDTH) - SCREEN_WIDTH / 2, 200);
-		}
-
-	}
+	
 
 	//Weapon collision with torch
 	for (int i = 0; i < torchs.size(); i++)
@@ -564,12 +539,13 @@ void SceneGame::Update(DWORD dt)
 				InOb->SetActive(false);
 				simon->StartAutoWalking(SIMON_AUTO_GO_SCENE1);
 			}
-			/*else if (InOb->type == SC_TYPE_DOOR)
+			else if (InOb->type == SC_TYPE_DOOR)
 			{
+				DebugOut(L"Start Through door");
 				InOb->SetActive(false);
 				if (simon->x >= InOb->x - 24)
 					simon->x = InOb->x - 24;
-				effect = new CEffect(camera);
+				effect = new Effect(camera);
 				effect->SetType(EFFECT_TYPE_DOOR);
 				effect->SetPosition(InOb->x, effectdoory);
 				effects.push_back(effect);
@@ -579,8 +555,8 @@ void SceneGame::Update(DWORD dt)
 				simon->SetEndPoint(stages.at(stagename)->endpoint);
 				camera->SetEndPoint(stages.at(stagename)->endpoint);
 				SimonMove = true;
-			}*/
-			/*else if (InOb->type == SC_TYPE_CHANGE_STAGE)
+			}
+			else if (InOb->type == SC_TYPE_CHANGE_STAGE)
 			{
 				InOb->SetActive(false);
 				camera->StartCamMove(CAM_MOVE_TIME2);
@@ -589,8 +565,8 @@ void SceneGame::Update(DWORD dt)
 				simon->SetStartPoint(stages.at(stagename)->startpoint);
 				camera->SetStartPoint(stages.at(stagename)->startpoint);
 				endpoint = stages.at(stagename)->endpoint;
-			}*/
-			/*else if (InOb->type == SC_TYPE_UNDER_GROUND)
+			}
+			else if (InOb->type == SC_TYPE_UNDER_GROUND)
 			{
 				if (simon->GetStartPoint() == stages.at(1)->startpoint)
 				{
@@ -614,8 +590,8 @@ void SceneGame::Update(DWORD dt)
 				camera->SetStartPoint(stages.at(stagename)->startpoint);
 				camera->SetEndPoint(stages.at(stagename)->endpoint);
 				simon->SetPosition(stages.at(stagename)->simonposx, stages.at(stagename)->simonposy);
-			}*/
-			/*else if (InOb->type == SC_TYPE_UNDER_TO_LAND)
+			}
+			else if (InOb->type == SC_TYPE_UNDER_TO_LAND)
 			{
 				if (simon->GetStartPoint() == stages.at(1)->startpoint)
 				{
@@ -638,7 +614,7 @@ void SceneGame::Update(DWORD dt)
 				camera->SetStartPoint(stages.at(stagename)->startpoint);
 				camera->SetEndPoint(stages.at(stagename)->endpoint);
 				simon->SetPosition(stages.at(stagename)->simonposx, stages.at(stagename)->simonposy);
-			}*/
+			}
 			/*else if (InOb->type == MONEY_SPAWNER)
 			{
 				InOb->SetActive(false);
@@ -835,6 +811,97 @@ void SceneGame::Update(DWORD dt)
 		}
 	}
 	
+	//Morning Star collsion with breackable brick
+	for (int i = 0; i < bricks.size(); i++)
+	{
+		if (MS->CheckCollision(bricks.at(i)))
+		{
+			if (bricks.at(i)->state != BRICK_STATE_NORMAL)
+			{
+				effect = new Effect(camera);
+				effect->SetPosition(bricks.at(i)->x - 30, bricks.at(i)->y - 20);
+				effect->SetType(EFFECT_TYPE_BRICK);
+				effects.push_back(effect);
+				if (bricks.at(i)->GetState() == BBRICK_STATE_NORMAL)
+				{
+					bricks.at(i)->SetActive(false);
+				}
+				else if (bricks.at(i)->GetState() == BBRICK_STATE_CHIKEN_BRICK)
+				{
+					bricks.at(i)->SetState(BBRICK_STATE_CHIKEN);
+				}
+				else if (bricks.at(i)->GetState() == BBRICK_STATE_MONEY_BRICK)
+				{
+					bricks.at(i)->SetState(BBRICK_STATE_MONEY);
+				}
+				else if (bricks.at(i)->GetState() == BBRICK_STATE_DOUBLE_SHOOT_BRICK)
+				{
+					bricks.at(i)->SetState(BBRICK_STATE_DOUBLE_SHOOT);
+				}
+			}
+		}
+	}
+	//Delete object when unactive
+	/*for (int i = 0; i < weapon.size(); i++)
+	{
+		if (weapon.at(i)->GetActive() == false)
+		{
+			weapon.erase(weapon.begin() + i);
+		}
+	}*/
+	for (int i = 0; i < effects.size(); i++)
+	{
+		if (effects.at(i)->GetActive() == false)
+		{
+			effects.erase(effects.begin() + i);
+		}
+	}
+	for (int i = 0; i < bricks.size(); i++)
+	{
+		if (bricks.at(i)->GetActive() == false)
+		{
+			bricks.erase(bricks.begin() + i);
+		}
+	}
+	for (int i = 0; i < torchs.size(); i++)
+	{
+		if (torchs.at(i)->GetActive() == false)
+		{
+			torchs.erase(torchs.begin() + i);
+		}
+	}
+	for (int i = 0; i < invisibleobjects.size(); i++)
+	{
+		if (invisibleobjects.at(i)->GetActive() == false)
+		{
+			invisibleobjects.erase(invisibleobjects.begin() + i);
+		}
+	}
+
+
+	//Adjust Camera to Simon
+	if (camera->GetPosition().x + SCREEN_WIDTH != endmap)
+	{
+		if (simon->x - camera->GetPosition().x <= 100 && SimonMove == true)
+		{
+			simon->StartAutoWalking(SIMON_AUTO_GO_TIME * 2);
+		}
+		if (camera->GetCamMove() == 0 && simon->nx > 0)
+		{
+			if ((simon->x + SIMON_IDLE_BBOX_WIDTH) - camera->GetPosition().x >= SCREEN_WIDTH / 2)
+				camera->SetCamera((simon->x + SIMON_IDLE_BBOX_WIDTH) - SCREEN_WIDTH / 2, 0);
+		}
+		if (simon->nx < 0)
+		{
+			camera->SetCamera((simon->x + SIMON_IDLE_BBOX_WIDTH) - SCREEN_WIDTH / 2, 0);
+		}
+		if (simon->GetStartPoint() == SIMON_START_UNDERGROUND)
+		{
+			camera->SetCamera((simon->x + SIMON_IDLE_BBOX_WIDTH) - SCREEN_WIDTH / 2, 200);
+		}
+
+	}
+	//Update
 	for (int i = 0; i < bricks.size(); i++)
 	{
 		bricks[i]->Update(dt, &bricks);
@@ -842,6 +909,10 @@ void SceneGame::Update(DWORD dt)
 	for (int i = 0; i < torchs.size(); i++)
 	{
 		torchs[i]->Update(dt, &bricks);
+	}
+	for (int i = 0; i < effects.size(); i++)
+	{
+		effects[i]->Update(dt, &bricks);
 	}
 
 	camera->Update(dt, startpoint, endpoint);
@@ -864,6 +935,10 @@ void SceneGame::Render()
 	for (int i = 0; i < invisibleobjects.size(); i++)
 	{
 		invisibleobjects[i]->Render(camera);
+	}
+	for (int i = 0; i < effects.size(); i++)
+	{
+		effects[i]->Render(camera);
 	}
 	simon->Render(camera);
 	MS->Render(camera);

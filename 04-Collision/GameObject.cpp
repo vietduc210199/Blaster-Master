@@ -181,7 +181,7 @@ void CGameObject::RenderBoundingBox(Camera* camera)
 		D3DXVECTOR2 pos = camera->transform(l, t);
 
 
-		CGame::GetInstance()->Draw(pos.x, pos.y, bbox, rect.left, rect.top, rect.right, rect.bottom, 80);
+		CGame::GetInstance()->Draw(pos.x, pos.y, bbox, rect.left, rect.top, rect.right, rect.bottom, 160);
 	}
 }
 bool CGameObject::CheckCollision(CGameObject* object)

@@ -125,6 +125,7 @@
   <ItemGroup>
     <ClInclude Include="AnimationsManager.h" />
     <ClInclude Include="camera.h" />
+    <ClInclude Include="Effect.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="InviObjects.h" />
     <ClInclude Include="MS.h" />
@@ -147,6 +148,7 @@
   <ItemGroup>
     <ClCompile Include="AnimationsManager.cpp" />
     <ClCompile Include="camera.cpp" />
+    <ClCompile Include="Effect.cpp" />
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="InviObjects.cpp" />
     <ClCompile Include="MS.cpp" />

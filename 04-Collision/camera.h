@@ -3,6 +3,8 @@
 class Camera
 {
 public:
+
+public:
 	float cam_x;
 	float cam_y;
 	int cammove = 0;

@@ -62,6 +62,9 @@
     <Filter Include="Object\InviObjects">
       <UniqueIdentifier>{6c86b91b-52ea-4bed-8f4c-195ffc0a8a17}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Framework\Effect">
+      <UniqueIdentifier>{eab68945-87f4-4b9a-96ff-bce1020eb0f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Simon.h">
@@ -123,6 +126,9 @@
     </ClInclude>
     <ClInclude Include="InviObjects.h">
       <Filter>Object\InviObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Effect.h">
+      <Filter>Framework\Effect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -188,6 +194,9 @@
     </ClCompile>
     <ClCompile Include="InviObjects.cpp">
       <Filter>Object\InviObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Effect.cpp">
+      <Filter>Framework\Effect</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -10,6 +10,7 @@
 #include "TileMap.h"
 #include "Stage.h"
 #include "InviObjects.h"
+#include "Effect.h"
 
 #define ID_SCENE_LEVEL_ENTRANCE 1
 #define ID_SCENE_LEVEL_CASTLE 2
@@ -31,12 +32,14 @@ private:
 	CMS* MS;
 	CBrick* brick;
 	CTorch* torch;
+	Effect* effect;
 
 	int currentLevel;
 
 	vector<LPGAMEOBJECT> bricks;
 	vector<LPGAMEOBJECT> torchs;
 	vector<LPGAMEOBJECT> invisibleobjects;
+	vector<LPGAMEOBJECT> effects;
 
 
 	vector<LPGAMEOBJECT> ObjectsFromGrid;
@@ -45,6 +48,8 @@ private:
 	bool SimonMove = false;
 
 	float startpoint, endpoint, camstoppoint;
+
+	int stagename = 0;
 
 
 	//read from file

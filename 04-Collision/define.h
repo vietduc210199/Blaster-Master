@@ -33,6 +33,9 @@ using namespace std;
 
 #define TIME_LIMIT_WAIT_RESET_GAME 300 // Thời gian chờ vẽ màn màu đen khi reset game
 
+#define CAM_MOVE_TIME1 3000
+#define CAM_MOVE_TIME2 1750
+
 //Source file
 #define SOURCE_ENTRANCE_PNG L"textures\\entrance_tilemap.png"
 #define SOURCE_ENTRANCE_TXT "ReadFile\\Map\\entrance.txt"
@@ -139,6 +142,11 @@ using namespace std;
 
 //--------------MAP------------
 //brick
+	//Brick
+#define BRICK_BBOX_WIDTH 16
+#define BRICK_BBOX_HEIGHT 16
+#define BRICK_TYPE_NORMAL 0
+#define BRICK_TYPE_GROUND 1
 //Invisible Objects
 #define INVI_WIDTH 10
 #define INVI_HEIGHT 10
@@ -219,6 +227,14 @@ using namespace std;
 #define ENEMY_STATE_ATTACK 6
 
 
+   //Effect
+#define EFFECT_TYPE_DOOR 1
+#define EFFECT_TYPE_WATER 2
+#define EFFECT_TYPE_BRICK 3
+#define EFFECT_ANI_DOOR 0
+#define EFFECT_ANI_WATER 2
+#define EFFECT_ANI_BRICK 1
+
 // ID của Sprite, object
 enum eType
 {
@@ -262,7 +278,7 @@ enum eType
 	
 	
 	//
-	SIMON = 01,
+	simon = 01,
 	SIMON_TRANS = 02,
 	SIMON_DEADTH = 03,
 

@@ -277,8 +277,8 @@ void CSimon::Render(Camera* camera)
 	}
 	if (jump != 0 || jumpmove != 0)
 	{
-		if (state == SIMON_STATE_ATTACK)
-			return;
+		/*if (state == SIMON_STATE_ATTACK)
+			return;*/
 		if (nx > 0)
 			ani = SIMON_ANI_JUMP_RIGHT;
 		else ani = SIMON_ANI_JUMP_LEFT;
@@ -341,7 +341,7 @@ void CSimon::SetState(int state)
 		vy = -SIMON_DIE_DEFLECT_SPEED;
 		break;
 	case SIMON_STATE_ATTACK:
-			vx = 0;
+			if(isOnGround) vx = 0;
 		break;
 	case SIMON_STATE_SIT:
 		vx = 0;
