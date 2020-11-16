@@ -5,19 +5,16 @@
 #include "define.h"
 
 
-
 class CBrick : public CGameObject
 {
 	int multwidth;
-	boolean active = true;
 
 	public:
 		CBrick()
 		{
 			this->LoadAnimations("ReadFile\\Ani\\Brickani.txt");
-			//this->AddAnimation(1000);
 			type = eType::BRICK;
-			state = eType::BRICK_STATE_NORMAL;
+			state = BRICK_STATE_NORMAL;
 		}
 		void SetMulwidth(int a)
 		{

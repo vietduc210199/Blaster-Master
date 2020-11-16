@@ -280,8 +280,28 @@ void CSimon::Render(Camera* camera)
 		/*if (state == SIMON_STATE_ATTACK)
 			return;*/
 		if (nx > 0)
-			ani = SIMON_ANI_JUMP_RIGHT;
-		else ani = SIMON_ANI_JUMP_LEFT;
+		{
+			if (attack != 0)
+			{
+				ani = SIMON_ANI_ATTACK_RIGHT;
+
+			}
+			else
+			{
+				ani = SIMON_ANI_JUMP_RIGHT;
+
+			}
+		}	
+		else if (attack != 0)
+		{
+			ani = SIMON_ANI_ATTACK_LEFT;
+
+		}
+		else
+		{
+			ani = SIMON_ANI_JUMP_LEFT;
+
+		}
 	}
 	if (isOnGround && health == 0)
 	{

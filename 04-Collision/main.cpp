@@ -13,7 +13,7 @@
 #define MAIN_WINDOW_TITLE L"Castlevania"
 
 
-#define MAX_FRAME_RATE 120
+#define MAX_FRAME_RATE 90
 
 SceneManager * _sceneManager;
 
@@ -30,17 +30,6 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	}
 
 	return 0;
-}
-
-/*
-	Load all game resources
-	In this example: load textures, sprites, animations and SIMON object
-
-	TO-DO: Improve this function by loading texture,sprite,animation,object from file
-*/
-void LoadResources()
-{
-	//_sceneManager->LoadResources();	
 }
 
 /*

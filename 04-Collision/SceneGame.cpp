@@ -21,13 +21,18 @@ SceneGame::SceneGame()
 	MS = new CMS();
 	MS->GetSimon(simon);
 
+	stagename = 3;
+	simon->SetStartPoint(stages.at(3)->startpoint);
+	simon->SetEndPoint(stages.at(3)->endpoint);
+	camera->SetStartPoint(stages.at(3)->startpoint);
+	camera->SetEndPoint(stages.at(3)->endpoint);
+	simon->SetPosition(stages.at(3)->simonposx, stages.at(3)->simonposy);
 }
 
 SceneGame::~SceneGame()
 {
 
 }
-
 
 void SceneGame::KeyState(BYTE* state)
 {
@@ -192,7 +197,7 @@ void SceneGame::LoadStageVariableFromFile(string source)
 			flag++;
 			if (flag == arr[0])
 			{
-				stage = new Stage();
+				stage = new CStage();
 				stage->AddVariable(arr[1], arr[2], arr[3], arr[4], arr[5], arr[6], arr[7]);
 				for (int i = 0; i < arr[8]; i++)
 				{
@@ -318,127 +323,33 @@ void SceneGame::LoadStageVaribale(int scene)
 	}
 }
 
-void SceneGame::InitGame()
-{
-}
-
 void SceneGame::Update(DWORD dt)
 {
 	//Push Objects
-
 	vector<LPGAMEOBJECT> coObjects;
-	vector<LPGAMEOBJECT> collide;
-
 	grid->GetListCollisionFromGrid(camera, ObjectsFromGrid);
-
-	bricks.clear();
-	torchs.clear();
+	torches.clear();
 	invisibleobjects.clear();
-
+	bricks.clear();
 	for (int i = 0; i < ObjectsFromGrid.size(); i++)
 	{
 		coObjects.push_back(ObjectsFromGrid[i]);
 	}
-	//push back objects to lists
+
 	for (int i = 0; i < coObjects.size(); i++)
 	{
-		switch (coObjects.at(i)->type)
-		{
-		case eType::BRICK:
+		if (coObjects.at(i)->type == BRICK)
 			bricks.push_back(coObjects[i]);
-			break;
-		case eType::TORCH:
-			torchs.push_back(coObjects[i]);
-			break;
-		default:
+		else if (coObjects.at(i)->type == TORCH)
+			torches.push_back(coObjects[i]);
+		else
 			invisibleobjects.push_back(coObjects[i]);
-			break;
-		}
-	}
-
-	
-
-	//Weapon collision with torch
-	for (int i = 0; i < torchs.size(); i++)
-	{
-		CTorch* torch = dynamic_cast<CTorch*>(torchs[i]);
-		if (MS->CheckCollision(torch) /*|| dagger->CheckCollision(torch) || Axe->CheckCollision(torch)*/)
-		{
-			if (torch->GetState() == TORCH_STATE_INVI_POT_TORCH)
-			{
-				torch->StartDieTime();
-				torch->FirstX = torch->x;
-				//dagger->SetActive(false);
-				torch->SetState(TORCH_STATE_INVI_POT);
-			}
-			if (torch->GetState() == TORCH_STATE_AXE_TORCH)
-			{
-				torch->StartDieTime();
-				torch->FirstX = torch->x;
-				//dagger->SetActive(false);
-				torch->SetState(TORCH_STATE_AXE);
-			}
-			if (torch->GetState() == TORCH_STATE_NORMAL || torch->GetState() == TORCH_STATE_CANDLE)
-			{
-				torch->StartDieTime();
-				torch->FirstX = torch->x;
-				//dagger->SetActive(false);
-				MS->MSUpDropTime++;
-				int a;
-				srand(time(NULL));
-				a = rand() % 30 + 1;
-				if (MS->MSUpDropTime < 3)
-				{
-					torch->SetState(TORCH_STATE_MSUP);
-				}
-				else
-					switch (a)
-					{
-					case 1:
-					case 2:
-					case 3:
-					case 4:
-					case 5:
-					case 6:
-					case 7:
-					case 8:
-					case 9:
-					case 10:
-					case 11:
-					case 12:
-					case 13:
-					case 14:
-					case 15:
-					case 16:
-					case 17:
-					case 18:
-					case 19:
-					case 20:
-					case 21:
-					case 22:
-					case 23:
-					case 24:
-					case 25:
-						torch->SetState(TORCH_STATE_SHEART); break;
-					case 26:
-						torch->SetState(TORCH_STATE_LHEART); break;
-					case 27:
-						torch->SetState(TORCH_STATE_DAGGER); break;
-					case 28:
-						torch->SetState(TORCH_STATE_HOLYWATER); break;
-					case 29:
-						torch->SetState(TORCH_STATE_CROSS); break;
-					case 30:
-						torch->SetState(TORCH_STATE_AXE); break;
-					}
-			}
-		}
 	}
 
 	//Simon collision with torch
-	for (int i = 0; i < torchs.size(); i++)
+	for (int i = 0; i < torches.size(); i++)
 	{
-		CTorch* torch = dynamic_cast<CTorch*>(torchs[i]);
+		CTorch* torch = dynamic_cast<CTorch*>(torches[i]);
 		if (simon->CheckCollision(torch))
 		{
 			switch (torch->GetState())
@@ -521,7 +432,37 @@ void SceneGame::Update(DWORD dt)
 			}
 		}
 	}
-	//Simon collision with invisible objects
+
+	//Simon collison with breakabkle brick
+	for (int i = 0; i < bricks.size(); i++)
+	{
+		if (bricks.at(i)->GetState() != BRICK_STATE_NORMAL)
+		{
+			if (simon->CheckCollision(bricks.at(i)))
+			{
+				if (bricks.at(i)->GetState() == BBRICK_STATE_CHIKEN)
+				{
+					bricks.at(i)->SetActive(false);
+					simon->SetHealth(-5);
+				}
+				if (bricks.at(i)->GetState() == BBRICK_STATE_DOUBLE_SHOOT)
+				{
+					simon->SetNumWeapon(2);
+					bricks.at(i)->SetActive(false);
+				}
+				if (bricks.at(i)->GetState() == BBRICK_STATE_MONEY)
+				{
+					bricks.at(i)->SetActive(false);
+				}
+			}
+		}
+	}
+	/*if (simon->CheckCollision(hiddenmoney) && hiddenmoney->GetActive() == true)
+	{
+		hiddenmoney->SetActive(false);
+	}*/
+
+	//Simon collision with Invisible Objects
 	for (int i = 0; i < invisibleobjects.size(); i++)
 	{
 		InviObjects* InOb = dynamic_cast<InviObjects*>(invisibleobjects[i]);
@@ -541,7 +482,6 @@ void SceneGame::Update(DWORD dt)
 			}
 			else if (InOb->type == SC_TYPE_DOOR)
 			{
-				DebugOut(L"Start Through door");
 				InOb->SetActive(false);
 				if (simon->x >= InOb->x - 24)
 					simon->x = InOb->x - 24;
@@ -601,7 +541,10 @@ void SceneGame::Update(DWORD dt)
 						stages.at(stagename)->SetSimonPos(0, 1);
 					}
 				}
-				else if (simon->GetStartPoint() == stages.at(3)->startpoint)
+				else 
+				DebugOut(L"under to land");
+
+				if (simon->GetStartPoint() == stages.at(3)->startpoint)
 				{
 					stagename -= 2;
 					if (stages.at(stagename)->temp[0] > stages.at(stagename)->simonposx)
@@ -613,14 +556,14 @@ void SceneGame::Update(DWORD dt)
 				simon->SetEndPoint(stages.at(stagename)->endpoint);
 				camera->SetStartPoint(stages.at(stagename)->startpoint);
 				camera->SetEndPoint(stages.at(stagename)->endpoint);
-				simon->SetPosition(stages.at(stagename)->simonposx, stages.at(stagename)->simonposy);
+				simon->SetPosition(stages.at(stagename)->simonposx - 1, stages.at(stagename)->simonposy-1);
 			}
 			/*else if (InOb->type == MONEY_SPAWNER)
 			{
 				InOb->SetActive(false);
 				hiddenmoney->SetActive(true);
-			}*/
-			/*else if (InOb->type == GHOUL_SPAWNER)
+			}
+			else if (InOb->type == GHOUL_SPAWNER)
 			{
 				if (spawndelayghoul == 0)
 				{
@@ -644,28 +587,28 @@ void SceneGame::Update(DWORD dt)
 					SpawnDelayGhoulStart();
 				}
 
-			}*/
-			/*else if (InOb->type == PANTHER_SPAWNER)
+			}
+			else if (InOb->type == PANTHER_SPAWNER)
 			{
 				if (spawndelaypanther == 0)
 				{
 					LoadPantherPosFromFile(SOURCE_PANTHER_POS_TXT);
 					SpawnDelayPantherStart();
 				}
-			}*/
-			/*else if (InOb->type == BAT_SPAWNER)
+			}
+			else if (InOb->type == BAT_SPAWNER)
 			{
 				if (spawndelaybat == 0)
 				{
-					bat = new CBat(D3DXVECTOR2(SIMON->GetPosition().x, SIMON->GetPosition().y));
+					bat = new CBat(D3DXVECTOR2(simon->GetPosition().x, simon->GetPosition().y));
 					bat->nx = -1;
-					bat->SetPosition(camera->GetPosition().x + SCREEN_WIDTH, SIMON->GetPosition().y);
+					bat->SetPosition(camera->GetPosition().x + SCREEN_WIDTH, simon->GetPosition().y);
 					enemy.push_back(bat);
 					SpawnDelayBatStart();
 				}
 
-			}*/
-		/*	else if (InOb->type == FISHMAN_SPAWNER)
+			}
+			else if (InOb->type == FISHMAN_SPAWNER)
 			{
 				if (spawndelayfishman == 0)
 				{
@@ -688,16 +631,14 @@ void SceneGame::Update(DWORD dt)
 					effects.push_back(effect);
 					SpawnDelayFishmanStart();
 				}
-
-			}*/
-			/*else if (InOb->type == BOSS_SPAWNER)
+			}
+			else if (InOb->type == BOSS_SPAWNER)
 			{
 				InOb->SetActive(false);
 				phantombat->SetActive(true);
 			}*/
 			else if (InOb->type == STAIR_TYPE_RIGHT_UP_HELPER)
 			{
-				//DebugOut(L"stair type RIGHT up helper");
 				if (game->IsKeyDown(DIK_UP) && simon->GetOnStair() == false)
 				{
 					simon->SetState(SIMON_STATE_WALKING_LEFT);
@@ -705,7 +646,6 @@ void SceneGame::Update(DWORD dt)
 			}
 			else if (InOb->type == STAIR_TYPE_LEFT_UP_HELPER)
 			{
-				//DebugOut(L"stair type LEFT up helper");
 				if (game->IsKeyDown(DIK_UP) && simon->GetOnStair() == false)
 				{
 					simon->SetState(SIMON_STATE_WALKING_RIGHT);
@@ -713,7 +653,6 @@ void SceneGame::Update(DWORD dt)
 			}
 			else if (InOb->type == STAIR_TYPE_UP_RIGHT)
 			{
-			DebugOut(L"COLISION with STAIR_TYPE_UP_RIGHT");
 				if (game->IsKeyDown(DIK_UP))
 				{
 					if (InOb->x - simon->x <= 5)
@@ -724,7 +663,7 @@ void SceneGame::Update(DWORD dt)
 					{
 						simon->SetState(SIMON_STATE_WALKING_UP_STAIR);
 						simon->StartAutoWalking(SIMON_AUTO_GO_TIME);
-						simon->SetOnStair(true);
+						simon->SetOnStair(true);	
 						simon->SetStairUp(true);
 						simon->nx = 1;
 					}
@@ -810,7 +749,120 @@ void SceneGame::Update(DWORD dt)
 			}
 		}
 	}
-	
+
+	//Simon Collision with enemy
+	/*for (int i = 0; i < enemy.size(); i++)
+	{
+		if (simon->CheckCollision(enemy.at(i)))
+		{
+			if (enemy.at(i)->GetState() == ENEMY_STATE_MOVING)
+			{
+				if (simon->GetUntouchable() == 0)
+				{
+					if (enemy.at(i)->nx > 0)
+					{
+						simon->nx = -1;
+					}
+					else simon->nx = 1;
+					if (simon->GetOnStair() == false)
+					{
+						simon->StartIsDamaged();
+					}
+					simon->SetHealth(1);
+					simon->StartIsUnTouchable(SIMON_UNTOUCHABLE_TIME);
+				}
+				if (enemy.at(i)->type == BAT)
+				{
+					enemy.at(i)->StartDieTime();
+					enemy.at(i)->SetState(ENEMY_STATE_DIE);
+					simon->SetHealth(1);
+				}
+			}
+			else if (enemy.at(i)->GetState() == ENEMY_STATE_SHEART)
+			{
+				enemy.erase(enemy.begin() + i);
+				simon->SetHealth(-1);
+			}
+		}
+	}*/
+
+	//Weapon collision with torch
+	for (int i = 0; i < torches.size(); i++)
+	{
+		CTorch* torch = dynamic_cast<CTorch*>(torches[i]);
+		if (MS->CheckCollision(torch) /*|| dagger->CheckCollision(torch) || Axe->CheckCollision(torch)*/)
+		{
+			if (torch->GetState() == TORCH_STATE_INVI_POT_TORCH)
+			{
+				torch->StartDieTime();
+				torch->FirstX = torch->x;
+				/*dagger->SetActive(false);*/
+				torch->SetState(TORCH_STATE_INVI_POT);
+			}
+			if (torch->GetState() == TORCH_STATE_AXE_TORCH)
+			{
+				torch->StartDieTime();
+				torch->FirstX = torch->x;
+				/*dagger->SetActive(false);*/
+				torch->SetState(TORCH_STATE_AXE);
+			}
+			if (torch->GetState() == TORCH_STATE_NORMAL || torch->GetState() == TORCH_STATE_CANDLE)
+			{
+				torch->StartDieTime();
+				torch->FirstX = torch->x;
+				/*dagger->SetActive(false);*/
+				MS->MSUpDropTime++;
+				int a;
+				srand(time(NULL));
+				a = rand() % 30 + 1;
+				if (MS->MSUpDropTime < 3)
+				{
+					torch->SetState(TORCH_STATE_MSUP);
+				}
+				else
+					switch (a)
+					{
+					case 1:
+					case 2:
+					case 3:
+					case 4:
+					case 5:
+					case 6:
+					case 7:
+					case 8:
+					case 9:
+					case 10:
+					case 11:
+					case 12:
+					case 13:
+					case 14:
+					case 15:
+					case 16:
+					case 17:
+					case 18:
+					case 19:
+					case 20:
+					case 21:
+					case 22:
+					case 23:
+					case 24:
+					case 25:
+						torch->SetState(TORCH_STATE_SHEART); break;
+					case 26:
+						torch->SetState(TORCH_STATE_LHEART); break;
+					case 27:
+						torch->SetState(TORCH_STATE_DAGGER); break;
+					case 28:
+						torch->SetState(TORCH_STATE_HOLYWATER); break;
+					case 29:
+						torch->SetState(TORCH_STATE_CROSS); break;
+					case 30:
+						torch->SetState(TORCH_STATE_AXE); break;
+					}
+			}
+		}
+	}
+
 	//Morning Star collsion with breackable brick
 	for (int i = 0; i < bricks.size(); i++)
 	{
@@ -841,6 +893,26 @@ void SceneGame::Update(DWORD dt)
 			}
 		}
 	}
+
+	//Weapon collision with enemy
+	//for (int i = 0; i < enemy.size(); i++)
+	//{
+	//	if (MS->CheckCollision(enemy.at(i))
+	//		|| dagger->CheckCollision(enemy.at(i)) && dagger->active == true
+	//		|| Axe->CheckCollision(enemy.at(i)) && Axe->active == true
+	//		|| Holywater->CheckCollision(enemy.at(i)) && Holywater->active == true)
+	//	{
+	//		dagger->SetActive(false);
+	//		Axe->SetActive(false);
+	//		enemy.at(i)->FirstX = enemy.at(i)->x;
+	//		if (enemy.at(i)->GetState() == ENEMY_STATE_MOVING)
+	//		{
+	//			enemy.at(i)->StartDieTime();
+	//			enemy.at(i)->SetState(ENEMY_STATE_DIE);
+	//		}
+	//	}
+	//}
+
 	//Delete object when unactive
 	/*for (int i = 0; i < weapon.size(); i++)
 	{
@@ -863,11 +935,11 @@ void SceneGame::Update(DWORD dt)
 			bricks.erase(bricks.begin() + i);
 		}
 	}
-	for (int i = 0; i < torchs.size(); i++)
+	for (int i = 0; i < torches.size(); i++)
 	{
-		if (torchs.at(i)->GetActive() == false)
+		if (torches.at(i)->GetActive() == false)
 		{
-			torchs.erase(torchs.begin() + i);
+			torches.erase(torches.begin() + i);
 		}
 	}
 	for (int i = 0; i < invisibleobjects.size(); i++)
@@ -877,7 +949,6 @@ void SceneGame::Update(DWORD dt)
 			invisibleobjects.erase(invisibleobjects.begin() + i);
 		}
 	}
-
 
 	//Adjust Camera to Simon
 	if (camera->GetPosition().x + SCREEN_WIDTH != endmap)
@@ -901,23 +972,128 @@ void SceneGame::Update(DWORD dt)
 		}
 
 	}
-	//Update
-	for (int i = 0; i < bricks.size(); i++)
+	//Deleate enemy when out of camera
+	/*for (int i = 0; i < enemy.size(); i++)
 	{
-		bricks[i]->Update(dt, &bricks);
-	}
-	for (int i = 0; i < torchs.size(); i++)
+		if (enemy.at(i)->x < camera->GetPosition().x - (enemy.at(i)->GetBound().right - enemy.at(i)->GetBound().left) && enemy.at(i)->nx < 0)
+		{
+			if (enemy.at(i)->type == PANTHER)
+				return;
+			else enemy.erase(enemy.begin() + i);
+		}
+		else if (enemy.at(i)->x > camera->GetPosition().x + SCREEN_WIDTH && enemy.at(i)->nx > 0)
+		{
+			enemy.erase(enemy.begin() + i);
+		}
+	}*/
+
+	//Update Objects
+	for (int i = 0; i < torches.size(); i++)
 	{
-		torchs[i]->Update(dt, &bricks);
+		torches[i]->Update(dt, &bricks);
 	}
+	/*for (int i = 0; i < weapon.size(); i++)
+	{
+		weapon[i]->Update(dt, &bricks);
+	}
+	for (int i = 0; i < enemy.size(); i++)
+	{
+		enemy[i]->Update(dt, &bricks);
+	}*/
 	for (int i = 0; i < effects.size(); i++)
 	{
 		effects[i]->Update(dt, &bricks);
 	}
-
+	for (int i = 0; i < bricks.size(); i++)
+	{
+		bricks[i]->Update(dt, &bricks);
+	}
 	camera->Update(dt, startpoint, endpoint);
+	/*phantombat->Update(dt, &bricks);*/
 	simon->Update(dt, &bricks);
 	MS->Update(dt, &bricks);
+	/*hiddenmoney->Update(dt, &bricks);*/
+
+
+	//functiions that affect the scene
+	/*if (GetTickCount() - spawndelayghoultimer_start > SPAWN_DELAY_TIMER)
+	{
+		spawndelayghoultimer_start = 0;
+		spawndelayghoul = 0;
+	}
+	if (GetTickCount() - spawndelaybattimer_start > SPAWN_DELAY_TIMER)
+	{
+		spawndelaybattimer_start = 0;
+		spawndelaybat = 0;
+	}
+	if (GetTickCount() - spawndelayfishmantimer_start > SPAWN_DELAY_TIMER)
+	{
+		spawndelayfishmantimer_start = 0;
+		spawndelayfishman = 0;
+	}
+	if (GetTickCount() - spawndelaypanthertimer_start > SPAWN_DELAY_TIMER)
+	{
+		spawndelaypanthertimer_start = 0;
+		spawndelaypanther = 0;
+	}
+	if (GetTickCount() - stopenemytimer_start > STOP_ENEMY_TIMER)
+	{
+		stopenemytimer_start = 0;
+		stopenemy = 0;
+	}
+	if (stopenemy != 0)
+	{
+		for (int i = 0; i < enemy.size(); i++)
+		{
+			enemy.at(i)->isStop = true;
+		}
+	}
+	if (stopenemy == 0)
+	{
+		for (int i = 0; i < enemy.size(); i++)
+		{
+			enemy.at(i)->isStop = false;
+		}
+	}
+	if (simon->GetEatCross() == true)
+	{
+		isChangeColor = true;
+		simon->SetEatCross(false);
+	}
+	if (isChangeColor)
+	{
+		if (timerChangeColor < 90)
+		{
+			isGrey = true;
+			timerChangeColor += dt;
+		}
+		else
+		{
+			isGrey = false;
+			timerChangeColor = 0;
+			countChangeColor++;
+		}
+		if (countChangeColor >= 7)
+		{
+			isChangeColor = false;
+			countChangeColor = 0;
+		}
+	}
+	if (simon->GetHealth() == 0)
+	{
+		if (timerSimonDie < 1000)
+		{
+			timerSimonDie += dt;
+		}
+		else
+		{
+			timerSimonDie = 0;
+			simon->SetPosition(stages.at(stagename)->simonrespawnx, stages.at(stagename)->simonrespawny);
+			simon->SetHealth(-16);
+			simon->nx = 1;
+			camera->SetCamerax(stages.at(stagename)->startpoint);
+		}
+	}*/
 }
 
 void SceneGame::Render()
@@ -928,9 +1104,9 @@ void SceneGame::Render()
 	{
 		bricks[i]->Render(camera);
 	}
-	for (int i = 0; i < torchs.size(); i++)
+	for (int i = 0; i < torches.size(); i++)
 	{
-		torchs[i]->Render(camera);
+		torches[i]->Render(camera);
 	}
 	for (int i = 0; i < invisibleobjects.size(); i++)
 	{

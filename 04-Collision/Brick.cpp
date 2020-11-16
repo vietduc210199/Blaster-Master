@@ -17,12 +17,10 @@ void CBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		vy = GRAVITY * dt;
 	}
 	else vy = 0;
-
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
 	coEvents.clear();
-
 	CalcPotentialCollisions(coObjects, coEvents); float min_tx, min_ty, nx = 0, ny;
 
 	FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);

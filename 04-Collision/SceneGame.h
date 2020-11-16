@@ -21,8 +21,8 @@ class SceneGame : public Scene
 private:
 	Grid* grid;
 	CGame* game;
-	vector<Stage*> stages;
-	Stage* stage;
+	vector<CStage*> stages;
+	CStage* stage;
 	TileMap* Tile;
 	InviObjects* InObj;
 
@@ -37,7 +37,7 @@ private:
 	int currentLevel;
 
 	vector<LPGAMEOBJECT> bricks;
-	vector<LPGAMEOBJECT> torchs;
+	vector<LPGAMEOBJECT> torches;
 	vector<LPGAMEOBJECT> invisibleobjects;
 	vector<LPGAMEOBJECT> effects;
 
