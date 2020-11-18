@@ -152,10 +152,12 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		LPCOLLISIONEVENT e = coEventsResult[i];
 		if (dynamic_cast<CBrick*>(e->obj))
 		{
-			x += min_tx * dx + nx * 0.4;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
+			x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
 			y += min_ty * dy + ny * 0.4f;
+			
 			if (nx != 0) vx = 0;
 			if (ny != 0) vy = 0;
+		
 			if (ny == 1 && isOnStair)
 			{
 				y += dy;
@@ -166,6 +168,11 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			}
 			if (ny == -1)
 			{
+				if (jumpmove != 0)
+				{
+					SitDown();
+					StandUp();
+				}
 				jump = 0;
 				jumpmove = 0;
 			}
@@ -277,30 +284,24 @@ void CSimon::Render(Camera* camera)
 	}
 	if (jump != 0 || jumpmove != 0)
 	{
-		/*if (state == SIMON_STATE_ATTACK)
-			return;*/
 		if (nx > 0)
 		{
 			if (attack != 0)
 			{
 				ani = SIMON_ANI_ATTACK_RIGHT;
-
 			}
 			else
 			{
 				ani = SIMON_ANI_JUMP_RIGHT;
-
 			}
 		}	
 		else if (attack != 0)
 		{
 			ani = SIMON_ANI_ATTACK_LEFT;
-
 		}
 		else
 		{
 			ani = SIMON_ANI_JUMP_LEFT;
-
 		}
 	}
 	if (isOnGround && health == 0)
@@ -400,13 +401,13 @@ void CSimon::SetState(int state)
 
 void CSimon::SitDown()
 {
-	y += PULL_UP_SIMON_AFTER_SITTING;
+	y = y + PULL_UP_SIMON_AFTER_SITTING -5;
 	sit = true;
 }
 
 void CSimon::StandUp()
 {
-	y = y - PULL_UP_SIMON_AFTER_SITTING;
+	y = y - PULL_UP_SIMON_AFTER_SITTING + 3;
 	sit = false;
 }
 

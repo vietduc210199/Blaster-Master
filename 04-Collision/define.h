@@ -54,7 +54,7 @@ using namespace std;
 
 //SIMON
 #define SIMON_WALKING_SPEED		    0.07f 
-#define SIMON_WALKING_STAIR_SPEED		    0.07f 
+#define SIMON_WALKING_STAIR_SPEED		    0.03f 
 #define	SIMON_AUTO_WALKING_STAIR_SPEED   0.2f
 #define SIMON_JUMP_SPEED_X			0.12f
 #define SIMON_JUMP_SPEED_Y		    0.22f
@@ -81,7 +81,8 @@ using namespace std;
 #define SIMON_ATTACK_TIME           300
 #define SIMON_EAT_TIME              500
 #define SIMON_AUTO_GO_TIME          1200
-#define SIMON_AUTO_GO_SCENE1          1000
+#define SIMON_AUTO_GO_TIME_1_STAIR  400
+#define SIMON_AUTO_GO_SCENE1        1000
 #define SIMON_UNTOUCHABLE_TIME  3000
 #define	SIMON_IS_DAMAGED_TIME 450
 #define SIMON_START_UNDERGROUND 1579

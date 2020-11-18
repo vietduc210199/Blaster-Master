@@ -14,7 +14,6 @@ void CMS::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 }
 
 void CMS::Render(Camera* camera) {
-	
 	int ani;
 	if (active == true)
 	{
@@ -69,7 +68,6 @@ void CMS::Render(Camera* camera) {
 
 			RenderBoundingBox(camera);
 		}
-
 	}
 }
 
@@ -160,34 +158,42 @@ void CMS::AdjustMSPos()
 
 void CMS::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	if (active == true)
+	if ((active == true) && (GetTickCount() - attack_start >= 240))
 	{
-		if (GetTickCount() - attack_start < 240)
+		switch (state)
 		{
-			top = 0;
-			left = 0;
-			right = 0;
-			bottom = 0;
-		}
-		else if (state == MS_STATE_ATTACK_3)
-		{
-			if (GetTickCount() - attack_start >= 240)
+		case MS_STATE_ATTACK_3:
+			if (simon->nx >= 0)
 			{
-				top = y;
-				left = x;
-				right = x + 40;
-				bottom = y + 10;
+				top = simon->y + 7;
+				left = simon->x + 27;
+				right = simon->x + 62;
+				bottom = simon->y + 17;
 			}
-		}
-		else if (state == MS_STATE_ATTACK || state == MS_STATE_ATTACK_2)
-		{
-			if (GetTickCount() - attack_start >= 240)
+			else
 			{
-				top = y;
-				left = x;
-				right = x + 24;
-				bottom = y + 10;
+				top = simon->y + 7;
+				left = simon->x - 27;
+				right = simon->x + 7;
+				bottom = simon->y + 17;
 			}
+			break;
+			default:
+			if (simon->nx >= 0)
+			{
+				top = simon->y + 7;
+				left = simon->x + 27;
+				right = simon->x + 50;
+				bottom = simon->y + 17;
+			}
+			else
+			{
+				top = simon->y + 7;
+				left = simon->x - 22;
+				right = simon->x + 1;
+				bottom = simon->y + 17;
+			}
+			break;
 		}
-	}
+	}	
 }

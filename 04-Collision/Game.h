@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include <d3d9.h>
 #include <d3dx9.h>
+#include "debug.h"
 
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
@@ -73,13 +74,7 @@ public:
 	
 	static bool CGame::AABB(RECT rect1, RECT rect2)
 	{
-
-		if (rect1.left > rect2.right || rect1.right < rect2.left || rect1.top > rect2.bottom || rect1.bottom < rect2.top)
-		{
-			return false;
-		}
-
-		return true;
+		return !(rect1.right < rect2.left || rect1.left > rect2.right || rect1.top > rect2.bottom || rect1.bottom < rect2.top);
 	}
 
 	HWND getHWND() { return this->hWnd; }

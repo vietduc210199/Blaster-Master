@@ -14,19 +14,19 @@ SceneGame::SceneGame()
 	simon = new CSimon();
 
 
-	//LoadResources(SOURCE_ENTRANCE_PNG, eType::ID_TEX_ENTRANCESTAGE, SOURCE_ENTRANCE_TXT, ID_SCENE_LEVEL_ENTRANCE);
-	LoadResources(SOURCE_CASTLE_PNG, eType::ID_TEX_CASTLE, SOURCE_CASTLE_TXT, ID_SCENE_LEVEL_CASTLE);
+	LoadResources(SOURCE_ENTRANCE_PNG, eType::ID_TEX_ENTRANCESTAGE, SOURCE_ENTRANCE_TXT, ID_SCENE_LEVEL_ENTRANCE);
+	/*LoadResources(SOURCE_CASTLE_PNG, eType::ID_TEX_CASTLE, SOURCE_CASTLE_TXT, ID_SCENE_LEVEL_CASTLE);*/
 	
 
 	MS = new CMS();
 	MS->GetSimon(simon);
 
-	stagename = 3;
+	/*stagename = 3;
 	simon->SetStartPoint(stages.at(3)->startpoint);
 	simon->SetEndPoint(stages.at(3)->endpoint);
 	camera->SetStartPoint(stages.at(3)->startpoint);
 	camera->SetEndPoint(stages.at(3)->endpoint);
-	simon->SetPosition(stages.at(3)->simonposx, stages.at(3)->simonposy);
+	simon->SetPosition(stages.at(3)->simonposx, stages.at(3)->simonposy);*/
 }
 
 SceneGame::~SceneGame()
@@ -69,6 +69,7 @@ void SceneGame::KeyState(BYTE* state)
 				else if (simon->GetOnStair() == true)
 				{
 					simon->SetState(SIMON_STATE_WALKING_DOWN_STAIR);
+
 				}
 			}
 		}
@@ -303,7 +304,6 @@ void SceneGame::LoadObjectFromFile(string source)
 						brick->SetPosition(arr[1], arr[2]);
 						grid->InsertIntoGrid(brick, arr[6], arr[7], arr[8], arr[9]);
 					}
-
 					flag = 0;
 				}
 			}
@@ -529,10 +529,11 @@ void SceneGame::Update(DWORD dt)
 				simon->SetEndPoint(stages.at(stagename)->endpoint);
 				camera->SetStartPoint(stages.at(stagename)->startpoint);
 				camera->SetEndPoint(stages.at(stagename)->endpoint);
-				simon->SetPosition(stages.at(stagename)->simonposx, stages.at(stagename)->simonposy);
+				simon->SetPosition(stages.at(stagename)->simonposx - 1, stages.at(stagename)->simonposy - 1);
 			}
 			else if (InOb->type == SC_TYPE_UNDER_TO_LAND)
 			{
+				DebugOut(L"Under to land");
 				if (simon->GetStartPoint() == stages.at(1)->startpoint)
 				{
 					stagename += 2;
@@ -541,10 +542,7 @@ void SceneGame::Update(DWORD dt)
 						stages.at(stagename)->SetSimonPos(0, 1);
 					}
 				}
-				else 
-				DebugOut(L"under to land");
-
-				if (simon->GetStartPoint() == stages.at(3)->startpoint)
+				else if (simon->GetStartPoint() == stages.at(3)->startpoint)
 				{
 					stagename -= 2;
 					if (stages.at(stagename)->temp[0] > stages.at(stagename)->simonposx)
@@ -556,7 +554,7 @@ void SceneGame::Update(DWORD dt)
 				simon->SetEndPoint(stages.at(stagename)->endpoint);
 				camera->SetStartPoint(stages.at(stagename)->startpoint);
 				camera->SetEndPoint(stages.at(stagename)->endpoint);
-				simon->SetPosition(stages.at(stagename)->simonposx - 1, stages.at(stagename)->simonposy-1);
+				simon->SetPosition(stages.at(stagename)->simonposx - 1, stages.at(stagename)->simonposy - 1);
 			}
 			/*else if (InOb->type == MONEY_SPAWNER)
 			{
@@ -646,6 +644,7 @@ void SceneGame::Update(DWORD dt)
 			}
 			else if (InOb->type == STAIR_TYPE_LEFT_UP_HELPER)
 			{
+
 				if (game->IsKeyDown(DIK_UP) && simon->GetOnStair() == false)
 				{
 					simon->SetState(SIMON_STATE_WALKING_RIGHT);
@@ -653,6 +652,7 @@ void SceneGame::Update(DWORD dt)
 			}
 			else if (InOb->type == STAIR_TYPE_UP_RIGHT)
 			{
+
 				if (game->IsKeyDown(DIK_UP))
 				{
 					if (InOb->x - simon->x <= 5)
@@ -663,7 +663,7 @@ void SceneGame::Update(DWORD dt)
 					{
 						simon->SetState(SIMON_STATE_WALKING_UP_STAIR);
 						simon->StartAutoWalking(SIMON_AUTO_GO_TIME);
-						simon->SetOnStair(true);	
+						simon->SetOnStair(true);
 						simon->SetStairUp(true);
 						simon->nx = 1;
 					}
@@ -694,7 +694,8 @@ void SceneGame::Update(DWORD dt)
 				{
 					if (simon->y + SIMON_IDLE_BBOX_HEIGHT > InOb->y + INVI_HEIGHT)
 					{
-						simon->y = InOb->y + 1 + INVI_HEIGHT * 2 - SIMON_IDLE_BBOX_HEIGHT;
+						simon->y = InOb->y + 1 + INVI_HEIGHT * 2 - SIMON_IDLE_BBOX_HEIGHT + 1;
+						simon->x += 1;
 					}
 					simon->SetOnStair(false);
 					simon->SetStairUp(false);
@@ -725,6 +726,7 @@ void SceneGame::Update(DWORD dt)
 			}
 			else if (InOb->type == STAIR_TYPE_DOWN_RIGHT)
 			{
+
 				if (game->IsKeyDown(DIK_DOWN) && simon->GetOnStair() == false)
 				{
 					if (simon->x >= InOb->x - 5 || simon->x < InOb->x - 6 && simon->GetOnStair() == false)
@@ -732,7 +734,10 @@ void SceneGame::Update(DWORD dt)
 						simon->x = InOb->x - 5;
 					}
 					if (simon->x == InOb->x - 5)
+					{
 						simon->SetState(SIMON_STATE_WALKING_DOWN_STAIR);
+					}
+				
 					simon->SetOnStair(true);
 					simon->SetStairUp(false);
 					simon->nx = 1;
@@ -741,7 +746,8 @@ void SceneGame::Update(DWORD dt)
 				{
 					if (simon->y + SIMON_IDLE_BBOX_HEIGHT > InOb->y + INVI_HEIGHT)
 					{
-						simon->y = InOb->y + INVI_HEIGHT * 2 - SIMON_IDLE_BBOX_HEIGHT;
+						simon->y = InOb->y + INVI_HEIGHT * 2 - SIMON_IDLE_BBOX_HEIGHT - 1;
+						simon->x -= 1;
 					}
 					simon->SetOnStair(false);
 					simon->SetStairUp(true);
@@ -822,30 +828,6 @@ void SceneGame::Update(DWORD dt)
 				else
 					switch (a)
 					{
-					case 1:
-					case 2:
-					case 3:
-					case 4:
-					case 5:
-					case 6:
-					case 7:
-					case 8:
-					case 9:
-					case 10:
-					case 11:
-					case 12:
-					case 13:
-					case 14:
-					case 15:
-					case 16:
-					case 17:
-					case 18:
-					case 19:
-					case 20:
-					case 21:
-					case 22:
-					case 23:
-					case 24:
 					case 25:
 						torch->SetState(TORCH_STATE_SHEART); break;
 					case 26:
@@ -858,6 +840,8 @@ void SceneGame::Update(DWORD dt)
 						torch->SetState(TORCH_STATE_CROSS); break;
 					case 30:
 						torch->SetState(TORCH_STATE_AXE); break;
+					default: 
+						torch->SetState(TORCH_STATE_SHEART); break;
 					}
 			}
 		}
@@ -1013,8 +997,6 @@ void SceneGame::Update(DWORD dt)
 	simon->Update(dt, &bricks);
 	MS->Update(dt, &bricks);
 	/*hiddenmoney->Update(dt, &bricks);*/
-
-
 	//functiions that affect the scene
 	/*if (GetTickCount() - spawndelayghoultimer_start > SPAWN_DELAY_TIMER)
 	{
@@ -1098,7 +1080,6 @@ void SceneGame::Update(DWORD dt)
 
 void SceneGame::Render()
 {
-	
 	Tile->DrawMap(camera);
 	for (int i = 0; i < bricks.size(); i++)
 	{
