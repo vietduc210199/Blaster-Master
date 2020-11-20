@@ -457,10 +457,7 @@ void SceneGame::Update(DWORD dt)
 			}
 		}
 	}
-	/*if (simon->CheckCollision(hiddenmoney) && hiddenmoney->GetActive() == true)
-	{
-		hiddenmoney->SetActive(false);
-	}*/
+	
 
 	//Simon collision with Invisible Objects
 	for (int i = 0; i < invisibleobjects.size(); i++)
@@ -556,85 +553,6 @@ void SceneGame::Update(DWORD dt)
 				camera->SetEndPoint(stages.at(stagename)->endpoint);
 				simon->SetPosition(stages.at(stagename)->simonposx - 1, stages.at(stagename)->simonposy - 1);
 			}
-			/*else if (InOb->type == MONEY_SPAWNER)
-			{
-				InOb->SetActive(false);
-				hiddenmoney->SetActive(true);
-			}
-			else if (InOb->type == GHOUL_SPAWNER)
-			{
-				if (spawndelayghoul == 0)
-				{
-					int a;
-					srand(time(NULL));
-					a = rand() % 4 + 1;
-					for (int i = 0; i < a; i++)
-					{
-						ghoul = new CGhoul();
-						ghoul->nx = 1;
-						ghoul->SetPosition(camera->GetPosition().x - 20 - i * 20, ghouly);
-						enemy.push_back(ghoul);
-					}
-					for (int i = 0; i < (4 - a); i++)
-					{
-						ghoul = new CGhoul();
-						ghoul->nx = -1;
-						ghoul->SetPosition(camera->GetPosition().x + SCREEN_WIDTH + i * 20, ghouly);
-						enemy.push_back(ghoul);
-					}
-					SpawnDelayGhoulStart();
-				}
-
-			}
-			else if (InOb->type == PANTHER_SPAWNER)
-			{
-				if (spawndelaypanther == 0)
-				{
-					LoadPantherPosFromFile(SOURCE_PANTHER_POS_TXT);
-					SpawnDelayPantherStart();
-				}
-			}
-			else if (InOb->type == BAT_SPAWNER)
-			{
-				if (spawndelaybat == 0)
-				{
-					bat = new CBat(D3DXVECTOR2(simon->GetPosition().x, simon->GetPosition().y));
-					bat->nx = -1;
-					bat->SetPosition(camera->GetPosition().x + SCREEN_WIDTH, simon->GetPosition().y);
-					enemy.push_back(bat);
-					SpawnDelayBatStart();
-				}
-
-			}
-			else if (InOb->type == FISHMAN_SPAWNER)
-			{
-				if (spawndelayfishman == 0)
-				{
-					fishman = new CFishman(SIMON, MS, camera, InOb->x - 50);
-					fishman->nx = -1;
-					fishman->SetPosition(InOb->x - 50, InOb->y + 120);
-					enemy.push_back(fishman);
-					effect = new CEffect(camera);
-					effect->SetType(EFFECT_TYPE_WATER);
-					effect->SetPosition(InOb->x - 60, InOb->y + 50);
-					effects.push_back(effect);
-
-					fishman = new CFishman(SIMON, MS, camera, InOb->x + 40);
-					fishman->nx = 1;
-					fishman->SetPosition(InOb->x + 40, InOb->y + 120);
-					enemy.push_back(fishman);
-					effect = new CEffect(camera);
-					effect->SetType(EFFECT_TYPE_WATER);
-					effect->SetPosition(InOb->x + 50, InOb->y + 50);
-					effects.push_back(effect);
-					SpawnDelayFishmanStart();
-				}
-			}
-			else if (InOb->type == BOSS_SPAWNER)
-			{
-				InOb->SetActive(false);
-				phantombat->SetActive(true);
-			}*/
 			else if (InOb->type == STAIR_TYPE_RIGHT_UP_HELPER)
 			{
 				if (game->IsKeyDown(DIK_UP) && simon->GetOnStair() == false)
@@ -756,41 +674,7 @@ void SceneGame::Update(DWORD dt)
 		}
 	}
 
-	//Simon Collision with enemy
-	/*for (int i = 0; i < enemy.size(); i++)
-	{
-		if (simon->CheckCollision(enemy.at(i)))
-		{
-			if (enemy.at(i)->GetState() == ENEMY_STATE_MOVING)
-			{
-				if (simon->GetUntouchable() == 0)
-				{
-					if (enemy.at(i)->nx > 0)
-					{
-						simon->nx = -1;
-					}
-					else simon->nx = 1;
-					if (simon->GetOnStair() == false)
-					{
-						simon->StartIsDamaged();
-					}
-					simon->SetHealth(1);
-					simon->StartIsUnTouchable(SIMON_UNTOUCHABLE_TIME);
-				}
-				if (enemy.at(i)->type == BAT)
-				{
-					enemy.at(i)->StartDieTime();
-					enemy.at(i)->SetState(ENEMY_STATE_DIE);
-					simon->SetHealth(1);
-				}
-			}
-			else if (enemy.at(i)->GetState() == ENEMY_STATE_SHEART)
-			{
-				enemy.erase(enemy.begin() + i);
-				simon->SetHealth(-1);
-			}
-		}
-	}*/
+	
 
 	//Weapon collision with torch
 	for (int i = 0; i < torches.size(); i++)
@@ -878,33 +762,7 @@ void SceneGame::Update(DWORD dt)
 		}
 	}
 
-	//Weapon collision with enemy
-	//for (int i = 0; i < enemy.size(); i++)
-	//{
-	//	if (MS->CheckCollision(enemy.at(i))
-	//		|| dagger->CheckCollision(enemy.at(i)) && dagger->active == true
-	//		|| Axe->CheckCollision(enemy.at(i)) && Axe->active == true
-	//		|| Holywater->CheckCollision(enemy.at(i)) && Holywater->active == true)
-	//	{
-	//		dagger->SetActive(false);
-	//		Axe->SetActive(false);
-	//		enemy.at(i)->FirstX = enemy.at(i)->x;
-	//		if (enemy.at(i)->GetState() == ENEMY_STATE_MOVING)
-	//		{
-	//			enemy.at(i)->StartDieTime();
-	//			enemy.at(i)->SetState(ENEMY_STATE_DIE);
-	//		}
-	//	}
-	//}
-
-	//Delete object when unactive
-	/*for (int i = 0; i < weapon.size(); i++)
-	{
-		if (weapon.at(i)->GetActive() == false)
-		{
-			weapon.erase(weapon.begin() + i);
-		}
-	}*/
+	
 	for (int i = 0; i < effects.size(); i++)
 	{
 		if (effects.at(i)->GetActive() == false)
@@ -956,34 +814,14 @@ void SceneGame::Update(DWORD dt)
 		}
 
 	}
-	//Deleate enemy when out of camera
-	/*for (int i = 0; i < enemy.size(); i++)
-	{
-		if (enemy.at(i)->x < camera->GetPosition().x - (enemy.at(i)->GetBound().right - enemy.at(i)->GetBound().left) && enemy.at(i)->nx < 0)
-		{
-			if (enemy.at(i)->type == PANTHER)
-				return;
-			else enemy.erase(enemy.begin() + i);
-		}
-		else if (enemy.at(i)->x > camera->GetPosition().x + SCREEN_WIDTH && enemy.at(i)->nx > 0)
-		{
-			enemy.erase(enemy.begin() + i);
-		}
-	}*/
+
 
 	//Update Objects
 	for (int i = 0; i < torches.size(); i++)
 	{
 		torches[i]->Update(dt, &bricks);
 	}
-	/*for (int i = 0; i < weapon.size(); i++)
-	{
-		weapon[i]->Update(dt, &bricks);
-	}
-	for (int i = 0; i < enemy.size(); i++)
-	{
-		enemy[i]->Update(dt, &bricks);
-	}*/
+
 	for (int i = 0; i < effects.size(); i++)
 	{
 		effects[i]->Update(dt, &bricks);
@@ -993,89 +831,8 @@ void SceneGame::Update(DWORD dt)
 		bricks[i]->Update(dt, &bricks);
 	}
 	camera->Update(dt, startpoint, endpoint);
-	/*phantombat->Update(dt, &bricks);*/
 	simon->Update(dt, &bricks);
 	MS->Update(dt, &bricks);
-	/*hiddenmoney->Update(dt, &bricks);*/
-	//functiions that affect the scene
-	/*if (GetTickCount() - spawndelayghoultimer_start > SPAWN_DELAY_TIMER)
-	{
-		spawndelayghoultimer_start = 0;
-		spawndelayghoul = 0;
-	}
-	if (GetTickCount() - spawndelaybattimer_start > SPAWN_DELAY_TIMER)
-	{
-		spawndelaybattimer_start = 0;
-		spawndelaybat = 0;
-	}
-	if (GetTickCount() - spawndelayfishmantimer_start > SPAWN_DELAY_TIMER)
-	{
-		spawndelayfishmantimer_start = 0;
-		spawndelayfishman = 0;
-	}
-	if (GetTickCount() - spawndelaypanthertimer_start > SPAWN_DELAY_TIMER)
-	{
-		spawndelaypanthertimer_start = 0;
-		spawndelaypanther = 0;
-	}
-	if (GetTickCount() - stopenemytimer_start > STOP_ENEMY_TIMER)
-	{
-		stopenemytimer_start = 0;
-		stopenemy = 0;
-	}
-	if (stopenemy != 0)
-	{
-		for (int i = 0; i < enemy.size(); i++)
-		{
-			enemy.at(i)->isStop = true;
-		}
-	}
-	if (stopenemy == 0)
-	{
-		for (int i = 0; i < enemy.size(); i++)
-		{
-			enemy.at(i)->isStop = false;
-		}
-	}
-	if (simon->GetEatCross() == true)
-	{
-		isChangeColor = true;
-		simon->SetEatCross(false);
-	}
-	if (isChangeColor)
-	{
-		if (timerChangeColor < 90)
-		{
-			isGrey = true;
-			timerChangeColor += dt;
-		}
-		else
-		{
-			isGrey = false;
-			timerChangeColor = 0;
-			countChangeColor++;
-		}
-		if (countChangeColor >= 7)
-		{
-			isChangeColor = false;
-			countChangeColor = 0;
-		}
-	}
-	if (simon->GetHealth() == 0)
-	{
-		if (timerSimonDie < 1000)
-		{
-			timerSimonDie += dt;
-		}
-		else
-		{
-			timerSimonDie = 0;
-			simon->SetPosition(stages.at(stagename)->simonrespawnx, stages.at(stagename)->simonrespawny);
-			simon->SetHealth(-16);
-			simon->nx = 1;
-			camera->SetCamerax(stages.at(stagename)->startpoint);
-		}
-	}*/
 }
 
 void SceneGame::Render()
