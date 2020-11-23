@@ -15,7 +15,7 @@ SceneGame::SceneGame()
 
 
 	LoadResources(SOURCE_ENTRANCE_PNG, eType::ID_TEX_ENTRANCESTAGE, SOURCE_ENTRANCE_TXT, ID_SCENE_LEVEL_ENTRANCE);
-	/*LoadResources(SOURCE_CASTLE_PNG, eType::ID_TEX_CASTLE, SOURCE_CASTLE_TXT, ID_SCENE_LEVEL_CASTLE);*/
+	//LoadResources(SOURCE_CASTLE_PNG, eType::ID_TEX_CASTLE, SOURCE_CASTLE_TXT, ID_SCENE_LEVEL_CASTLE);
 	
 
 	MS = new CMS();
@@ -64,6 +64,13 @@ void SceneGame::KeyState(BYTE* state)
 				if (simon->GetOnStair() == false)
 				{
 					simon->SetState(SIMON_STATE_SIT);
+					if (simon->GetJumpTime() != 0 || simon->GetJumpMoveTime() != 0)
+					{
+						DebugOut(L"TRUE");
+						simon->StandUp();
+						simon->SitDown();
+
+					}
 					simon->SetSit(true);
 				}
 				else if (simon->GetOnStair() == true)
@@ -612,7 +619,7 @@ void SceneGame::Update(DWORD dt)
 				{
 					if (simon->y + SIMON_IDLE_BBOX_HEIGHT > InOb->y + INVI_HEIGHT)
 					{
-						simon->y = InOb->y + 1 + INVI_HEIGHT * 2 - SIMON_IDLE_BBOX_HEIGHT + 1;
+						simon->y = InOb->y  + INVI_HEIGHT * 2 - SIMON_IDLE_BBOX_HEIGHT + 1;
 						simon->x += 1;
 					}
 					simon->SetOnStair(false);
@@ -664,8 +671,8 @@ void SceneGame::Update(DWORD dt)
 				{
 					if (simon->y + SIMON_IDLE_BBOX_HEIGHT > InOb->y + INVI_HEIGHT)
 					{
-						simon->y = InOb->y + INVI_HEIGHT * 2 - SIMON_IDLE_BBOX_HEIGHT - 1;
-						simon->x -= 1;
+						simon->y = InOb->y + 0.5 + INVI_HEIGHT * 2 - SIMON_IDLE_BBOX_HEIGHT - 1;
+						simon->x -= 0.5;
 					}
 					simon->SetOnStair(false);
 					simon->SetStairUp(true);

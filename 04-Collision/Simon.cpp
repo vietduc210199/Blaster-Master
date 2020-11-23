@@ -112,7 +112,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		autowalking = 0;
 
 	}
-	//auto walking 
+	//auto walking stair
 	if (autowalking != 0)
 	{
 		vx = 0;

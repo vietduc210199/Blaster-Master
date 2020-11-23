@@ -114,6 +114,10 @@ public:
 	{
 		return this->jump;
 	}
+	int GetJumpMoveTime()
+	{
+		return this->jumpmove;
+	}
 	int GetAutoWalkingTime()
 	{
 		return this->autowalking;
