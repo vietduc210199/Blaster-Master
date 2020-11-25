@@ -101,7 +101,6 @@ void SceneGame::KeyState(BYTE* state)
 	}
 	else
 		simon->SetState(SIMON_STATE_IDLE);
-
 }
 
 void SceneGame::OnKeyDown(int KeyCode)

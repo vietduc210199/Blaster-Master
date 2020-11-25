@@ -44,14 +44,8 @@
     <Filter Include="Object\Boss">
       <UniqueIdentifier>{78a8409b-328e-4460-a55c-2de5fa611475}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Item">
-      <UniqueIdentifier>{2c74058c-c332-4641-8d99-475402bef960}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Object\Enemy">
       <UniqueIdentifier>{8fbe90f7-84cb-4a7d-8767-e726dc493155}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Effect">
-      <UniqueIdentifier>{85b67941-69d2-4684-bf9c-8d160995aa10}</UniqueIdentifier>
     </Filter>
     <Filter Include="Object\Weapon">
       <UniqueIdentifier>{d0292507-7514-41a3-9135-b0cbf500e593}</UniqueIdentifier>
@@ -62,11 +56,11 @@
     <Filter Include="Object\InviObjects">
       <UniqueIdentifier>{6c86b91b-52ea-4bed-8f4c-195ffc0a8a17}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Framework\Effect">
-      <UniqueIdentifier>{eab68945-87f4-4b9a-96ff-bce1020eb0f7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Framework\Board\Font">
       <UniqueIdentifier>{1916791d-593a-4ddc-9255-b16c900a741c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Effect">
+      <UniqueIdentifier>{eab68945-87f4-4b9a-96ff-bce1020eb0f7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -131,7 +125,7 @@
       <Filter>Object\InviObjects</Filter>
     </ClInclude>
     <ClInclude Include="Effect.h">
-      <Filter>Framework\Effect</Filter>
+      <Filter>Object\Effect</Filter>
     </ClInclude>
     <ClInclude Include="Board.h">
       <Filter>Framework\Board</Filter>
@@ -153,6 +147,9 @@
     </ClInclude>
     <ClInclude Include="GameTime.h">
       <Filter>Framework\GameTime</Filter>
+    </ClInclude>
+    <ClInclude Include="Ghoul.h">
+      <Filter>Object\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -220,7 +217,7 @@
       <Filter>Object\InviObjects</Filter>
     </ClCompile>
     <ClCompile Include="Effect.cpp">
-      <Filter>Framework\Effect</Filter>
+      <Filter>Object\Effect</Filter>
     </ClCompile>
     <ClCompile Include="Board.cpp">
       <Filter>Framework\Board</Filter>
@@ -242,6 +239,9 @@
     </ClCompile>
     <ClCompile Include="GameTime.cpp">
       <Filter>Framework\GameTime</Filter>
+    </ClCompile>
+    <ClCompile Include="Ghoul.cpp">
+      <Filter>Object\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

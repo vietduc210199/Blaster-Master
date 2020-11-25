@@ -36,6 +36,9 @@ using namespace std;
 #define CAM_MOVE_TIME1 3000
 #define CAM_MOVE_TIME2 1750
 
+#define SHEART_WIDTH 8
+#define SHEART_HEIGHT 8
+
 //Source file
 #define SOURCE_ENTRANCE_PNG L"textures\\entrance_tilemap.png"
 #define SOURCE_ENTRANCE_TXT "ReadFile\\Map\\entrance.txt"
@@ -268,6 +271,19 @@ using namespace std;
 #define ENEMY_STATE_JUMPING 4
 #define ENEMY_STATE_FALLING 5
 #define ENEMY_STATE_ATTACK 6
+
+
+//Ghoul
+#define GHOUL_SPEED 0.05f
+#define GHOUL_BOX_WIDTH 16
+#define GHOUL_BOX_HEIGHT 32
+#define GHOUL_ANI_IDLE_RIGHT 0
+#define GHOUL_ANI_IDLE_LEFT 1
+#define GHOUL_ANI_WALKING_RIGHT 2
+#define GHOUL_ANI_WALKING_LEFT 3
+#define GHOUL_ANI_DIE 4
+#define GHOUL_ANI_SHEART 5
+
 
 
    //Effect
