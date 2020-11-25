@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -124,9 +124,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AnimationsManager.h" />
+    <ClInclude Include="Axe.h" />
+    <ClInclude Include="Board.h" />
+    <ClInclude Include="BoardHealth.h" />
     <ClInclude Include="camera.h" />
+    <ClInclude Include="Dagger.h" />
     <ClInclude Include="Effect.h" />
+    <ClInclude Include="Font.h" />
     <ClInclude Include="Grid.h" />
+    <ClInclude Include="HolyWater.h" />
     <ClInclude Include="InviObjects.h" />
     <ClInclude Include="MS.h" />
     <ClInclude Include="debug.h" />
@@ -147,9 +153,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnimationsManager.cpp" />
+    <ClCompile Include="Axe.cpp" />
+    <ClCompile Include="Board.cpp" />
+    <ClCompile Include="BoardHealth.cpp" />
     <ClCompile Include="camera.cpp" />
+    <ClCompile Include="Dagger.cpp" />
     <ClCompile Include="Effect.cpp" />
+    <ClCompile Include="Font.cpp" />
     <ClCompile Include="Grid.cpp" />
+    <ClCompile Include="HolyWater.cpp" />
     <ClCompile Include="InviObjects.cpp" />
     <ClCompile Include="MS.cpp" />
     <ClCompile Include="debug.cpp" />

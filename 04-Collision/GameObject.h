@@ -77,7 +77,7 @@ public:
 public: 
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }
 	void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
-	void GetPosition(float &x, float &y) { x = this->x; y = this->y; }
+	D3DXVECTOR2 GetPosition() { return D3DXVECTOR2(x, y); }
 	void GetSpeed(float &vx, float &vy) { vx = this->vx; vy = this->vy; }
 	virtual void SetActive(boolean a) { active = a; };
 	virtual boolean GetActive() { return active; };

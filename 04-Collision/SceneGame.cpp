@@ -21,6 +21,11 @@ SceneGame::SceneGame()
 	MS = new CMS();
 	MS->GetSimon(simon);
 
+	//tokens
+	dagger = new Dagger(camera, simon->nx);
+	axe = new Axe(simon->GetPosition().x, camera, simon->nx);
+	Holywater = new HolyWater(simon->GetPosition().x, camera, simon->nx);
+
 	/*stagename = 3;
 	simon->SetStartPoint(stages.at(3)->startpoint);
 	simon->SetEndPoint(stages.at(3)->endpoint);
@@ -121,7 +126,58 @@ void SceneGame::OnKeyDown(int KeyCode)
 		break;
 	case DIK_A:
 		if (simon->GetAttackTime() == 0)
-		{		
+		{	
+			if (game->IsKeyDown(DIK_UP))
+			{
+				if (simon->GetThrowDagger() && weapon.size() < simon->GetNumWeapon())
+				{
+					dagger = new Dagger(camera, simon->nx);
+					if (simon->nx > 0)
+					{
+						dagger->SetPosition(simon->x + 20, simon->y + 5);
+					}
+					else
+						dagger->SetPosition(simon->x, simon->y + 5);
+					//phantombat->GetSimonDagger(dagger);
+					weapon.push_back(dagger);
+					MS->SetActive(false);
+					simon->SetState(SIMON_STATE_ATTACK);
+					simon->StartAttack();
+				}
+				else if (simon->GetThrowAxe() && weapon.size() < simon->GetNumWeapon())
+				{
+					axe = new Axe(simon->GetPosition().x + 8, camera, simon->nx);
+					if (simon->nx > 0)
+					{
+						axe->SetPosition(simon->x + 8, simon->y);
+					}
+					else
+						axe->SetPosition(simon->x + 24, simon->y);
+					//phantombat->GetSimonAxe(Axe);
+					weapon.push_back(axe);
+					MS->SetActive(false);
+					simon->SetState(SIMON_STATE_ATTACK);
+					simon->StartAttack();
+				}
+				else if (simon->GetThrowHolyWater() && weapon.size() < simon->GetNumWeapon())
+				{
+					if (simon->nx > 0)
+					{
+						Holywater = new HolyWater(simon->GetPosition().x + 20, camera, simon->nx);
+						Holywater->SetPosition(simon->x + 20, simon->y);
+					}
+					else
+					{
+						Holywater = new HolyWater(simon->GetPosition().x, camera, simon->nx);
+						Holywater->SetPosition(simon->x + 8, simon->y);
+					}
+					weapon.push_back(Holywater);
+					MS->SetActive(false);
+					simon->SetState(SIMON_STATE_ATTACK);
+					simon->StartAttack();
+				}
+			}
+
 			if (!game->IsKeyDown(DIK_UP))
 			{
 				MS->SetActive(true);
@@ -693,21 +749,21 @@ void SceneGame::Update(DWORD dt)
 			{
 				torch->StartDieTime();
 				torch->FirstX = torch->x;
-				/*dagger->SetActive(false);*/
+				dagger->SetActive(false);
 				torch->SetState(TORCH_STATE_INVI_POT);
 			}
 			if (torch->GetState() == TORCH_STATE_AXE_TORCH)
 			{
 				torch->StartDieTime();
 				torch->FirstX = torch->x;
-				/*dagger->SetActive(false);*/
+				dagger->SetActive(false);
 				torch->SetState(TORCH_STATE_AXE);
 			}
 			if (torch->GetState() == TORCH_STATE_NORMAL || torch->GetState() == TORCH_STATE_CANDLE)
 			{
 				torch->StartDieTime();
 				torch->FirstX = torch->x;
-				/*dagger->SetActive(false);*/
+				dagger->SetActive(false);
 				MS->MSUpDropTime++;
 				int a;
 				srand(time(NULL));
@@ -768,8 +824,43 @@ void SceneGame::Update(DWORD dt)
 			}
 		}
 	}
+	for (int i = 0; i < effects.size(); i++)
+	{
+		if (effects.at(i)->GetActive() == false)
+		{
+			effects.erase(effects.begin() + i);
+		}
+	}
+	for (int i = 0; i < bricks.size(); i++)
+	{
+		if (bricks.at(i)->GetActive() == false)
+		{
+			bricks.erase(bricks.begin() + i);
+		}
+	}
+	for (int i = 0; i < torches.size(); i++)
+	{
+		if (torches.at(i)->GetActive() == false)
+		{
+			torches.erase(torches.begin() + i);
+		}
+	}
+	for (int i = 0; i < invisibleobjects.size(); i++)
+	{
+		if (invisibleobjects.at(i)->GetActive() == false)
+		{
+			invisibleobjects.erase(invisibleobjects.begin() + i);
+		}
+	}
 
-	
+	//Delete object when unactive
+	for (int i = 0; i < weapon.size(); i++)
+	{
+		if (weapon.at(i)->GetActive() == false)
+		{
+			weapon.erase(weapon.begin() + i);
+		}
+	}
 	for (int i = 0; i < effects.size(); i++)
 	{
 		if (effects.at(i)->GetActive() == false)
@@ -837,6 +928,10 @@ void SceneGame::Update(DWORD dt)
 	{
 		bricks[i]->Update(dt, &bricks);
 	}
+	for (int i = 0; i < weapon.size(); i++)
+	{
+		weapon[i]->Update(dt, &bricks);
+	}
 	camera->Update(dt, startpoint, endpoint);
 	simon->Update(dt, &bricks);
 	MS->Update(dt, &bricks);
@@ -863,4 +958,9 @@ void SceneGame::Render()
 	}
 	simon->Render(camera);
 	MS->Render(camera);
+	for (int i = 0; i < weapon.size(); i++)
+	{
+		weapon[i]->Render(camera);
+
+	}
 }

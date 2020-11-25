@@ -65,6 +65,9 @@
     <Filter Include="Framework\Effect">
       <UniqueIdentifier>{eab68945-87f4-4b9a-96ff-bce1020eb0f7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Framework\Board\Font">
+      <UniqueIdentifier>{1916791d-593a-4ddc-9255-b16c900a741c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Simon.h">
@@ -129,6 +132,24 @@
     </ClInclude>
     <ClInclude Include="Effect.h">
       <Filter>Framework\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Board.h">
+      <Filter>Framework\Board</Filter>
+    </ClInclude>
+    <ClInclude Include="BoardHealth.h">
+      <Filter>Framework\Board</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>Framework\Board\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="Axe.h">
+      <Filter>Object\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Dagger.h">
+      <Filter>Object\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="HolyWater.h">
+      <Filter>Object\Weapon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -197,6 +218,24 @@
     </ClCompile>
     <ClCompile Include="Effect.cpp">
       <Filter>Framework\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Board.cpp">
+      <Filter>Framework\Board</Filter>
+    </ClCompile>
+    <ClCompile Include="BoardHealth.cpp">
+      <Filter>Framework\Board</Filter>
+    </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>Framework\Board\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="Axe.cpp">
+      <Filter>Object\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Dagger.cpp">
+      <Filter>Object\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="HolyWater.cpp">
+      <Filter>Object\Weapon</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

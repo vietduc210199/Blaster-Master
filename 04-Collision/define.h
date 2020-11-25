@@ -139,6 +139,35 @@ using namespace std;
 #define WHIP_LONG_BOX_WIDTH		18
 #define WHIP_LONG_BOX_HEIGHT	15
 
+//Wepon
+   //Axe
+#define AXE_WIDTH 17
+#define AXE_HEIGHT 17
+#define AXE_GRAVITY  0.0001
+#define AXE_DROP_SPEED 0.17
+#define AXE_FLY_SPEED 0.0093
+#define AXE_FLY_RANGE 70
+#define AXE_STATE_ATTACK 0
+	//Dagger
+#define DG_WIDTH 17
+#define DG_HEIGHT 10
+#define DG_FLY_SPEED 0.2
+#define DG_STATE_ATTACK_RIGHT 0
+#define DG_STATE_ATTACK_LEFT 1
+//Holy Water
+#define HW_FIRE_WIDTH 18
+#define HW_FIRE_HEIGHT 14
+#define HW_FLY_RANGE 25
+#define HW_GRAVITY 0.02
+#define HW_SPEED 0.1
+#define HW_DROP_GRAVITY 0.14
+#define HW_DROP_SPEED 0.08
+#define HW_FIRE_TIME 1000
+#define HW_STATE_BOTTLE 0
+#define HW_STATE_FIRE 1
+#define HW_ANI_BOTTLE 0
+#define HW_ANI_FIRE 1
+
 //--------------MAP------------
 //brick
 	//Brick

@@ -26,6 +26,19 @@ void CSprite::Draw(float x, float y, int alpha)
 	game->Draw(x, y, texture, left, top, right, bottom, alpha);
 }
 
+void CSprite::DrawFrame(int idFrame, float X, float Y, int Column, float FrameWidth, float Frameheight, int alpha, int R, int G, int B)
+{
+	RECT r;
+	r.left = (idFrame % Column) * FrameWidth;
+	r.top = (idFrame / Column) * Frameheight;
+	r.right = r.left + FrameWidth;
+	r.bottom = r.top + Frameheight;
+	D3DXVECTOR3 p(trunc(X), trunc(Y), 0);
+	spriteHandler->Draw(texture, &r, NULL, &p, D3DCOLOR_ARGB(alpha, R, G, B));
+}
+
+
+
 void CSprites::Add(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex)
 {
 	LPSPRITE s = new CSprite(id, left, top, right, bottom, tex);

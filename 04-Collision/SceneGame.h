@@ -11,6 +11,9 @@
 #include "Stage.h"
 #include "InviObjects.h"
 #include "Effect.h"
+#include "Axe.h"
+#include "Dagger.h"
+#include "HolyWater.h"
 
 #define ID_SCENE_LEVEL_ENTRANCE 1
 #define ID_SCENE_LEVEL_CASTLE 2
@@ -30,6 +33,9 @@ private:
 
 	CSimon* simon;
 	CMS* MS;
+	Dagger* dagger;
+	Axe* axe;
+	HolyWater* Holywater;
 	CBrick* brick;
 	CTorch* torch;
 	Effect* effect;
@@ -40,6 +46,7 @@ private:
 	vector<LPGAMEOBJECT> torches;
 	vector<LPGAMEOBJECT> invisibleobjects;
 	vector<LPGAMEOBJECT> effects;
+	vector<LPGAMEOBJECT> weapon;
 
 
 	vector<LPGAMEOBJECT> ObjectsFromGrid;
@@ -65,8 +72,6 @@ public:
 	SceneGame();
 	~SceneGame();
 
-	void SetScene(int IDLevel);
-
 	void KeyState(BYTE* state);
 	void OnKeyDown(int KeyCode);
 	void OnKeyUp(int KeyCode);
@@ -87,7 +92,5 @@ public:
 	{
 		return this->simon;
 	}
-
-	
 };
 
