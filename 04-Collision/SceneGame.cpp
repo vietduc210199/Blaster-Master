@@ -26,6 +26,11 @@ SceneGame::SceneGame()
 	axe = new Axe(simon->GetPosition().x, camera, simon->nx);
 	Holywater = new HolyWater(simon->GetPosition().x, camera, simon->nx);
 
+	gameTime = new GameTime();
+	gameTime->SetTime(0);
+
+	board = new Board(BOARD_DEFAULT_POSITION_X, BOARD_DEFAULT_POSITION_Y);
+
 	/*stagename = 3;
 	simon->SetStartPoint(stages.at(3)->startpoint);
 	simon->SetEndPoint(stages.at(3)->endpoint);
@@ -36,7 +41,9 @@ SceneGame::SceneGame()
 
 SceneGame::~SceneGame()
 {
-
+	SAFE_DELETE(grid);
+	SAFE_DELETE(Tile);
+	SAFE_DELETE(board);
 }
 
 void SceneGame::KeyState(BYTE* state)
@@ -60,8 +67,9 @@ void SceneGame::KeyState(BYTE* state)
 				simon->SetState(SIMON_STATE_WALKING_LEFT);
 		}
 	}
-	else if (game->IsKeyDown(DIK_DOWN) && camera->GetCamMove() == false && simon->GetIsDamaged() == 0)
+	else if (game->IsKeyDown(DIK_DOWN) && camera->GetCamMove() == false && simon->GetIsDamaged() == 0 )
 	{
+		if(simon->GetJumpMoveTime() == 0)
 		if (simon->GetHealth() != 0)
 		{
 			if (simon->GetAutoWalkingTime() == 0)
@@ -69,19 +77,11 @@ void SceneGame::KeyState(BYTE* state)
 				if (simon->GetOnStair() == false)
 				{
 					simon->SetState(SIMON_STATE_SIT);
-					if (simon->GetJumpTime() != 0 || simon->GetJumpMoveTime() != 0)
-					{
-						DebugOut(L"TRUE");
-						simon->StandUp();
-						simon->SitDown();
-
-					}
 					simon->SetSit(true);
 				}
 				else if (simon->GetOnStair() == true)
 				{
 					simon->SetState(SIMON_STATE_WALKING_DOWN_STAIR);
-
 				}
 			}
 		}
@@ -127,11 +127,13 @@ void SceneGame::OnKeyDown(int KeyCode)
 	case DIK_A:
 		if (simon->GetAttackTime() == 0)
 		{	
-			if (game->IsKeyDown(DIK_UP))
+			if (game->IsKeyDown(DIK_UP) && simon->GetHeartCollect() > 0)
 			{
 				if (simon->GetThrowDagger() && weapon.size() < simon->GetNumWeapon())
 				{
 					dagger = new Dagger(camera, simon->nx);
+					simon->SetHeart(-1);
+
 					if (simon->nx > 0)
 					{
 						dagger->SetPosition(simon->x + 20, simon->y + 5);
@@ -147,6 +149,8 @@ void SceneGame::OnKeyDown(int KeyCode)
 				else if (simon->GetThrowAxe() && weapon.size() < simon->GetNumWeapon())
 				{
 					axe = new Axe(simon->GetPosition().x + 8, camera, simon->nx);
+					simon->SetHeart(-1);
+
 					if (simon->nx > 0)
 					{
 						axe->SetPosition(simon->x + 8, simon->y);
@@ -164,11 +168,15 @@ void SceneGame::OnKeyDown(int KeyCode)
 					if (simon->nx > 0)
 					{
 						Holywater = new HolyWater(simon->GetPosition().x + 20, camera, simon->nx);
+						simon->SetHeart(-1);
+
 						Holywater->SetPosition(simon->x + 20, simon->y);
 					}
 					else
 					{
 						Holywater = new HolyWater(simon->GetPosition().x, camera, simon->nx);
+						simon->SetHeart(-1);
+
 						Holywater->SetPosition(simon->x + 8, simon->y);
 					}
 					weapon.push_back(Holywater);
@@ -425,9 +433,11 @@ void SceneGame::Update(DWORD dt)
 			case TORCH_STATE_LHEART:
 				torch->SetActive(false);
 				simon->SetHealth(-3);
+				simon->SetHeart(2);
 				break;
 			case TORCH_STATE_SHEART:
 				simon->SetHealth(-1);
+				simon->SetHeart(1);
 				torch->SetActive(false);
 				break;
 			case TORCH_STATE_CHIKEN:
@@ -935,6 +945,7 @@ void SceneGame::Update(DWORD dt)
 	camera->Update(dt, startpoint, endpoint);
 	simon->Update(dt, &bricks);
 	MS->Update(dt, &bricks);
+	gameTime->Update(dt);
 }
 
 void SceneGame::Render()
@@ -961,6 +972,7 @@ void SceneGame::Render()
 	for (int i = 0; i < weapon.size(); i++)
 	{
 		weapon[i]->Render(camera);
-
 	}
+	board->Render(simon, 1, GAME_TIME_MAX - gameTime->GetTime(), NULL);
+	
 }

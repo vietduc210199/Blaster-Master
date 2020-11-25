@@ -22,13 +22,19 @@ void TextureManager::LoadResources()
 	TexList->Add(eType::ID_TEX_ENEMY, L"textures\\enemy.png", D3DCOLOR_XRGB(255, 0, 255));
 
 	//Board
-	TexList->Add(eType::BOARD, L"Resources/blackboard.png", D3DCOLOR_XRGB(1, 1, 1));
-	TexList->Add(eType::FONT, L"textures\\font\\1.png", D3DCOLOR_XRGB(13, 3, 37));
-	TexList->Add(eType::BOARDHEALTH, L"textures\\heal.png", D3DCOLOR_XRGB(3, 1, 3));
+	TexList->Add(eType::BOARD, L"textures\\blackboard.png", D3DCOLOR_XRGB(0, 0, 0));
+	TexList->Add(eType::FONT, L"textures\\font\\1.png", D3DCOLOR_XRGB(0, 0, 0));
+	TexList->Add(eType::BOARDHEALTH, L"textures\\heal.png", D3DCOLOR_XRGB(0, 0, 0));
 
 
 	//item
-	TexList->Add(eType::ITEMDOUBLESHOT, L"textures\\item\\11.png", D3DCOLOR_XRGB(0, 0, 0));
+	TexList->Add(eType::ITEMDOUBLESHOT, L"textures\\item\\11.png", D3DCOLOR_XRGB(255, 0, 255));
+	TexList->Add(eType::DAGGER, L"textures\\item\\4.png", D3DCOLOR_XRGB(255, 0, 255));
+	TexList->Add(eType::THROWINGAXE, L"textures\\item\\7.png", D3DCOLOR_XRGB(255, 0, 255));
+	TexList->Add(eType::HOLYWATER, L"textures\\item\\9.png", D3DCOLOR_XRGB(255, 0, 255));
+	TexList->Add(eType::BOOMERANG, L"textures\\item\\8.png", D3DCOLOR_XRGB(255, 0, 255));
+
+
 }
 
 

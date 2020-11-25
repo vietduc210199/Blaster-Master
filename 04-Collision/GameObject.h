@@ -44,6 +44,7 @@ public:
 	int type; // Loại Object
 	int direction;	// hướng -1 : trái, 1: phải
 
+	int health = 1;
 
 	float dx;	// dx = vx*dt
 	float dy;	// dy = vy*dt

@@ -28,6 +28,7 @@ void CSprite::Draw(float x, float y, int alpha)
 
 void CSprite::DrawFrame(int idFrame, float X, float Y, int Column, float FrameWidth, float Frameheight, int alpha, int R, int G, int B)
 {
+	spriteHandler = CGame::GetInstance()->GetSpriteHandler();
 	RECT r;
 	r.left = (idFrame % Column) * FrameWidth;
 	r.top = (idFrame / Column) * Frameheight;

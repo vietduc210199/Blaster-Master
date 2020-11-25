@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <iostream>
 #include <memory>
 #include "GameObject.h"
@@ -45,6 +45,7 @@
 
 class CSimon: public CGameObject
 {
+	
 	int jump;
 	int jumpmove;
 	int attack;
@@ -68,7 +69,7 @@ class CSimon: public CGameObject
 	bool isStairUp = true;
 	bool isThrowDagger = false;
 	bool isThrowAxe = false;
-	bool isThrowHolyWater = true;
+	bool isThrowHolyWater = false;
 	bool autowalkingdoor = false;
 	bool isEatCross;
 	bool isEatClock;
@@ -80,6 +81,10 @@ class CSimon: public CGameObject
 	DWORD autowalkingdoor_start;
 	DWORD isDamaged_start;
 	DWORD isUntouchable_start;
+
+	int HeartCollect; // số lượng item heart người chơi nhặt được
+	int Lives; // số mạng của simon
+	int score; // điểm
 
 public: 
 	CSimon() : CGameObject()
@@ -97,6 +102,9 @@ public:
 		isOnGround = true;
 		alpha = 255;
 		level = SIMON_LEVEL_MS_1;
+		HeartCollect = 5;
+		Lives = 2;
+		score = 0;
 	}
 	int GetLevel()
 	{
@@ -149,6 +157,18 @@ public:
 	int GetHealth()
 	{
 		return health;
+	}
+	int GetScore()
+	{
+		return score;
+	}
+	int GetHeartCollect()
+	{
+		return HeartCollect;
+	}
+	int GetLives()
+	{
+		return Lives;
 	}
 	boolean GetSit()
 	{
@@ -260,9 +280,22 @@ public:
 	void StartIsUnTouchable(int a) { isUntouchable = 1; isUntouchable_start = GetTickCount(); untouchabletime = a; }
 	void SetSit(boolean a) { sit = a; };
 	void SetJump(int a) { jump = a; }
+	void SetHeart(int a)
+	{
+		HeartCollect += a;
+	}
+	void SetLives(int a)
+	{
+		Lives += a;
+	}
+	void SetScores(int a)
+	{
+		score += a;
+	}
 
 	void SitDown();
 	void StandUp();
+	eType GetTypeWeaponCollect();
 
 
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);

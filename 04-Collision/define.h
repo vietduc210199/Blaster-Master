@@ -22,7 +22,7 @@ using namespace std;
 #define COLOR_KEY D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.0f) 
 
 
-#define SCREEN_WIDTH 320
+#define SCREEN_WIDTH 280
 #define SCREEN_HEIGHT 255
 
 #define IS_DEBUG_RENDER_BBOX isDebug_RenderBBox

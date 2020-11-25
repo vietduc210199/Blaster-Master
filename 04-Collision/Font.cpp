@@ -3,7 +3,7 @@
 Font::Font()
 {
 	_Texture = TextureManager::getInstance()->getData()->Get(eType::FONT);
-	_Sprite = new CSprite(eType::FONT, 0, 0, 195, 42, _Texture);
+	_Sprite = new CSprite(eType::FONT, 0, 0, 125, 27, _Texture);
 }
 
 Font::~Font()
@@ -28,6 +28,6 @@ void Font::Draw(float x, float y, const string& s)
 			}
 			else
 				_Sprite->SelectFrame(36);
-		_Sprite->DrawFrame(_Sprite->GetCurrentFrame(),x + i * 15, y, 13, 15, 14);
+		_Sprite->DrawFrame(_Sprite->GetCurrentFrame(),x + i * 9, y, 13, 9.7, 9);
 	}
 }

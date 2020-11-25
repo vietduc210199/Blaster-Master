@@ -2,6 +2,7 @@
 #include "Scene.h"
 #include "camera.h"
 #include "AnimationsManager.h"
+#include "GameTime.h"
 
 #include "Simon.h"
 #include "Torch.h"
@@ -14,9 +15,12 @@
 #include "Axe.h"
 #include "Dagger.h"
 #include "HolyWater.h"
+#include "Board.h"
 
 #define ID_SCENE_LEVEL_ENTRANCE 1
 #define ID_SCENE_LEVEL_CASTLE 2
+
+#define GAME_TIME_MAX 300
 
 
 class SceneGame : public Scene 
@@ -29,7 +33,9 @@ private:
 	TileMap* Tile;
 	InviObjects* InObj;
 
+	GameTime* gameTime;
 	Camera* camera;
+	Board* board;
 
 	CSimon* simon;
 	CMS* MS;
@@ -47,6 +53,8 @@ private:
 	vector<LPGAMEOBJECT> invisibleobjects;
 	vector<LPGAMEOBJECT> effects;
 	vector<LPGAMEOBJECT> weapon;
+	vector<LPGAMEOBJECT> enemy;
+
 
 
 	vector<LPGAMEOBJECT> ObjectsFromGrid;

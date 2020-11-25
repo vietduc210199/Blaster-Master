@@ -23,6 +23,7 @@ private:
 
 
 	CSprite* _spriteIconDoubleShot;
+	CSprite* _spriteWeapon;
 public:
 	Board(float X, float Y);
 	void Render(CSimon* simon, int state, int RemainingTime, CGameObject* boss);

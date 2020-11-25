@@ -411,6 +411,13 @@ void CSimon::StandUp()
 	sit = false;
 }
 
+eType CSimon::GetTypeWeaponCollect()
+{
+	if (isThrowAxe) return eType::THROWINGAXE;
+	if (isThrowDagger) return eType::DAGGER;
+	if (isThrowHolyWater) return eType::HOLYWATER;
+}
+
 
 void CSimon::SetStartPoint(int a)
 {
