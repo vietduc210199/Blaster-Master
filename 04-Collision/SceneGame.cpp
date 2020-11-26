@@ -14,8 +14,8 @@ SceneGame::SceneGame()
 	simon = new CSimon();
 
 
-	LoadResources(SOURCE_ENTRANCE_PNG, eType::ID_TEX_ENTRANCESTAGE, SOURCE_ENTRANCE_TXT, ID_SCENE_LEVEL_ENTRANCE);
-	//LoadResources(SOURCE_CASTLE_PNG, eType::ID_TEX_CASTLE, SOURCE_CASTLE_TXT, ID_SCENE_LEVEL_CASTLE);
+	//LoadResources(SOURCE_ENTRANCE_PNG, eType::ID_TEX_ENTRANCESTAGE, SOURCE_ENTRANCE_TXT, ID_SCENE_LEVEL_ENTRANCE);
+	LoadResources(SOURCE_CASTLE_PNG, eType::ID_TEX_CASTLE, SOURCE_CASTLE_TXT, ID_SCENE_LEVEL_CASTLE);
 	
 
 	MS = new CMS();
@@ -31,12 +31,12 @@ SceneGame::SceneGame()
 
 	board = new Board(BOARD_DEFAULT_POSITION_X, BOARD_DEFAULT_POSITION_Y);
 
-	/*stagename = 3;
+	stagename = 3;
 	simon->SetStartPoint(stages.at(3)->startpoint);
 	simon->SetEndPoint(stages.at(3)->endpoint);
 	camera->SetStartPoint(stages.at(3)->startpoint);
 	camera->SetEndPoint(stages.at(3)->endpoint);
-	simon->SetPosition(stages.at(3)->simonposx, stages.at(3)->simonposy);*/
+	simon->SetPosition(stages.at(3)->simonposx, stages.at(3)->simonposy);
 }
 
 SceneGame::~SceneGame()
@@ -599,10 +599,13 @@ void SceneGame::Update(DWORD dt)
 				camera->SetStartPoint(stages.at(stagename)->startpoint);
 				camera->SetEndPoint(stages.at(stagename)->endpoint);
 				simon->SetPosition(stages.at(stagename)->simonposx - 1, stages.at(stagename)->simonposy - 1);
+				DebugOut(L"Postion Y: %d\n", stages.at(stagename)->simonposy);
+				DebugOut(L"Postion X: %d\n", stages.at(stagename)->simonposx);
 			}
 			else if (InOb->type == SC_TYPE_UNDER_TO_LAND)
 			{
-				DebugOut(L"Under to land");
+				
+
 				if (simon->GetStartPoint() == stages.at(1)->startpoint)
 				{
 					stagename += 2;
@@ -614,6 +617,7 @@ void SceneGame::Update(DWORD dt)
 				else if (simon->GetStartPoint() == stages.at(3)->startpoint)
 				{
 					stagename -= 2;
+					DebugOut(L"statename: %d\n", stagename);
 					if (stages.at(stagename)->temp[0] > stages.at(stagename)->simonposx)
 					{
 						stages.at(stagename)->SetSimonPos(0, 1);
@@ -624,6 +628,7 @@ void SceneGame::Update(DWORD dt)
 				camera->SetStartPoint(stages.at(stagename)->startpoint);
 				camera->SetEndPoint(stages.at(stagename)->endpoint);
 				simon->SetPosition(stages.at(stagename)->simonposx - 1, stages.at(stagename)->simonposy - 1);
+				
 			}
 			else if (InOb->type == STAIR_TYPE_RIGHT_UP_HELPER)
 			{
@@ -833,34 +838,7 @@ void SceneGame::Update(DWORD dt)
 			}
 		}
 	}
-	for (int i = 0; i < effects.size(); i++)
-	{
-		if (effects.at(i)->GetActive() == false)
-		{
-			effects.erase(effects.begin() + i);
-		}
-	}
-	for (int i = 0; i < bricks.size(); i++)
-	{
-		if (bricks.at(i)->GetActive() == false)
-		{
-			bricks.erase(bricks.begin() + i);
-		}
-	}
-	for (int i = 0; i < torches.size(); i++)
-	{
-		if (torches.at(i)->GetActive() == false)
-		{
-			torches.erase(torches.begin() + i);
-		}
-	}
-	for (int i = 0; i < invisibleobjects.size(); i++)
-	{
-		if (invisibleobjects.at(i)->GetActive() == false)
-		{
-			invisibleobjects.erase(invisibleobjects.begin() + i);
-		}
-	}
+	
 
 	//Delete object when unactive
 	for (int i = 0; i < weapon.size(); i++)
@@ -919,7 +897,6 @@ void SceneGame::Update(DWORD dt)
 		{
 			camera->SetCamera((simon->x + SIMON_IDLE_BBOX_WIDTH) - SCREEN_WIDTH / 2, 200);
 		}
-
 	}
 
 
@@ -941,6 +918,7 @@ void SceneGame::Update(DWORD dt)
 	{
 		weapon[i]->Update(dt, &bricks);
 	}
+
 	camera->Update(dt, startpoint, endpoint);
 	simon->Update(dt, &bricks);
 	MS->Update(dt, &bricks);
@@ -972,6 +950,6 @@ void SceneGame::Render()
 	{
 		weapon[i]->Render(camera);
 	}
-	board->Render(simon, 1, GAME_TIME_MAX - gameTime->GetTime(), NULL);
+	board->Render(simon, stagename + 1, GAME_TIME_MAX - gameTime->GetTime(), NULL);
 	
 }
