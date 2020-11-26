@@ -162,7 +162,7 @@ int CGameObject::GetId()
 
 void CGameObject::RenderBoundingBox(Camera* camera)
 {
-	if (active == true)
+	if (active == true && CGame::GetInstance()->GetDebugging())
 	{
 		D3DXVECTOR3 p((int)x, (int)y, 0);
 		RECT rect;
@@ -177,9 +177,7 @@ void CGameObject::RenderBoundingBox(Camera* camera)
 		rect.right = (int)r - (int)l;
 		rect.bottom = (int)b - (int)t;
 
-
 		D3DXVECTOR2 pos = camera->transform(l, t);
-
 
 		CGame::GetInstance()->Draw(pos.x, pos.y, bbox, rect.left, rect.top, rect.right, rect.bottom, 80);
 	}

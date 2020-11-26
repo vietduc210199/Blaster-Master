@@ -109,6 +109,9 @@ void SceneGame::OnKeyDown(int KeyCode)
 	if (simon->GetState() == SIMON_STATE_DIE || simon->GetChangeColorTime() != 0 || simon->GetAutoWalkingTime() != 0 || camera->GetCamMove() == true || simon->GetIsDamaged() != 0 || simon->GetHealth() == 0) return;
 	switch (KeyCode)
 	{
+	case DIK_R:
+		CGame::GetInstance()->SetDebugging();
+		break;
 	case DIK_S:
 		if (simon->GetOnStair() == false)
 		{
