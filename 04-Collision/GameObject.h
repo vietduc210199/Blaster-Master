@@ -64,6 +64,7 @@ public:
 	bool isStop;
 
 	int die = 0;
+	int action = 0;
 
 	DWORD dt; 
 	DWORD dietime_start;

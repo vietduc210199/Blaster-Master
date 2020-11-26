@@ -284,6 +284,19 @@ using namespace std;
 #define GHOUL_ANI_DIE 4
 #define GHOUL_ANI_SHEART 5
 
+//Panther
+#define PANTHER_BOX_WIDTH
+#define PANTHER_BOX_HEIGHT 
+#define PANTHER_GRAVITY 0.2f
+#define PANTHER_SPEED 0.17f
+#define PANTHER_JUMP_SPEED_X 0.12
+#define PANTHER_JUMP_SPEED_Y -0.1f
+#define PANTHER_ANI_IDLE 0
+#define PANTHER_ANI_RUNNING_RIGHT 1
+#define PANTHER_ANI_RUNNING_LEFT 2
+#define PANTHER_ANI_JUMPING 3
+#define PANTHER_ANI_DIE 4
+#define PANTHER_ANI_SHEART 5
 
 
    //Effect
