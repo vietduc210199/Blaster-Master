@@ -151,6 +151,12 @@
     <ClInclude Include="Ghoul.h">
       <Filter>Object\Enemy</Filter>
     </ClInclude>
+    <ClInclude Include="Panther.h">
+      <Filter>Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="FireBullet.h">
+      <Filter>Object\Enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -241,6 +247,12 @@
       <Filter>Framework\GameTime</Filter>
     </ClCompile>
     <ClCompile Include="Ghoul.cpp">
+      <Filter>Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Panther.cpp">
+      <Filter>Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="FireBullet.cpp">
       <Filter>Object\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
