@@ -62,6 +62,8 @@ public:
 	bool isTouchable;
 	bool isOnGround;
 	bool isStop;
+	bool isFire;
+
 
 	int die = 0;
 	int action = 0;
