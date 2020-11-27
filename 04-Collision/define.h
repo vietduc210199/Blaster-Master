@@ -316,6 +316,15 @@ using namespace std;
 #define FISHMAN_MOVE_RIGHT_RANGE 50
 #define BULLET_SPEED 0.07f
 
+//Bat
+#define BAT_SPEED_X 0.04f
+#define BAT_SPEED_Y 0.03f
+#define BAT_ANI_IDLE_RIGHT 0
+#define BAT_ANI_IDLE_LEFT 1
+#define BAT_ANI_FLYING_RIGHT 2
+#define BAT_ANI_FLYING_LEFT 3
+#define BAT_ANI_DIE 4
+#define BAT_ANI_SHEART 5
 
    //Effect
 #define EFFECT_TYPE_DOOR 1

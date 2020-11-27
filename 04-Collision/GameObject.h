@@ -53,7 +53,10 @@ public:
 	float vy;
 
 	int nx;	 
+
 	float FirstX;
+	float FirstY;
+
 
 	int state;
 	int level = 1;
