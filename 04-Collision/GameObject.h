@@ -67,8 +67,19 @@ public:
 	bool isStop;
 	bool isFire;
 
+	int sheartswidth;
+	int sheartheight;
+	int lheartwidth;
+	int lheartheight;
+	int daggerwidth;
+	int daggerheight;
+	int moneywidth;
+	int moneyheight;
+	int otherswidth;
+	int othersheight;
 
 	int die = 0;
+	int just_die = 0;
 	int action = 0;
 
 	DWORD dt; 
@@ -119,6 +130,7 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
 	virtual void Render(Camera* camera) = 0;
 	virtual void SetState(int state) { this->state = state; }
+	void EnemySetStateDie();
 	virtual void SetLevel(int level) { this->level = level; }
 	RECT CGameObject::GetBound()
 	{

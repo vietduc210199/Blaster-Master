@@ -125,12 +125,14 @@
   <ItemGroup>
     <ClInclude Include="AnimationsManager.h" />
     <ClInclude Include="Axe.h" />
+    <ClInclude Include="Bat.h" />
     <ClInclude Include="Board.h" />
     <ClInclude Include="BoardHealth.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="Dagger.h" />
     <ClInclude Include="Effect.h" />
     <ClInclude Include="FireBullet.h" />
+    <ClInclude Include="Fishman.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="GameTime.h" />
     <ClInclude Include="Ghoul.h" />
@@ -158,12 +160,14 @@
   <ItemGroup>
     <ClCompile Include="AnimationsManager.cpp" />
     <ClCompile Include="Axe.cpp" />
+    <ClCompile Include="Bat.cpp" />
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="BoardHealth.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="Dagger.cpp" />
     <ClCompile Include="Effect.cpp" />
     <ClCompile Include="FireBullet.cpp" />
+    <ClCompile Include="Fishman.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="Ghoul.cpp" />

@@ -17,6 +17,12 @@
 #include "HolyWater.h"
 #include "Board.h"
 
+#include "Ghoul.h"
+#include "Panther.h"
+#include "FireBullet.h"
+#include "Fishman.h"
+#include "Bat.h"
+
 #define ID_SCENE_LEVEL_ENTRANCE 1
 #define ID_SCENE_LEVEL_CASTLE 2
 
@@ -46,6 +52,12 @@ private:
 	CTorch* torch;
 	Effect* effect;
 
+	Ghoul* ghoul;
+	Bat* bat;
+	Fishman* fishman;
+	Panther* panther;
+	FireBullet* firebullet;
+
 	int currentLevel;
 
 	vector<LPGAMEOBJECT> bricks;
@@ -65,6 +77,26 @@ private:
 	float startpoint, endpoint, camstoppoint;
 
 	int stagename = 0;
+	
+	int countChangeColor;
+
+	int spawndelayghoul = 0;
+	int spawndelaybat = 0;
+	int spawndelayfishman = 0;
+	int spawndelaypanther = 0;
+	int stopenemy;
+
+	bool isChangeColor;
+	bool isGrey;
+
+
+	DWORD spawndelayghoultimer_start;
+	DWORD spawndelaybattimer_start;
+	DWORD spawndelayfishmantimer_start;
+	DWORD spawndelaypanthertimer_start;
+	DWORD stopenemytimer_start;
+	DWORD timerChangeColor;
+	DWORD timerSimonDie;
 
 
 	//read from file
@@ -90,6 +122,13 @@ public:
 	void LoadSceneObject(int scene);
 	void LoadObjectFromFile(string source);
 	void LoadStageVaribale(int scene);
+	void LoadPantherPosFromFile(string source);
+
+	void SpawnDelayGhoulStart() { spawndelayghoul = 1;  spawndelayghoultimer_start = GetTickCount(); }
+	void SpawnDelayPantherStart() { spawndelaypanther = 1;  spawndelaypanthertimer_start = GetTickCount(); }
+	void SpawnDelayBatStart() { spawndelaybat = 1;  spawndelaybattimer_start = GetTickCount(); }
+	void SpawnDelayFishmanStart() { spawndelayfishman = 1;  spawndelayfishmantimer_start = GetTickCount(); }
+	void StopEnemyStart() { stopenemy = 1; stopenemytimer_start = GetTickCount(); }
 
 	void InitGame(); // khởi tạo lại như chơi từ đầu
 

@@ -131,10 +131,12 @@ void CTorch::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			else vx = 0;
 		}
 	}
-	if (GetTickCount() - dietime_start > ENEMY_DIE_TIME)
+	if (GetTickCount() - dietime_start > ENEMY_DIE_TIME )
 	{
 		dietime_start = 0;
 		die = 0;
+		if (just_die == 1)
+			this->SetActive(false);
 	}
 	Collision(coObjects);
 }

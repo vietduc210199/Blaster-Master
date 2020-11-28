@@ -304,7 +304,7 @@ void CSimon::Render(Camera* camera)
 			ani = SIMON_ANI_JUMP_LEFT;
 		}
 	}
-	if (isOnGround && health == 0)
+	if (isOnGround && health <= 0)
 	{
 		ani = SIMON_ANI_DIE;
 	}

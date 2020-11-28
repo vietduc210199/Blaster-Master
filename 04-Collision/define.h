@@ -39,6 +39,10 @@ using namespace std;
 #define SHEART_WIDTH 8
 #define SHEART_HEIGHT 8
 
+#define SPAWN_DELAY_TIMER 15000
+#define STOP_ENEMY_TIMER 5000
+
+
 //Source file
 #define SOURCE_ENTRANCE_PNG L"textures\\entrance_tilemap.png"
 #define SOURCE_ENTRANCE_TXT "ReadFile\\Map\\entrance.txt"
@@ -193,9 +197,12 @@ using namespace std;
 #define BBRICK_ANI_MONEY 2
 #define BBRICK_ANI_CHIKEN 3
 #define BBRICK_ANI_DOUBLE_SHOOT 4
+
 //Invisible Objects
+//--------------------------------
 #define INVI_WIDTH 10
 #define INVI_HEIGHT 10
+
 	//Stage Changer
 #define SC_TYPE_CHANGE_SCENE 1006
 #define SC_TYPE_DOOR 1001
@@ -212,6 +219,14 @@ using namespace std;
 #define STAIR_TYPE_DOWN_LEFT -100
 #define STAIR_TYPE_UP_LEFT 101
 #define STAIR_TYPE_DOWN_RIGHT -101
+
+  //Enemy Spawner
+#define GHOUL_SPAWNER 50
+#define BAT_SPAWNER 51
+#define FISHMAN_SPAWNER 52
+#define PANTHER_SPAWNER 53
+#define BOSS_SPAWNER 55
+//-------------------------------------//
 //Torch
 #define TORCH_STATE_NORMAL 0
 #define TORCH_STATE_LHEART 1
@@ -271,6 +286,21 @@ using namespace std;
 #define ENEMY_STATE_JUMPING 4
 #define ENEMY_STATE_FALLING 5
 #define ENEMY_STATE_ATTACK 6
+#define ENEMY_STATE_DAGGER 7
+#define ENEMY_STATE_AXE 8
+#define ENEMY_STATE_HOLYWATER 9
+#define ENEMY_STATE_MONEY1 10
+#define ENEMY_STATE_MONEY2 11
+#define ENEMY_STATE_MONEY3 12
+#define ENEMY_STATE_MONEY4 13
+
+#define ENEMY_ANI_DAGGER 6
+#define ENEMY_ANI_AXE 7
+#define ENEMY_ANI_HOLYWATER 8
+#define ENEMY_ANI_MONEY1 9
+#define ENEMY_ANI_MONEY2 10
+#define ENEMY_ANI_MONEY3 11
+#define ENEMY_ANI_MONEY4 12
 
 
 //Ghoul
@@ -333,6 +363,21 @@ using namespace std;
 #define EFFECT_ANI_DOOR 0
 #define EFFECT_ANI_WATER 2
 #define EFFECT_ANI_BRICK 1
+
+//Item
+#define SHEART_WIDTH 9
+#define SHEART_HEIGHT 9
+#define LHEART_WIDTH 15
+#define LHEART_HEIGHT 10
+#define DAGGER_WIDTH 18
+#define DAGGER_HEIGHT 9
+#define MONEY_WIDTH 15
+#define MONEY_HEIGHT 16
+#define OTHER_WIDTH 16
+#define OTHER_HEIGHT 17
+
+
+
 
 // ID của Sprite, object
 enum eType

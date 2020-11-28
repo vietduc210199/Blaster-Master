@@ -55,6 +55,7 @@ public:
 		rect.bottom = b;
 		return rect;
 	}
+	
 	void CollisionOccurred(vector<LPGAMEOBJECT>* coObjects) override;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);

@@ -23,6 +23,57 @@ void CGameObject::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	dy = vy*dt;
 }
 
+void CGameObject::EnemySetStateDie()
+{
+	if (state == ENEMY_STATE_ATTACK) return;
+	int a;
+	int b;
+	srand(time(NULL));
+	a = rand() % 15 + 1;
+	switch (a)
+	{
+	case 1:
+	case 2:
+	case 3:
+		this->just_die = 1;
+		this->StartDieTime();
+
+		break;
+	case 4:
+	case 5:
+		b = rand() % 3 + 1;
+		switch (b)
+		{
+		case 1:
+			this->SetState(ENEMY_STATE_DAGGER); break;
+		case 2:
+			this->SetState(ENEMY_STATE_HOLYWATER); break;
+		case 3:
+			this->SetState(ENEMY_STATE_AXE); break;
+		}
+		break;
+	case 6:
+		b = rand() % 4 + 1;
+		switch (b)
+		{
+		case 1:
+			this->SetState(ENEMY_STATE_MONEY1);
+		case 2:
+			this->SetState(ENEMY_STATE_MONEY2);
+		case 3:
+			this->SetState(ENEMY_STATE_MONEY3);
+		case 4:
+			this->SetState(ENEMY_STATE_MONEY4);
+		default:
+			break;
+		}
+		break;
+	default:
+			this->SetState(ENEMY_STATE_SHEART); break;
+	}
+	DebugOut(L"Enemy rand a: %\d\n", a);
+}
+
 /*
 	Extension of original SweptAABB to deal with two moving objects
 */

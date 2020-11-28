@@ -157,6 +157,12 @@
     <ClInclude Include="FireBullet.h">
       <Filter>Object\Enemy</Filter>
     </ClInclude>
+    <ClInclude Include="Fishman.h">
+      <Filter>Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Bat.h">
+      <Filter>Object\Enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -253,6 +259,12 @@
       <Filter>Object\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="FireBullet.cpp">
+      <Filter>Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Fishman.cpp">
+      <Filter>Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Bat.cpp">
       <Filter>Object\Enemy</Filter>
     </ClCompile>
   </ItemGroup>

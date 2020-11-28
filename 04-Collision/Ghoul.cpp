@@ -23,13 +23,44 @@ void Ghoul::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		return;
 	CGameObject::Update(dt, coObjects);
 	vy = GRAVITY * dt;
-	if (GetTickCount() - dietime_start > ENEMY_DIE_TIME)
+	
+	
+	if (state != ENEMY_STATE_MOVING && die != 0)
 	{
-		dietime_start = 0;
-		die = 0;
+		vy = GRAVITY * 2 * dt;
+		if (isOnGround == false)
+		{
+			if (vx < 0 && x < FirstX - ENEMY_SHEART_RANGE)
+			{
+				x = FirstX - ENEMY_SHEART_RANGE; vx = -vx;
+			}
+			else if (vx > 0 && x > FirstX + ENEMY_SHEART_RANGE)
+			{
+				x = FirstX + ENEMY_SHEART_RANGE; vx = -vx;
+			}
+			if (state == ENEMY_STATE_SHEART)
+			{
+				if (isOnGround == false)
+				{
+					if (vx < 0 && x < FirstX - ENEMY_SHEART_RANGE)
+					{
+						x = FirstX - ENEMY_SHEART_RANGE; vx = -vx;
+					}
+
+					if (vx > 0 && x > FirstX + ENEMY_SHEART_RANGE)
+					{
+						x = FirstX + ENEMY_SHEART_RANGE; vx = -vx;
+					}
+					vx = -ENEMY_SHEART_SPEED;
+				}
+			}
+			else vx = 0;
+		}
+		
 	}
-	if (state == ENEMY_STATE_MOVING)
+	else if (state == ENEMY_STATE_MOVING)
 	{
+
 		if (isStop == false)
 		{
 			if (nx > 0)
@@ -37,25 +68,12 @@ void Ghoul::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			else vx = -GHOUL_SPEED;
 		}
 	}
-	if (state != ENEMY_STATE_MOVING && die == 0)
+	if (GetTickCount() - dietime_start > ENEMY_DIE_TIME)
 	{
-		state = ENEMY_STATE_SHEART;
-	}
-	if (state == ENEMY_STATE_SHEART)
-	{
-		if (isOnGround == false)
-		{
-			if (vx < 0 && x < FirstX - ENEMY_SHEART_RANGE)
-			{
-				x = FirstX - ENEMY_SHEART_RANGE; vx = -vx;
-			}
-
-			if (vx > 0 && x > FirstX + ENEMY_SHEART_RANGE)
-			{
-				x = FirstX + ENEMY_SHEART_RANGE; vx = -vx;
-			}
-			vx = -ENEMY_SHEART_SPEED;
-		}
+		dietime_start = 0;
+		die = 0;
+		if (just_die == 1)
+			this->SetActive(false);
 	}
 	Collision(coObjects);
 }
@@ -76,6 +94,34 @@ void Ghoul::Render(Camera* camera)
 	else if (state == ENEMY_STATE_SHEART)
 	{
 		ani = GHOUL_ANI_SHEART;
+	}
+	else if (state == ENEMY_STATE_DAGGER)
+	{
+		ani = ENEMY_ANI_DAGGER;
+	}
+	else if (state == ENEMY_STATE_AXE)
+	{
+		ani = ENEMY_ANI_AXE;
+	}
+	else if (state == ENEMY_STATE_HOLYWATER)
+	{
+		ani = ENEMY_ANI_HOLYWATER;
+	}
+	else if (state == ENEMY_STATE_MONEY1)
+	{
+		ani = ENEMY_ANI_MONEY1;
+	}
+	else if (state == ENEMY_STATE_MONEY2)
+	{
+		ani = ENEMY_ANI_MONEY2;
+	}
+	else if (state == ENEMY_STATE_MONEY3)
+	{
+		ani = ENEMY_ANI_MONEY3;
+	}
+	else if (state == ENEMY_STATE_MONEY4)
+	{
+		ani = ENEMY_ANI_MONEY4;
 	}
 	if (die != 0)
 	{
@@ -124,9 +170,27 @@ void Ghoul::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 	top = y;
 	right = x + GHOUL_BOX_WIDTH;
 	bottom = y + GHOUL_BOX_HEIGHT;
-	if (state == ENEMY_STATE_SHEART)
+	if(state == ENEMY_STATE_MONEY1
+		|| state == ENEMY_STATE_MONEY2
+		|| state == ENEMY_STATE_MONEY3
+		|| state == ENEMY_STATE_MONEY4)
+	{
+		right = x + MONEY_WIDTH;
+		bottom = y + MONEY_HEIGHT;
+	}
+	else if (state == ENEMY_STATE_SHEART)
 	{
 		right = x + SHEART_WIDTH;
 		bottom = y + SHEART_HEIGHT;
+	}
+	else if (state == ENEMY_STATE_DAGGER)
+	{
+		right = x + DAGGER_WIDTH;
+		bottom = y + DAGGER_HEIGHT;
+	} 
+	else if (state != ENEMY_STATE_MOVING)
+	{
+		right = x + OTHER_WIDTH;
+		bottom = y + OTHER_HEIGHT;
 	}
 }

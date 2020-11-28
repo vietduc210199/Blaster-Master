@@ -32,7 +32,7 @@
 #define SIMON_ANI_JUMP_LEFT 7
 #define SIMON_ANI_SIT_RIGHT 8
 #define SIMON_ANI_SIT_LEFT 9
-#define SIMON_ANI_DIE		99		
+#define SIMON_ANI_DIE	28		
 
 //#define SIMON_PULL_SIT 18.0f
 #define SIMON_IDLE_BBOX_WIDTH  16

@@ -9,6 +9,46 @@ void Fishman::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (active == false)
 		return;
 	CGameObject::Update(dt, coObjects);
+	if ((state == ENEMY_STATE_SHEART
+		|| state == ENEMY_STATE_DAGGER
+		|| state == ENEMY_STATE_AXE
+		|| state == ENEMY_STATE_HOLYWATER
+		|| state == ENEMY_STATE_MONEY1
+		|| state == ENEMY_STATE_MONEY2
+		|| state == ENEMY_STATE_MONEY3
+		|| state == ENEMY_STATE_MONEY4)
+		&& die != 0)
+	{
+		vy = GRAVITY * 2 * dt;
+		if (isOnGround == false)
+		{
+			if (vx < 0 && x < FirstX - ENEMY_SHEART_RANGE)
+			{
+				x = FirstX - ENEMY_SHEART_RANGE; vx = -vx;
+			}
+			else if (vx > 0 && x > FirstX + ENEMY_SHEART_RANGE)
+			{
+				x = FirstX + ENEMY_SHEART_RANGE; vx = -vx;
+			}
+			if (state == ENEMY_STATE_SHEART)
+			{
+				if (isOnGround == false)
+				{
+					if (vx < 0 && x < FirstX - ENEMY_SHEART_RANGE)
+					{
+						x = FirstX - ENEMY_SHEART_RANGE; vx = -vx;
+					}
+
+					if (vx > 0 && x > FirstX + ENEMY_SHEART_RANGE)
+					{
+						x = FirstX + ENEMY_SHEART_RANGE; vx = -vx;
+					}
+					vx = -ENEMY_SHEART_SPEED;
+				}
+			}
+			else vx = 0;
+		}
+	}
 	if (state == ENEMY_STATE_JUMPING)
 		vy = -FISHMAN_JUMP_SPEED * dt;
 	if (isOnGround && state != ENEMY_STATE_SHEART && state != ENEMY_STATE_DIE)
@@ -89,10 +129,8 @@ void Fishman::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		dietime_start = 0;
 		die = 0;
-	}
-	if (state == ENEMY_STATE_DIE && die == 0)
-	{
-		SetState(ENEMY_STATE_SHEART);
+		if (just_die == 1)
+			this->SetActive(false);
 	}
 	if (isFire)
 	{
@@ -160,6 +198,34 @@ void Fishman::Render(Camera* camera)
 	{
 		ani = FISHMAN_ANI_SHEART;
 	}
+	else if (state == ENEMY_STATE_DAGGER)
+	{
+		ani = ENEMY_ANI_DAGGER + 2;
+	}
+	else if (state == ENEMY_STATE_AXE)
+	{
+		ani = ENEMY_ANI_AXE + 2;
+	}
+	else if (state == ENEMY_STATE_HOLYWATER )
+	{
+		ani = ENEMY_ANI_HOLYWATER + 2;
+	}
+	else if (state == ENEMY_STATE_MONEY1)
+	{
+		ani = ENEMY_ANI_MONEY1 + 2;
+	}
+	else if (state == ENEMY_STATE_MONEY2)
+	{
+		ani = ENEMY_ANI_MONEY2 + 2;
+	}
+	else if (state == ENEMY_STATE_MONEY3)
+	{
+		ani = ENEMY_ANI_MONEY3 + 2;
+	}
+	else if (state == ENEMY_STATE_MONEY4)
+	{
+		ani = ENEMY_ANI_MONEY4 + 2;
+	}
 	else if (state == ENEMY_STATE_JUMPING || state == ENEMY_STATE_FALLING)
 	{
 		if (nx > 0)
@@ -200,4 +266,29 @@ void Fishman::GetBoundingBox(float& left, float& top, float& right, float& botto
 		right = x + SHEART_WIDTH;
 		bottom = y + SHEART_HEIGHT;
 	}
+	if (state == ENEMY_STATE_MONEY1
+		|| state == ENEMY_STATE_MONEY2
+		|| state == ENEMY_STATE_MONEY3
+		|| state == ENEMY_STATE_MONEY4)
+	{
+		right = x + MONEY_WIDTH;
+		bottom = y + MONEY_HEIGHT;
+	}
+	else if (state == ENEMY_STATE_SHEART)
+	{
+		right = x + SHEART_WIDTH;
+		bottom = y + SHEART_HEIGHT;
+	}
+	else if (state == ENEMY_STATE_DAGGER)
+	{
+		right = x + DAGGER_WIDTH;
+		bottom = y + DAGGER_HEIGHT;
+	}
+	else if (state == ENEMY_STATE_AXE
+			|| state == ENEMY_STATE_HOLYWATER
+			)
+		 {
+			right = x + OTHER_WIDTH;
+			bottom = y + OTHER_HEIGHT;
+		 }
 }
