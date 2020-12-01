@@ -61,8 +61,6 @@ private:
 	FireBullet* firebullet;
 	Boss* phantombat;
 
-	int currentLevel;
-
 	vector<LPGAMEOBJECT> bricks;
 	vector<LPGAMEOBJECT> torches;
 	vector<LPGAMEOBJECT> invisibleobjects;
@@ -70,13 +68,10 @@ private:
 	vector<LPGAMEOBJECT> weapon;
 	vector<LPGAMEOBJECT> enemy;
 
-
-
 	vector<LPGAMEOBJECT> ObjectsFromGrid;
 	vector<LPGAMEOBJECT> listobj;
 
-	bool SimonMove = false;
-
+	
 	float startpoint, endpoint, camstoppoint;
 
 	int stagename = 0;
@@ -91,7 +86,9 @@ private:
 
 	bool isChangeColor;
 	bool isGrey;
-
+	bool SimonMove = false;
+	bool isGameOver = true;
+	Font Text;
 
 	DWORD spawndelayghoultimer_start;
 	DWORD spawndelaybattimer_start;

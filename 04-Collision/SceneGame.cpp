@@ -7,13 +7,18 @@ SceneGame::SceneGame()
 {
 	
 	game = CGame::GetInstance();
+	
+	AnimationsManager* animations = AnimationsManager::getInstance();
+	
+	InitGame();
+}
+
+void SceneGame::InitGame()
+{
 	camera = new Camera();
 
-	AnimationsManager* animations = AnimationsManager::getInstance();
 	grid = new Grid();
 	simon = new CSimon();
-
-
 
 	MS = new CMS();
 	MS->GetSimon(simon);
@@ -28,8 +33,8 @@ SceneGame::SceneGame()
 	phantombat->SetState(BOSS_STATE_SLEEP);
 	phantombat->SetActive(false);
 
-	//LoadResources(SOURCE_ENTRANCE_PNG, eType::ID_TEX_ENTRANCESTAGE, SOURCE_ENTRANCE_TXT, ID_SCENE_LEVEL_ENTRANCE);
-	LoadResources(SOURCE_CASTLE_PNG, eType::ID_TEX_CASTLE, SOURCE_CASTLE_TXT, ID_SCENE_LEVEL_CASTLE);
+	LoadResources(SOURCE_ENTRANCE_PNG, eType::ID_TEX_ENTRANCESTAGE, SOURCE_ENTRANCE_TXT, ID_SCENE_LEVEL_ENTRANCE);
+	//LoadResources(SOURCE_CASTLE_PNG, eType::ID_TEX_CASTLE, SOURCE_CASTLE_TXT, ID_SCENE_LEVEL_CASTLE);
 
 	//tokens
 	dagger = new Dagger(camera, simon->nx);
@@ -42,12 +47,12 @@ SceneGame::SceneGame()
 
 	board = new Board(BOARD_DEFAULT_POSITION_X, BOARD_DEFAULT_POSITION_Y);
 
-	stagename = 2;
+	/*stagename = 2;
 	simon->SetStartPoint(stages.at(2)->startpoint);
 	simon->SetEndPoint(stages.at(2)->endpoint);
 	camera->SetStartPoint(stages.at(2)->startpoint);
 	camera->SetEndPoint(stages.at(2)->endpoint);
-	simon->SetPosition(stages.at(2)->simonposx, stages.at(2)->simonposy);
+	simon->SetPosition(stages.at(2)->simonposx, stages.at(2)->simonposy);*/
 }
 
 SceneGame::~SceneGame()
@@ -117,116 +122,132 @@ void SceneGame::KeyState(BYTE* state)
 void SceneGame::OnKeyDown(int KeyCode)
 {
 	DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
-	if (simon->GetState() == SIMON_STATE_DIE || simon->GetChangeColorTime() != 0 || simon->GetAutoWalkingTime() != 0 || camera->GetCamMove() == true || simon->GetIsDamaged() != 0 || simon->GetHealth() == 0) return;
-	switch (KeyCode)
+	if (!isGameOver)
 	{
-	case DIK_R:
-		CGame::GetInstance()->SetDebugging();
-		break;
-	case DIK_S:
-		if (simon->GetOnStair() == false)
+		if (simon->GetState() == SIMON_STATE_DIE || simon->GetChangeColorTime() != 0 || simon->GetAutoWalkingTime() != 0 || camera->GetCamMove() == true || simon->GetIsDamaged() != 0 || simon->GetHealth() == 0) return;
+		switch (KeyCode)
 		{
-			if (simon->GetOnGround())
+		case DIK_R:
+			CGame::GetInstance()->SetDebugging();
+			break;
+		case DIK_S:
+			if (simon->GetOnStair() == false)
 			{
-				simon->SetState(SIMON_STATE_JUMP);
-				if (game->IsKeyDown(DIK_RIGHT) || game->IsKeyDown(DIK_LEFT))
+				if (simon->GetOnGround())
 				{
-					simon->StartJumpMove();
+					simon->SetState(SIMON_STATE_JUMP);
+					if (game->IsKeyDown(DIK_RIGHT) || game->IsKeyDown(DIK_LEFT))
+					{
+						simon->StartJumpMove();
+					}
+					else simon->StartJump();
 				}
-				else simon->StartJump();
 			}
-		}
-		break;
-	case DIK_A:
-		if (simon->GetAttackTime() == 0)
-		{	
-			if (game->IsKeyDown(DIK_UP) && simon->GetHeartCollect() > 0)
+			break;
+		case DIK_A:
+			if (simon->GetAttackTime() == 0)
 			{
-				if (simon->GetThrowDagger() && weapon.size() < simon->GetNumWeapon())
+				if (game->IsKeyDown(DIK_UP) && simon->GetHeartCollect() > 0)
 				{
-					dagger = new Dagger(camera, simon->nx);
-					simon->SetHeart(-1);
-
-					if (simon->nx > 0)
+					if (simon->GetThrowDagger() && weapon.size() < simon->GetNumWeapon())
 					{
-						dagger->SetPosition(simon->x + 20, simon->y + 5);
-					}
-					else
-						dagger->SetPosition(simon->x, simon->y + 5);
-					phantombat->GetSimonDagger(dagger);
-					weapon.push_back(dagger);
-					MS->SetActive(false);
-					simon->SetState(SIMON_STATE_ATTACK);
-					simon->StartAttack();
-				}
-				else if (simon->GetThrowAxe() && weapon.size() < simon->GetNumWeapon())
-				{
-					axe = new Axe(simon->GetPosition().x + 8, camera, simon->nx);
-					simon->SetHeart(-1);
-
-					if (simon->nx > 0)
-					{
-						axe->SetPosition(simon->x + 8, simon->y);
-					}
-					else
-						axe->SetPosition(simon->x + 24, simon->y);
-					phantombat->GetSimonAxe(axe);
-					weapon.push_back(axe);
-					MS->SetActive(false);
-					simon->SetState(SIMON_STATE_ATTACK);
-					simon->StartAttack();
-				}
-				else if (simon->GetThrowHolyWater() && weapon.size() < simon->GetNumWeapon())
-				{
-					if (simon->nx > 0)
-					{
-						Holywater = new HolyWater(simon->GetPosition().x + 20, camera, simon->nx);
+						dagger = new Dagger(camera, simon->nx);
 						simon->SetHeart(-1);
 
-						Holywater->SetPosition(simon->x + 20, simon->y);
+						if (simon->nx > 0)
+						{
+							dagger->SetPosition(simon->x + 20, simon->y + 5);
+						}
+						else
+							dagger->SetPosition(simon->x, simon->y + 5);
+						phantombat->GetSimonDagger(dagger);
+						weapon.push_back(dagger);
+						MS->SetActive(false);
+						simon->SetState(SIMON_STATE_ATTACK);
+						simon->StartAttack();
 					}
-					else
+					else if (simon->GetThrowAxe() && weapon.size() < simon->GetNumWeapon())
 					{
-						Holywater = new HolyWater(simon->GetPosition().x, camera, simon->nx);
+						axe = new Axe(simon->GetPosition().x + 8, camera, simon->nx);
 						simon->SetHeart(-1);
 
-						Holywater->SetPosition(simon->x + 8, simon->y);
+						if (simon->nx > 0)
+						{
+							axe->SetPosition(simon->x + 8, simon->y);
+						}
+						else
+							axe->SetPosition(simon->x + 24, simon->y);
+						phantombat->GetSimonAxe(axe);
+						weapon.push_back(axe);
+						MS->SetActive(false);
+						simon->SetState(SIMON_STATE_ATTACK);
+						simon->StartAttack();
 					}
-					weapon.push_back(Holywater);
-					MS->SetActive(false);
-					simon->SetState(SIMON_STATE_ATTACK);
-					simon->StartAttack();
-				}
-			}
+					else if (simon->GetThrowHolyWater() && weapon.size() < simon->GetNumWeapon())
+					{
+						if (simon->nx > 0)
+						{
+							Holywater = new HolyWater(simon->GetPosition().x + 20, camera, simon->nx);
+							simon->SetHeart(-1);
 
-			if (!game->IsKeyDown(DIK_UP))
-			{
-				MS->SetActive(true);
-				if (game->IsKeyDown(DIK_DOWN))
-				{
-					simon->SetState(SIMON_STATE_SIT);
-					simon->StartSitAttack();
-					MS->StartAttack();
-					simon->SetJump(0);
+							Holywater->SetPosition(simon->x + 20, simon->y);
+						}
+						else
+						{
+							Holywater = new HolyWater(simon->GetPosition().x, camera, simon->nx);
+							simon->SetHeart(-1);
+
+							Holywater->SetPosition(simon->x + 8, simon->y);
+						}
+						weapon.push_back(Holywater);
+						MS->SetActive(false);
+						simon->SetState(SIMON_STATE_ATTACK);
+						simon->StartAttack();
+					}
 				}
-				else {
-					simon->SetState(SIMON_STATE_ATTACK);
-					simon->StartAttack();
-					MS->StartAttack();
-					simon->SetJump(0);
-				}
-				if (simon->GetLevel() == SIMON_LEVEL_MS_2)
+
+				if (!game->IsKeyDown(DIK_UP))
 				{
-					MS->SetState(MS_STATE_ATTACK_2);
-				}
-				if (simon->GetLevel() == SIMON_LEVEL_MS_3)
-				{
-					MS->SetState(MS_STATE_ATTACK_3);
+					MS->SetActive(true);
+					if (game->IsKeyDown(DIK_DOWN))
+					{
+						simon->SetState(SIMON_STATE_SIT);
+						simon->StartSitAttack();
+						MS->StartAttack();
+						simon->SetJump(0);
+					}
+					else {
+						simon->SetState(SIMON_STATE_ATTACK);
+						simon->StartAttack();
+						MS->StartAttack();
+						simon->SetJump(0);
+					}
+					if (simon->GetLevel() == SIMON_LEVEL_MS_2)
+					{
+						MS->SetState(MS_STATE_ATTACK_2);
+					}
+					if (simon->GetLevel() == SIMON_LEVEL_MS_3)
+					{
+						MS->SetState(MS_STATE_ATTACK_3);
+					}
 				}
 			}
+			break;
 		}
-		break;
 	}
+	else {
+		switch (KeyCode){
+		case DIK_1:
+			isGameOver = false;
+			InitGame();
+			break;
+		case DIK_2:
+			DestroyWindow(CGame::GetInstance()->getHWND());
+		default:
+			break;
+		}
+	}
+	
 }
 
 void SceneGame::OnKeyUp(int KeyCode)
@@ -437,8 +458,12 @@ void SceneGame::LoadPantherPosFromFile(string source)
 	}
 }
 
+
+
 void SceneGame::Update(DWORD dt)
-{
+{ 
+	if (isGameOver) return;
+	if (simon->GetLives() < 0 || gameTime->GetTime() < 0) isGameOver = true;
 	//Push Objects
 	vector<LPGAMEOBJECT> coObjects;
 	grid->GetListCollisionFromGrid(camera, ObjectsFromGrid);
@@ -1332,35 +1357,44 @@ void SceneGame::Update(DWORD dt)
 
 void SceneGame::Render()
 {
-	Tile->DrawMap(camera);
-	for (int i = 0; i < bricks.size(); i++)
+	if (!isGameOver)
 	{
-		bricks[i]->Render(camera);
+		Tile->DrawMap(camera);
+		for (int i = 0; i < bricks.size(); i++)
+		{
+			bricks[i]->Render(camera);
+		}
+		for (int i = 0; i < torches.size(); i++)
+		{
+			torches[i]->Render(camera);
+		}
+		for (int i = 0; i < invisibleobjects.size(); i++)
+		{
+			invisibleobjects[i]->Render(camera);
+		}
+		for (int i = 0; i < effects.size(); i++)
+		{
+			effects[i]->Render(camera);
+		}
+		for (int i = 0; i < enemy.size(); i++)
+		{
+			enemy[i]->Render(camera);
+		}
+		phantombat->Render(camera);
+		hiddenmoney->Render(camera);
+		simon->Render(camera);
+		MS->Render(camera);
+		for (int i = 0; i < weapon.size(); i++)
+		{
+			weapon[i]->Render(camera);
+		}
+		board->Render(simon, stagename + 1, GAME_TIME_MAX - gameTime->GetTime(), phantombat);
+
 	}
-	for (int i = 0; i < torches.size(); i++)
-	{
-		torches[i]->Render(camera);
+	else {
+		Text.Draw(110, 70, "GAME OVER");
+		Text.Draw(110, 100, "1 CONTINUE");
+		Text.Draw(110, 120, "2 END");
 	}
-	for (int i = 0; i < invisibleobjects.size(); i++)
-	{
-		invisibleobjects[i]->Render(camera);
-	}
-	for (int i = 0; i < effects.size(); i++)
-	{
-		effects[i]->Render(camera);
-	}
-	for (int i = 0; i < enemy.size(); i++)
-	{
-		enemy[i]->Render(camera);
-	}
-	phantombat->Render(camera);
-	hiddenmoney->Render(camera);
-	simon->Render(camera);
-	MS->Render(camera);
-	for (int i = 0; i < weapon.size(); i++)
-	{
-		weapon[i]->Render(camera);
-	}
-	board->Render(simon, stagename + 1, GAME_TIME_MAX - gameTime->GetTime(), phantombat);
 	
 }
