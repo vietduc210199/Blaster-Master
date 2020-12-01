@@ -13,37 +13,41 @@ SceneGame::SceneGame()
 	grid = new Grid();
 	simon = new CSimon();
 
+
+
+	MS = new CMS();
+	MS->GetSimon(simon);
+
 	//Hidden money
 	hiddenmoney = new CTorch();
 	hiddenmoney->SetState(TORCH_STATE_MONEY4);
 	hiddenmoney->SetActive(false);
 
-	LoadResources(SOURCE_ENTRANCE_PNG, eType::ID_TEX_ENTRANCESTAGE, SOURCE_ENTRANCE_TXT, ID_SCENE_LEVEL_ENTRANCE);
-	//LoadResources(SOURCE_CASTLE_PNG, eType::ID_TEX_CASTLE, SOURCE_CASTLE_TXT, ID_SCENE_LEVEL_CASTLE);
-	
+	//Boss
+	phantombat = new Boss(simon, MS, camera);
+	phantombat->SetState(BOSS_STATE_SLEEP);
+	phantombat->SetActive(false);
 
-	MS = new CMS();
-	MS->GetSimon(simon);
+	//LoadResources(SOURCE_ENTRANCE_PNG, eType::ID_TEX_ENTRANCESTAGE, SOURCE_ENTRANCE_TXT, ID_SCENE_LEVEL_ENTRANCE);
+	LoadResources(SOURCE_CASTLE_PNG, eType::ID_TEX_CASTLE, SOURCE_CASTLE_TXT, ID_SCENE_LEVEL_CASTLE);
 
 	//tokens
 	dagger = new Dagger(camera, simon->nx);
 	axe = new Axe(simon->GetPosition().x, camera, simon->nx);
 	Holywater = new HolyWater(simon->GetPosition().x, camera, simon->nx);
 
-	
-	
 	//board
 	gameTime = new GameTime();
 	gameTime->SetTime(0);
 
 	board = new Board(BOARD_DEFAULT_POSITION_X, BOARD_DEFAULT_POSITION_Y);
 
-	/*stagename = 3;
-	simon->SetStartPoint(stages.at(3)->startpoint);
-	simon->SetEndPoint(stages.at(3)->endpoint);
-	camera->SetStartPoint(stages.at(3)->startpoint);
-	camera->SetEndPoint(stages.at(3)->endpoint);
-	simon->SetPosition(stages.at(3)->simonposx, stages.at(3)->simonposy);*/
+	stagename = 2;
+	simon->SetStartPoint(stages.at(2)->startpoint);
+	simon->SetEndPoint(stages.at(2)->endpoint);
+	camera->SetStartPoint(stages.at(2)->startpoint);
+	camera->SetEndPoint(stages.at(2)->endpoint);
+	simon->SetPosition(stages.at(2)->simonposx, stages.at(2)->simonposy);
 }
 
 SceneGame::~SceneGame()
@@ -149,7 +153,7 @@ void SceneGame::OnKeyDown(int KeyCode)
 					}
 					else
 						dagger->SetPosition(simon->x, simon->y + 5);
-					//phantombat->GetSimonDagger(dagger);
+					phantombat->GetSimonDagger(dagger);
 					weapon.push_back(dagger);
 					MS->SetActive(false);
 					simon->SetState(SIMON_STATE_ATTACK);
@@ -166,7 +170,7 @@ void SceneGame::OnKeyDown(int KeyCode)
 					}
 					else
 						axe->SetPosition(simon->x + 24, simon->y);
-					//phantombat->GetSimonAxe(Axe);
+					phantombat->GetSimonAxe(axe);
 					weapon.push_back(axe);
 					MS->SetActive(false);
 					simon->SetState(SIMON_STATE_ATTACK);
@@ -243,6 +247,8 @@ void SceneGame::LoadResources(LPCWSTR picturePath, int idTex, const char* filepa
 	LoadSceneObject(scene);
 	LoadStageVaribale(scene);
 	hiddenmoney->SetPosition(hiddenmoneyposx, hiddenmoneyposy);
+	phantombat->SetPosition(bossposx, bossposy);
+	phantombat->SetFirstPos(bossposx, bossposy * 2);
 	Tile = new TileMap(picturePath, idTex, 42, 0);
 	Tile->LoadMap(filepath);
 	simon->SetPosition(stages.at(0)->simonposx, stages.at(0)->simonposy);
@@ -469,11 +475,9 @@ void SceneGame::Update(DWORD dt)
 				break;
 			case TORCH_STATE_LHEART:
 				torch->SetActive(false);
-				//simon->SetHealth(-3);
 				simon->SetHeart(2);
 				break;
 			case TORCH_STATE_SHEART:
-				//simon->SetHealth(-1);
 				simon->SetHeart(1);
 				torch->SetActive(false);
 				break;
@@ -863,7 +867,11 @@ void SceneGame::Update(DWORD dt)
 					effects.push_back(effect);
 					SpawnDelayFishmanStart();
 				}
-
+			}
+			else if (InOb->type == BOSS_SPAWNER && phantombat->GetState() == BOSS_STATE_SLEEP)
+			{
+			//InOb->SetActive(false);
+			phantombat->SetActive(true);
 			}
 		}
 	}
@@ -1019,7 +1027,10 @@ void SceneGame::Update(DWORD dt)
 					{
 						simon->StartIsDamaged();
 					}
+					if (simon->GetHealth() <= 2)
+						simon->SetLives(-1);
 					simon->SetHealth(2);
+					
 					simon->StartIsUnTouchable(SIMON_UNTOUCHABLE_TIME);
 				}
 				if (enemy.at(i)->type == BAT)
@@ -1074,6 +1085,36 @@ void SceneGame::Update(DWORD dt)
 			}
 		}
 	}
+
+	//simon collision with boss
+	if(phantombat->GetActive())
+		if (simon->CheckCollision(phantombat))
+		{
+			if (phantombat->GetState() == BOSS_STATE_BLOOD)
+			{
+				phantombat->SetActive(false);
+			}
+			else
+			{
+				if (simon->GetUntouchable() == 0)
+				{
+					if (simon->GetOnStair() == false)
+					{
+						if (simon->GetHealth() <= 4)
+						{
+							simon->SetLives(-1);
+							phantombat->SetState(BOSS_STATE_SLEEP);
+							phantombat->SetActive(false);
+							phantombat->SetPosition(bossposx, bossposy);
+							phantombat->SetFirstPos(bossposx, bossposy * 2);
+						}
+						simon->StartIsDamaged();
+						simon->SetHealth(4);
+					}
+					simon->StartIsUnTouchable(SIMON_UNTOUCHABLE_TIME);
+				}
+			}
+		}
 
 	//Weapon collision with enemy
 	for (int i = 0; i < enemy.size(); i++)
@@ -1151,7 +1192,7 @@ void SceneGame::Update(DWORD dt)
 	}
 
 	//Adjust Camera to Simon
-	if (camera->GetPosition().x + SCREEN_WIDTH != endmap)
+	if (camera->GetPosition().x + SCREEN_WIDTH <= endmap)
 	{
 		if (simon->x - camera->GetPosition().x <= 100 && SimonMove == true)
 		{
@@ -1170,6 +1211,10 @@ void SceneGame::Update(DWORD dt)
 		{
 			camera->SetCamera((simon->x + SIMON_IDLE_BBOX_WIDTH) - SCREEN_WIDTH / 2, 200);
 		}
+	}
+	else
+	{
+		camera->SetCamerax(endmap);
 	}
 
 
@@ -1196,6 +1241,7 @@ void SceneGame::Update(DWORD dt)
 		enemy[i]->Update(dt, &bricks);
 	}
 
+	phantombat->Update(dt, &bricks);
 	camera->Update(dt, startpoint, endpoint);
 	simon->Update(dt, &bricks);
 	MS->Update(dt, &bricks);
@@ -1307,6 +1353,7 @@ void SceneGame::Render()
 	{
 		enemy[i]->Render(camera);
 	}
+	phantombat->Render(camera);
 	hiddenmoney->Render(camera);
 	simon->Render(camera);
 	MS->Render(camera);
@@ -1314,6 +1361,6 @@ void SceneGame::Render()
 	{
 		weapon[i]->Render(camera);
 	}
-	board->Render(simon, stagename + 1, GAME_TIME_MAX - gameTime->GetTime(), NULL);
+	board->Render(simon, stagename + 1, GAME_TIME_MAX - gameTime->GetTime(), phantombat);
 	
 }

@@ -22,6 +22,7 @@
 #include "FireBullet.h"
 #include "Fishman.h"
 #include "Bat.h"
+#include "Boss.h"
 
 #define ID_SCENE_LEVEL_ENTRANCE 1
 #define ID_SCENE_LEVEL_CASTLE 2
@@ -58,6 +59,7 @@ private:
 	Fishman* fishman;
 	Panther* panther;
 	FireBullet* firebullet;
+	Boss* phantombat;
 
 	int currentLevel;
 

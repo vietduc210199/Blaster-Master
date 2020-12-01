@@ -5,6 +5,7 @@
 #include "camera.h"
 #include "Simon.h"
 #include "TextureManager.h"
+#include "Boss.h"
 
 
 #define BOARD_DEFAULT_POSITION_X 0.0f
@@ -26,7 +27,7 @@ private:
 	CSprite* _spriteWeapon;
 public:
 	Board(float X, float Y);
-	void Render(CSimon* simon, int state, int RemainingTime, CGameObject* boss);
+	void Render(CSimon* simon, int state, int RemainingTime, Boss* boss);
 	~Board();
 
 	void SetTexture(LPDIRECT3DTEXTURE9* tex);

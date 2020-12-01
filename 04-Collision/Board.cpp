@@ -21,7 +21,7 @@ Board::Board(float X, float Y)
 	_boardHealth = new BoardHealth(x + 55, y + 17);
 }
 
-void Board::Render(CSimon* simon, int state, int RemainingTime, CGameObject* boss)
+void Board::Render(CSimon* simon, int state, int RemainingTime, Boss* boss)
 {
 	_Sprite->Draw(x, y);
 	_font.Draw(x + 55, y + 6, FillNumber(std::to_string(simon->GetScore()), 6));
@@ -34,13 +34,13 @@ void Board::Render(CSimon* simon, int state, int RemainingTime, CGameObject* bos
 	_font.Draw(x + 210, y + 28, FillNumber(std::to_string(simon->GetLives()), 2)); // số mạng sông
 
 	int BloodBoss = 16;
-//
-	//if (boss != NULL)
-	//{
-	//	BloodBoss = (int)(boss->GetHealth() * 16 / 24);// HEALTH =24 -> 16 vạch
-	//	if (BloodBoss == 0 && boss->GetHealth() > 0)
-	//		BloodBoss = 1;
-	//}
+
+	if (boss != NULL)
+	{
+		BloodBoss = (int)(boss->GetHealth() * 16 / 24);// HEALTH =24 -> 16 vạch
+		if (BloodBoss == 0 && boss->GetHealth() > 0)
+			BloodBoss = 1;
+	}
 
 	_boardHealth->Draw(simon->GetHealth(), BloodBoss);
 	eType TypeWeaponCollect = simon->GetTypeWeaponCollect();
