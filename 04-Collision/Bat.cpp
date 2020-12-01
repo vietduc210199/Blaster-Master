@@ -22,7 +22,7 @@ void Bat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (state != ENEMY_STATE_MOVING && die == 0)
 	{
 		state = ENEMY_STATE_SHEART;
-	}	
+	}
 	if (state == ENEMY_STATE_MOVING)
 	{
 		if (isStop)
@@ -100,6 +100,15 @@ void Bat::Render(Camera* camera)
 
 void Bat::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
+	left = x + 1;
+	top = y;
+	right = x + 18;
+	bottom = y + 17;
+	if (state == ENEMY_STATE_SHEART)
+	{
+		right = x + SHEART_WIDTH;
+		bottom = y + SHEART_HEIGHT;
+	}
 }
 
 void Bat::CollisionOccurred(vector<LPGAMEOBJECT>* coObjects)

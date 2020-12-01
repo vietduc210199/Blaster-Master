@@ -14,8 +14,8 @@ SceneGame::SceneGame()
 	simon = new CSimon();
 
 
-	//LoadResources(SOURCE_ENTRANCE_PNG, eType::ID_TEX_ENTRANCESTAGE, SOURCE_ENTRANCE_TXT, ID_SCENE_LEVEL_ENTRANCE);
-	LoadResources(SOURCE_CASTLE_PNG, eType::ID_TEX_CASTLE, SOURCE_CASTLE_TXT, ID_SCENE_LEVEL_CASTLE);
+	LoadResources(SOURCE_ENTRANCE_PNG, eType::ID_TEX_ENTRANCESTAGE, SOURCE_ENTRANCE_TXT, ID_SCENE_LEVEL_ENTRANCE);
+	//LoadResources(SOURCE_CASTLE_PNG, eType::ID_TEX_CASTLE, SOURCE_CASTLE_TXT, ID_SCENE_LEVEL_CASTLE);
 	
 
 	MS = new CMS();
@@ -31,12 +31,12 @@ SceneGame::SceneGame()
 
 	board = new Board(BOARD_DEFAULT_POSITION_X, BOARD_DEFAULT_POSITION_Y);
 
-	stagename = 3;
+	/*stagename = 3;
 	simon->SetStartPoint(stages.at(3)->startpoint);
 	simon->SetEndPoint(stages.at(3)->endpoint);
 	camera->SetStartPoint(stages.at(3)->startpoint);
 	camera->SetEndPoint(stages.at(3)->endpoint);
-	simon->SetPosition(stages.at(3)->simonposx, stages.at(3)->simonposy);
+	simon->SetPosition(stages.at(3)->simonposx, stages.at(3)->simonposy);*/
 }
 
 SceneGame::~SceneGame()
