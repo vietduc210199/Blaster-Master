@@ -226,6 +226,9 @@ using namespace std;
 #define FISHMAN_SPAWNER 52
 #define PANTHER_SPAWNER 53
 #define BOSS_SPAWNER 55
+
+	//Money Spawner
+#define MONEY_SPAWNER 54
 //-------------------------------------//
 //Torch
 #define TORCH_STATE_NORMAL 0

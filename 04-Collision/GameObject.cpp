@@ -53,17 +53,27 @@ void CGameObject::EnemySetStateDie()
 		}
 		break;
 	case 6:
-		b = rand() % 4 + 1;
+		b = rand() % 10 + 1;
 		switch (b)
 		{
 		case 1:
-			this->SetState(ENEMY_STATE_MONEY1);
 		case 2:
-			this->SetState(ENEMY_STATE_MONEY2);
 		case 3:
-			this->SetState(ENEMY_STATE_MONEY3);
 		case 4:
+			this->SetState(ENEMY_STATE_MONEY1);
+			break;
+		case 5:
+		case 6:
+		case 7:
+			this->SetState(ENEMY_STATE_MONEY2);
+			break;
+		case 8:
+		case 9:
+			this->SetState(ENEMY_STATE_MONEY3);
+			break;
+		case 10:
 			this->SetState(ENEMY_STATE_MONEY4);
+			break;
 		default:
 			break;
 		}

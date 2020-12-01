@@ -13,6 +13,10 @@ SceneGame::SceneGame()
 	grid = new Grid();
 	simon = new CSimon();
 
+	//Hidden money
+	hiddenmoney = new CTorch();
+	hiddenmoney->SetState(TORCH_STATE_MONEY4);
+	hiddenmoney->SetActive(false);
 
 	LoadResources(SOURCE_ENTRANCE_PNG, eType::ID_TEX_ENTRANCESTAGE, SOURCE_ENTRANCE_TXT, ID_SCENE_LEVEL_ENTRANCE);
 	//LoadResources(SOURCE_CASTLE_PNG, eType::ID_TEX_CASTLE, SOURCE_CASTLE_TXT, ID_SCENE_LEVEL_CASTLE);
@@ -26,6 +30,9 @@ SceneGame::SceneGame()
 	axe = new Axe(simon->GetPosition().x, camera, simon->nx);
 	Holywater = new HolyWater(simon->GetPosition().x, camera, simon->nx);
 
+	
+	
+	//board
 	gameTime = new GameTime();
 	gameTime->SetTime(0);
 
@@ -235,6 +242,7 @@ void SceneGame::LoadResources(LPCWSTR picturePath, int idTex, const char* filepa
 	LoadSceneElement(scene);
 	LoadSceneObject(scene);
 	LoadStageVaribale(scene);
+	hiddenmoney->SetPosition(hiddenmoneyposx, hiddenmoneyposy);
 	Tile = new TileMap(picturePath, idTex, 42, 0);
 	Tile->LoadMap(filepath);
 	simon->SetPosition(stages.at(0)->simonposx, stages.at(0)->simonposy);
@@ -563,6 +571,11 @@ void SceneGame::Update(DWORD dt)
 			}
 		}
 	}
+	if (simon->CheckCollision(hiddenmoney) && hiddenmoney->GetActive() == true)
+	{
+		simon->SetScores(1000);
+		hiddenmoney->SetActive(false);
+	}
 
 	//Simon collision with Invisible Objects
 	for (int i = 0; i < invisibleobjects.size(); i++)
@@ -570,14 +583,14 @@ void SceneGame::Update(DWORD dt)
 		InviObjects* InOb = dynamic_cast<InviObjects*>(invisibleobjects[i]);
 		if (simon->CheckCollision(InOb))
 		{
-			if (InOb->type == SC_TYPE_CHANGE_SCENE)
+			if (InOb->type == SC_TYPE_CHANGE_SCENE && simon->nx >= 0)
 			{
 				if (simon->GetAutoWalkingTime() == 0)
 				{
 					LoadResources(SOURCE_CASTLE_PNG, ID_TEX_CASTLE, SOURCE_CASTLE_TXT, 2);
 				}
 			}
-			else if (InOb->type == SC_TYPE_AUTO_HELPER)
+			else if (InOb->type == SC_TYPE_AUTO_HELPER && simon->nx >= 0)
 			{
 				InOb->SetActive(false);
 				simon->StartAutoWalking(SIMON_AUTO_GO_SCENE1);
@@ -660,6 +673,11 @@ void SceneGame::Update(DWORD dt)
 				camera->SetEndPoint(stages.at(stagename)->endpoint);
 				simon->SetPosition(stages.at(stagename)->simonposx - 1, stages.at(stagename)->simonposy - 1);
 				
+			}
+			else if (InOb->type == MONEY_SPAWNER)
+			{
+				InOb->SetActive(false);
+				hiddenmoney->SetActive(true);
 			}
 			else if (InOb->type == STAIR_TYPE_RIGHT_UP_HELPER)
 			{
@@ -779,11 +797,6 @@ void SceneGame::Update(DWORD dt)
 					simon->SetStairUp(true);
 				}
 			}
-			/*else if (InOb->type == MONEY_SPAWNER)
-			{
-			InOb->SetActive(false);
-			hiddenmoney->SetActive(true);
-			}*/
 			else if (InOb->type == GHOUL_SPAWNER)
 			{
 				if (spawndelayghoul == 0)
@@ -916,17 +929,27 @@ void SceneGame::Update(DWORD dt)
 						}
 						break;
 					case 6:
-						b = rand() % 4 + 1;
+						b = rand() % 10 + 1;
 						switch (b)
 						{
 						case 1:
-							torch->SetState(TORCH_STATE_MONEY1);
 						case 2:
-							torch->SetState(TORCH_STATE_MONEY2);
 						case 3:
-							torch->SetState(TORCH_STATE_MONEY3);
 						case 4:
+							torch->SetState(TORCH_STATE_MONEY1);
+							break;
+						case 5:
+						case 6:
+						case 7:
+							torch->SetState(TORCH_STATE_MONEY2);
+							break;
+						case 8:
+						case 9:
+							torch->SetState(TORCH_STATE_MONEY3);
+							break;
+						case 10:
 							torch->SetState(TORCH_STATE_MONEY4);
+							break;
 						default:
 							break;
 						}
@@ -1063,7 +1086,9 @@ void SceneGame::Update(DWORD dt)
 			dagger->SetActive(false);
 			axe->SetActive(false);
 			enemy.at(i)->FirstX = enemy.at(i)->x;
-			if (enemy.at(i)->GetState() == ENEMY_STATE_MOVING)
+			if (enemy.at(i)->GetState() == ENEMY_STATE_MOVING
+				|| enemy.at(i)->GetState() == ENEMY_STATE_IDLE
+				|| enemy.at(i)->GetState() == ENEMY_STATE_ATTACK)
 			{
 				enemy.at(i)->StartDieTime();
 				enemy.at(i)->SetState(ENEMY_STATE_DIE);
@@ -1175,6 +1200,8 @@ void SceneGame::Update(DWORD dt)
 	simon->Update(dt, &bricks);
 	MS->Update(dt, &bricks);
 	gameTime->Update(dt);
+	hiddenmoney->Update(dt, &bricks);
+
 
 	//functiions that affect the scene
 	if (GetTickCount() - spawndelayghoultimer_start > SPAWN_DELAY_TIMER)
@@ -1280,6 +1307,7 @@ void SceneGame::Render()
 	{
 		enemy[i]->Render(camera);
 	}
+	hiddenmoney->Render(camera);
 	simon->Render(camera);
 	MS->Render(camera);
 	for (int i = 0; i < weapon.size(); i++)

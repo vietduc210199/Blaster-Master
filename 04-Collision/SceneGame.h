@@ -50,6 +50,7 @@ private:
 	HolyWater* Holywater;
 	CBrick* brick;
 	CTorch* torch;
+	CTorch* hiddenmoney;
 	Effect* effect;
 
 	Ghoul* ghoul;
