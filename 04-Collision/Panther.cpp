@@ -71,7 +71,7 @@ void Panther::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		SetState(ENEMY_STATE_MOVING);
 	}
-	if (state == ENEMY_STATE_SHEART)
+	/*if (state == ENEMY_STATE_SHEART)
 	{
 		if (isOnGround == false)
 		{
@@ -86,7 +86,7 @@ void Panther::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 			vx = ENEMY_SHEART_SPEED;
 		}
-	}
+	}*/
 	if (vx < 0 && x <= camera->GetPosition().x)
 	{
 		x = camera->GetPosition().x;

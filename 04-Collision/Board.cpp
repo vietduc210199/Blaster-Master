@@ -54,16 +54,11 @@ void Board::Render(CSimon* simon, int state, int RemainingTime, Boss* boss)
 		_spriteWeapon = new CSprite(eType::HOLYWATER, 0, 0, 16, 16, TextureManager::getInstance()->getData()->Get(eType::HOLYWATER));
 		_spriteWeapon->Draw(x + 164, y + 18);
 		break;
-	/*case eType::STOPWATCH:
-		simon->mapWeapon[TypeWeaponCollect]->RenderIcon(x + 312, y + 31);
-		break;*/
+	
 	case eType::THROWINGAXE:
 		_spriteWeapon = new CSprite(eType::THROWINGAXE, 0, 0, 16, 15, TextureManager::getInstance()->getData()->Get(eType::THROWINGAXE));
 		_spriteWeapon->Draw(x + 163, y + 18);
 		break;
-	/*case eType::BOOMERANG:
-		simon->mapWeapon[TypeWeaponCollect]->RenderIcon(x + 310, y + 35);
-		break;*/
 	default:
 		break;
 	}

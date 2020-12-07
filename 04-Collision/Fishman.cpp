@@ -22,14 +22,7 @@ void Fishman::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		vy = GRAVITY * 2 * dt;
 		if (isOnGround == false)
 		{
-			if (vx < 0 && x < FirstX - ENEMY_SHEART_RANGE)
-			{
-				x = FirstX - ENEMY_SHEART_RANGE; vx = -vx;
-			}
-			else if (vx > 0 && x > FirstX + ENEMY_SHEART_RANGE)
-			{
-				x = FirstX + ENEMY_SHEART_RANGE; vx = -vx;
-			}
+			
 			if (state == ENEMY_STATE_SHEART)
 			{
 				if (isOnGround == false)
@@ -85,12 +78,10 @@ void Fishman::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (nx == -1)
 				{
 					nx = 1;
-					x = movepoint;
 				}
 				else if (nx == 1)
 				{
 					nx = -1;
-					x = movepoint + 35;
 				}
 				SetState(ENEMY_STATE_MOVING);
 			}
@@ -104,26 +95,6 @@ void Fishman::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		if (isOnGround)
 			this->SetState(ENEMY_STATE_MOVING);
-	}
-	if (state == ENEMY_STATE_SHEART)
-	{
-		if (isOnGround == false)
-		{
-			if (vx < 0 && x < FirstX - ENEMY_SHEART_RANGE)
-			{
-				x = FirstX - ENEMY_SHEART_RANGE; vx = -vx;
-			}
-
-			if (vx > 0 && x > FirstX + ENEMY_SHEART_RANGE)
-			{
-				x = FirstX + ENEMY_SHEART_RANGE; vx = -vx;
-			}
-			vx = ENEMY_SHEART_SPEED;
-		}
-		if (isOnGround)
-		{
-			vx = 0;
-		}
 	}
 	if (GetTickCount() - dietime_start > ENEMY_DIE_TIME)
 	{

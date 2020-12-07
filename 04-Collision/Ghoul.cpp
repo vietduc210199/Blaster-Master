@@ -60,7 +60,6 @@ void Ghoul::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	else if (state == ENEMY_STATE_MOVING)
 	{
-
 		if (isStop == false)
 		{
 			if (nx > 0)

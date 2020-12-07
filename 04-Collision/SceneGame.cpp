@@ -33,8 +33,8 @@ void SceneGame::InitGame()
 	phantombat->SetState(BOSS_STATE_SLEEP);
 	phantombat->SetActive(false);
 
-	LoadResources(SOURCE_ENTRANCE_PNG, eType::ID_TEX_ENTRANCESTAGE, SOURCE_ENTRANCE_TXT, ID_SCENE_LEVEL_ENTRANCE);
-	//LoadResources(SOURCE_CASTLE_PNG, eType::ID_TEX_CASTLE, SOURCE_CASTLE_TXT, ID_SCENE_LEVEL_CASTLE);
+	//LoadResources(SOURCE_ENTRANCE_PNG, eType::ID_TEX_ENTRANCESTAGE, SOURCE_ENTRANCE_TXT, ID_SCENE_LEVEL_ENTRANCE);
+	LoadResources(SOURCE_CASTLE_PNG, eType::ID_TEX_CASTLE, SOURCE_CASTLE_TXT, ID_SCENE_LEVEL_CASTLE);
 
 	//tokens
 	dagger = new Dagger(camera, simon->nx);
@@ -47,12 +47,12 @@ void SceneGame::InitGame()
 
 	board = new Board(BOARD_DEFAULT_POSITION_X, BOARD_DEFAULT_POSITION_Y);
 
-	/*stagename = 2;
-	simon->SetStartPoint(stages.at(2)->startpoint);
-	simon->SetEndPoint(stages.at(2)->endpoint);
-	camera->SetStartPoint(stages.at(2)->startpoint);
-	camera->SetEndPoint(stages.at(2)->endpoint);
-	simon->SetPosition(stages.at(2)->simonposx, stages.at(2)->simonposy);*/
+	stagename = 0;
+	simon->SetStartPoint(stages.at(stagename)->startpoint);
+	simon->SetEndPoint(stages.at(stagename)->endpoint);
+	camera->SetStartPoint(stages.at(stagename)->startpoint);
+	camera->SetEndPoint(stages.at(stagename)->endpoint);
+	simon->SetPosition(stages.at(stagename)->simonposx, stages.at(stagename)->simonposy);
 }
 
 SceneGame::~SceneGame()
@@ -463,7 +463,16 @@ void SceneGame::LoadPantherPosFromFile(string source)
 void SceneGame::Update(DWORD dt)
 { 
 	if (isGameOver) return;
-	if (simon->GetLives() < 0 || gameTime->GetTime() < 0) isGameOver = true;
+	if (simon->GetLives() < 0 || GAME_TIME_MAX - gameTime->GetTime() < 0) isGameOver = true;
+
+	if (simon->y > camera->cam_y + 260)
+	{
+		simon->SetLives(-1);
+		simon->SetPosition(stages.at(stagename)->simonposx, stages.at(stagename)->simonposy);
+		simon->SetStartPoint(stages.at(stagename)->startpoint);
+		simon->SetEndPoint(stages.at(stagename)->endpoint);
+		simon->StartIsUnTouchable(SIMON_UNTOUCHABLE_TIME);
+	}
 	//Push Objects
 	vector<LPGAMEOBJECT> coObjects;
 	grid->GetListCollisionFromGrid(camera, ObjectsFromGrid);
@@ -1396,5 +1405,4 @@ void SceneGame::Render()
 		Text.Draw(110, 100, "1 CONTINUE");
 		Text.Draw(110, 120, "2 END");
 	}
-	
 }

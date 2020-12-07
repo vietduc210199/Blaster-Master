@@ -10,13 +10,12 @@ void Boss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		return;
 	CGameObject::Update(dt, coObjects);
 	CheckCollisionWeapon();
-	//CheckCollisionSimon();
 	CollisionWhenDead(coObjects);
 	DeleateWaeponWhenUnactive();
 
-	if (x <= camera->GetPosition().x)
+	if (x <= camera->GetPosition().x && state != BOSS_STATE_SLEEP)
 		vx = -vx;
-	if (x >= camera->GetPosition().x + SCREEN_WIDTH - BOSS_WIDTH)
+	if (x >= camera->GetPosition().x + SCREEN_WIDTH - BOSS_WIDTH && state != BOSS_STATE_SLEEP)
 		vx = -vx;
 	if (y <= BOSS_ATTACK_HEIGHT)
 		vy = 0;
