@@ -22,7 +22,7 @@ private:
 public:
 	Fishman(CGameObject* Simon, CGameObject* MS, Camera* camera, float movepoint) :CGameObject()
 	{
-		this->LoadAnimations("ReadFile\\Ani\\Fishmanani.txt");
+		this->animations = AnimationsManager::getInstance()->getData(aniType::ANI_FISHMAN);
 		SetState(ENEMY_STATE_JUMPING);
 		type = FISHMAN;
 		active = true;

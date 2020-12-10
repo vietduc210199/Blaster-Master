@@ -24,7 +24,7 @@ class CTorch : public CGameObject
 public: 	
 	CTorch()
 	{
-		this->LoadAnimations("ReadFile\\Ani\\Torchani.txt");
+		this->animations = AnimationsManager::getInstance()->getData(aniType::ANI_TORCH);
 		LoadElementFromFile(SOURCE_TORCH_ELEMENT_TXT);
 		type = TORCH;
 		isOnGround = false;

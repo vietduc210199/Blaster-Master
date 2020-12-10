@@ -19,7 +19,7 @@ public:
 	int MSUpDropTime;
 	CMS() :CGameObject()
 	{
-		this->LoadAnimations("ReadFile\\Ani\\MSani.txt");
+		this->animations = AnimationsManager::getInstance()->getData(aniType::ANI_MS);
 		attack = 0;
 		MSUpDropTime = 0;
 	}

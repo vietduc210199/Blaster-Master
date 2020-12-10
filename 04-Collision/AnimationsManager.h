@@ -6,18 +6,22 @@
 
 #include "SpritesManager.h"
 
+
 class AnimationsManager
 {
 	static AnimationsManager* __instance;
 	
-	CAnimations* animations;
-
+	CAnimations* animation;
+	
+	unordered_map<int, vector<LPANIMATION>> animations;
 	AnimationsManager()
 	{
-		animations = CAnimations::GetInstance();
+		animation = CAnimations::GetInstance();
+
 	}
 
 	void LoadResources();
+	void LoadAnimations(int idAni, string source);
 public:
 	static AnimationsManager* getInstance()
 	{
@@ -29,9 +33,13 @@ public:
 		return __instance;
 	}
 
+	vector<LPANIMATION> getData(int idani)
+	{
+		return this->animations[idani];
+	}
 	CAnimations* getData()
 	{
-		return this->animations;
+		return this->animation;
 	}
 };
 

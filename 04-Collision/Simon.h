@@ -3,6 +3,8 @@
 #include <memory>
 #include "GameObject.h"
 #include "MS.h"
+#include "define.h"
+
 
 #define SIMON_WALKING_SPEED		0.07f 
 //0.1f
@@ -89,7 +91,7 @@ class CSimon: public CGameObject
 public: 
 	CSimon() : CGameObject()
 	{
-		this->LoadAnimations("ReadFile\\Ani\\simonani.txt");
+		this->animations = AnimationsManager::getInstance()->getData(aniType::ANI_SIMON);
 		numweapon = 1;
 		health = 16;
 		jump = 0;

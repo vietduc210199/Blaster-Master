@@ -13,7 +13,7 @@ private:
 public:
 	Axe(float pos, Camera* camera, int nx) :CGameObject()
 	{
-		this->LoadAnimations("ReadFile\\Ani\\Axeani.txt");
+		this->animations = AnimationsManager::getInstance()->getData(aniType::ANI_AXE);
 		firstPos = pos;
 		this->camera = camera;
 		this->nx = nx;

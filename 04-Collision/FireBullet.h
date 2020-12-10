@@ -12,7 +12,7 @@ private:
 public:
 	FireBullet(CGameObject* Simon, CGameObject* MS) : CGameObject()
 	{
-		this->LoadAnimations("ReadFile\\Ani\\Firebulletani.txt");
+		this->animations = AnimationsManager::getInstance()->getData(aniType::ANI_FIREBULLET);
 		type = FIREBULLET;
 		active = true;
 		this->Simon = Simon;

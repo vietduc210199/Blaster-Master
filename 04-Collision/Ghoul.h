@@ -7,7 +7,7 @@ class Ghoul : public CGameObject
 public:
 	Ghoul() :CGameObject()
 	{
-		this->LoadAnimations("ReadFile\\Ani\\Ghoulani.txt");
+		this->animations = AnimationsManager::getInstance()->getData(aniType::ANI_GHOUL);
 		SetState(ENEMY_STATE_MOVING);
 		type = GHOUL;
 		active = true;

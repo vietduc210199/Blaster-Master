@@ -175,32 +175,6 @@ void CGameObject::FilterCollision(
 }
 
 
-void CGameObject::LoadAnimations(string source)
-{
-	int idani, time, idsprite;
-	string all;
-	ifstream infile;
-	LPANIMATION ani;
-	
-	idani = 0;
-	infile.open(source);
-
-	while (!infile.eof())
-	{
-		int num_sprite;
-		infile >> idani;
-		ani = new CAnimation(100);
-		infile >> num_sprite;
-		for (int i = 0; i < num_sprite; i++)
-		{
-			infile >> idsprite >> time;
-			ani->Add(idsprite, time);
-		}
-		AnimationsManager::getInstance()->getData()->Add(idani, ani);
-		this->AddAnimation(idani);
-	}
-}
-
 void CGameObject::SetDirection(int d)
 {
 	direction = d;

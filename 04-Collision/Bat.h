@@ -9,7 +9,7 @@ private:
 public:
 	Bat(D3DXVECTOR2 pos) :CGameObject()
 	{
-		this->LoadAnimations("ReadFile\\Ani\\Batani.txt");
+		this->animations = AnimationsManager::getInstance()->getData(aniType::ANI_BAT);
 		state = ENEMY_STATE_MOVING;
 		type = BAT;
 		vx = BAT_SPEED_X;

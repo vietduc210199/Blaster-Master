@@ -11,7 +11,7 @@ private:
 public:
 	Panther(CGameObject* simon, Camera* camera, float jumppoint) :CGameObject()
 	{
-		this->LoadAnimations("ReadFile\\Ani\\Pantherani.txt");
+		this->animations = AnimationsManager::getInstance()->getData(aniType::ANI_PANTHER);
 		state = ENEMY_STATE_IDLE;
 		type = PANTHER;
 		active = true;

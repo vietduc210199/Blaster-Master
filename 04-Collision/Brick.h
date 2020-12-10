@@ -12,7 +12,7 @@ class CBrick : public CGameObject
 	public:
 		CBrick()
 		{
-			this->LoadAnimations("ReadFile\\Ani\\Brickani.txt");
+			this->animations = AnimationsManager::getInstance()->getData(aniType::ANI_BRICK);
 			type = eType::BRICK;
 			state = BRICK_STATE_NORMAL;
 		}

@@ -90,7 +90,6 @@ public:
 	CAnimation* animation;
 
 	vector<LPANIMATION> animations;
-	void LoadAnimations(string source);
 
 public: 
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }

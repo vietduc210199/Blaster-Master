@@ -14,6 +14,7 @@
 #include <vector>
 #include <iostream>
 #include"LoadAnimations.h"
+#include "AnimationsManager.h"
 
 using namespace std;
 
@@ -406,7 +407,22 @@ using namespace std;
 #define OTHER_HEIGHT 17
 
 
-
+enum aniType
+{
+	ANI_SIMON = 1,
+	ANI_GHOUL = 2,
+	ANI_PANTHER = 3,
+	ANI_BAT = 4,
+	ANI_FISHMAN = 5,
+	ANI_PHANTOMBAT = 6,
+	ANI_TORCH = 7,
+	ANI_BRICK = 8,
+	ANI_FIREBULLET = 9,
+	ANI_AXE = 10,
+	ANI_DAGGER = 11,
+	ANI_HOLYWATER = 12,
+	ANI_MS = 13
+};
 
 // ID của Sprite, object
 enum eType

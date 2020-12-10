@@ -11,7 +11,7 @@ private:
 public:
 	Dagger(Camera* camera, int nx) :CGameObject()
 	{
-		this->LoadAnimations("ReadFile\\Ani\\Daggerani.txt");
+		this->animations = AnimationsManager::getInstance()->getData(aniType::ANI_DAGGER);
 		this->camera = camera;
 		this->nx = nx;
 	}

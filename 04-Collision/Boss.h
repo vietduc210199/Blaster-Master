@@ -35,7 +35,7 @@ public:
 
 	Boss(CSimon* simon, CMS* MS, Camera* camera) :CGameObject()
 	{
-		this->LoadAnimations("ReadFile\\Ani\\Bossani.txt");
+		this->animations = AnimationsManager::getInstance()->getData(aniType::ANI_PHANTOMBAT);
 		this->simon = simon;
 		this->camera = camera;
 		this->MS = MS;

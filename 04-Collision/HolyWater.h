@@ -12,7 +12,7 @@ private:
 public:
 	HolyWater(float pos, Camera* camera, int nx) :CGameObject()
 	{
-		this->LoadAnimations("ReadFile\\Ani\\Holywaterani.txt");
+		this->animations = AnimationsManager::getInstance()->getData(aniType::ANI_HOLYWATER);
 		firstPos = pos;
 		this->camera = camera;
 		this->nx = nx;
