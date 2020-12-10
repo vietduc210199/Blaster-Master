@@ -20,6 +20,7 @@ void AnimationsManager::LoadResources()
 	LoadAnimations(aniType::ANI_HOLYWATER, "ReadFile\\Ani\\Holywaterani.txt");
 	LoadAnimations(aniType::ANI_PHANTOMBAT, "ReadFile\\Ani\\Bossani.txt");
 	LoadAnimations(aniType::ANI_FIREBULLET, "ReadFile\\Ani\\Firebulletani.txt");
+	LoadAnimations(aniType::ANI_EFFECT, "ReadFile\\Ani\\Effectani.txt");
 }
 
 void AnimationsManager::LoadAnimations(int idAni, string source)

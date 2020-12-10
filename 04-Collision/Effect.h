@@ -9,7 +9,7 @@ class Effect : public CGameObject
 public:
 	Effect(Camera* camera) :CGameObject()
 	{
-		this->LoadAnimations("ReadFile\\Ani\\Effectani.txt");
+		this->animations = AnimationsManager::getInstance()->getData(aniType::ANI_EFFECT);
 		this->camera = camera;
 	}
 	void SetType(int a)

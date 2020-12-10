@@ -621,6 +621,9 @@ void SceneGame::Update(DWORD dt)
 		InviObjects* InOb = dynamic_cast<InviObjects*>(invisibleobjects[i]);
 		if (simon->CheckCollision(InOb))
 		{
+			DebugOut(L"Type ID: %d", InOb->type);
+			DebugOut(L"  Postion: %d\n", InOb->x);
+
 			if (InOb->type == SC_TYPE_CHANGE_SCENE && simon->nx >= 0)
 			{
 				if (simon->GetAutoWalkingTime() == 0)
@@ -787,18 +790,23 @@ void SceneGame::Update(DWORD dt)
 			{
 				if (game->IsKeyDown(DIK_UP))
 				{
-					if (InOb->x - simon->x >= 20)
-					{
-						simon->x = InOb->x - 23.5;
-					}
 					if (simon->x <= InOb->x - 23.5)
 					{
+						DebugOut(L"UPPPPPPPP: %d\n");
+						simon->SetOnStair(true);
+
 						simon->SetState(SIMON_STATE_WALKING_UP_STAIR);
 						simon->StartAutoWalking(SIMON_AUTO_GO_TIME);
-						simon->SetOnStair(true);
 						simon->SetStairUp(false);
 						simon->nx = -1;
+
 					}
+					else if (InOb->x - simon->x >=20)
+					{
+						DebugOut(L"Check &d\n");
+						simon->x = InOb->x - 23.5;
+					}
+				
 				}
 				else if (game->IsKeyDown(DIK_DOWN))
 				{

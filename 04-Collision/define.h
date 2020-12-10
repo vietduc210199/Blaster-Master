@@ -421,7 +421,8 @@ enum aniType
 	ANI_AXE = 10,
 	ANI_DAGGER = 11,
 	ANI_HOLYWATER = 12,
-	ANI_MS = 13
+	ANI_MS = 13,
+	ANI_EFFECT = 14
 };
 
 // ID của Sprite, object
