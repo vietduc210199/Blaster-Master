@@ -20,6 +20,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		vy += SIMON_GRAVITY * dt;
 	}
+	
 	if (health < 0)
 	{
 		health = 0;
@@ -111,6 +112,10 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		autowalking_start = 0;
 		autowalking = 0;
 
+	}
+	if (GetTickCount() - walk_1_stair_start > SIMON_WALK_1_STAIR_TIME)
+	{
+		walk1stair = 0;
 	}
 	//auto walking stair
 	if (autowalking != 0)

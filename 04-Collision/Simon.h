@@ -50,6 +50,7 @@ class CSimon: public CGameObject
 	
 	int jump;
 	int jumpmove;
+	int walk1stair;
 	int attack;
 	int sitattack;
 	int right;
@@ -83,6 +84,7 @@ class CSimon: public CGameObject
 	DWORD autowalkingdoor_start;
 	DWORD isDamaged_start;
 	DWORD isUntouchable_start;
+	DWORD walk_1_stair_start;
 
 	int HeartCollect; // số lượng item heart người chơi nhặt được
 	int Lives; // số mạng của simon
@@ -99,6 +101,7 @@ public:
 		sitattack = 0;
 		changecolor = 0;
 		autowalking = 0;
+		walk1stair = 0;
 		isDamaged = 0;
 		isUntouchable = 0;
 		isOnGround = true;
@@ -260,6 +263,15 @@ public:
 	}
 	void StartJump() { jump = 1; jump_start = GetTickCount(); }
 	void StartJumpMove() { jumpmove = 1; jump_start = GetTickCount(); }
+	void StartWalk1Stair() { walk1stair = 1;  walk_1_stair_start = GetTickCount(); }
+	int GetWalk1Stair()
+	{
+		return this->walk1stair;
+	}
+	void StopWalkStair()
+	{
+		walk1stair = 0;
+	}
 	void StartAttack() 
 	{ 
 		attack = 1; attack_start = GetTickCount(); 

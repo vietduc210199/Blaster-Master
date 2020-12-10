@@ -97,7 +97,12 @@ void SceneGame::KeyState(BYTE* state)
 				}
 				else if (simon->GetOnStair() == true)
 				{
-					simon->SetState(SIMON_STATE_WALKING_DOWN_STAIR);
+					if (simon->GetWalk1Stair() == 0)
+					{
+						simon->SetState(SIMON_STATE_WALKING_DOWN_STAIR);
+						simon->StartWalk1Stair();
+					}
+					else return;
 				}
 			}
 		}
@@ -110,13 +115,27 @@ void SceneGame::KeyState(BYTE* state)
 			{
 				if (simon->GetOnStair() == true)
 				{
-					simon->SetState(SIMON_STATE_WALKING_UP_STAIR);
+					if (simon->GetWalk1Stair() == 0)
+					{
+						simon->SetState(SIMON_STATE_WALKING_UP_STAIR);
+						simon->StartWalk1Stair();
+					}
+					else return;
+					
 				}
 			}
 		}
 	}
 	else
-		simon->SetState(SIMON_STATE_IDLE);
+	{
+		if (simon->GetWalk1Stair() == 0)
+			simon->SetState(SIMON_STATE_IDLE);
+		else if(simon->GetState() == SIMON_STATE_WALKING_UP_STAIR)
+			simon->SetState(SIMON_STATE_WALKING_UP_STAIR);
+		else if(simon->GetState() == SIMON_STATE_WALKING_DOWN_STAIR)
+			simon->SetState(SIMON_STATE_WALKING_DOWN_STAIR);
+
+	}
 }
 
 void SceneGame::OnKeyDown(int KeyCode)
@@ -757,11 +776,12 @@ void SceneGame::Update(DWORD dt)
 				{
 					simon->SetOnStair(false);
 					simon->SetStairUp(false);
+					simon->StopWalkStair();
 				}
 			}
 			else if (InOb->type == STAIR_TYPE_DOWN_LEFT)
 			{
-				if (game->IsKeyDown(DIK_DOWN))
+				if (game->IsKeyDown(DIK_DOWN) && !simon->GetOnStair() && simon->GetWalk1Stair() == 0)
 				{
 					if (simon->x >= InOb->x - 14 || simon->x < InOb->x - 14 && simon->GetOnStair() == false)
 					{
@@ -769,10 +789,10 @@ void SceneGame::Update(DWORD dt)
 					}
 					if (simon->x >= InOb->x - 14 || simon->x <= InOb->x - 16)
 					{
-						simon->SetState(SIMON_STATE_WALKING_DOWN_STAIR);
 						simon->SetOnStair(true);
 						simon->SetStairUp(true);
 						simon->nx = -1;
+						simon->SetState(SIMON_STATE_WALKING_DOWN_STAIR);
 					}
 				}
 				else if (game->IsKeyDown(DIK_UP))
@@ -784,6 +804,7 @@ void SceneGame::Update(DWORD dt)
 					}
 					simon->SetOnStair(false);
 					simon->SetStairUp(false);
+					simon->StopWalkStair();
 				}
 			}
 			else if (InOb->type == STAIR_TYPE_UP_LEFT)
@@ -812,15 +833,16 @@ void SceneGame::Update(DWORD dt)
 				{
 					simon->SetOnStair(false);
 					simon->SetStairUp(true);
+					simon->StopWalkStair();
 				}
 			}
 			else if (InOb->type == STAIR_TYPE_DOWN_RIGHT)
 			{
 
-				if (game->IsKeyDown(DIK_DOWN) && simon->GetOnStair() == false)
+				if (game->IsKeyDown(DIK_DOWN) && simon->GetOnStair() == false && simon->GetWalk1Stair() == 0)
 				{
 					if (simon->x >= InOb->x - 5 || simon->x < InOb->x - 6 && simon->GetOnStair() == false)
-					{
+					{ 
 						simon->x = InOb->x - 5;
 					}
 					if (simon->x == InOb->x - 5)
@@ -841,6 +863,7 @@ void SceneGame::Update(DWORD dt)
 					}
 					simon->SetOnStair(false);
 					simon->SetStairUp(true);
+					simon->StopWalkStair();
 				}
 			}
 			else if (InOb->type == GHOUL_SPAWNER)
