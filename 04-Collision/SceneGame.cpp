@@ -47,7 +47,7 @@ void SceneGame::InitGame()
 
 	board = new Board(BOARD_DEFAULT_POSITION_X, BOARD_DEFAULT_POSITION_Y);
 
-	stagename = 0;
+	stagename = 3;
 	simon->SetStartPoint(stages.at(stagename)->startpoint);
 	simon->SetEndPoint(stages.at(stagename)->endpoint);
 	camera->SetStartPoint(stages.at(stagename)->startpoint);
@@ -121,7 +121,6 @@ void SceneGame::KeyState(BYTE* state)
 						simon->StartWalk1Stair();
 					}
 					else return;
-					
 				}
 			}
 		}
@@ -640,8 +639,8 @@ void SceneGame::Update(DWORD dt)
 		InviObjects* InOb = dynamic_cast<InviObjects*>(invisibleobjects[i]);
 		if (simon->CheckCollision(InOb))
 		{
-			DebugOut(L"Type ID: %d", InOb->type);
-			DebugOut(L"  Postion: %d\n", InOb->x);
+			/*DebugOut(L"Type ID: %d", InOb->type);
+			DebugOut(L"  Postion: %d\n", InOb->x);*/
 
 			if (InOb->type == SC_TYPE_CHANGE_SCENE && simon->nx >= 0)
 			{
@@ -779,32 +778,38 @@ void SceneGame::Update(DWORD dt)
 					simon->StopWalkStair();
 				}
 			}
-			else if (InOb->type == STAIR_TYPE_DOWN_LEFT)
+			else if (InOb->type == STAIR_TYPE_DOWN_LEFT )
 			{
 				if (game->IsKeyDown(DIK_DOWN) && !simon->GetOnStair() && simon->GetWalk1Stair() == 0)
 				{
-					if (simon->x >= InOb->x - 14 || simon->x < InOb->x - 14 && simon->GetOnStair() == false)
+					DebugOut(L"IN %d\n");
+					if (simon->x >= InOb->x - 15 || simon->x < InOb->x - 15 && simon->GetOnStair() == false )
 					{
-						simon->x = InOb->x - 14;
+						simon->x = InOb->x - 15;
 					}
-					if (simon->x >= InOb->x - 14 || simon->x <= InOb->x - 16)
+					if (simon->x >= InOb->x - 15 || simon->x <= InOb->x - 16)
 					{
 						simon->SetOnStair(true);
 						simon->SetStairUp(true);
 						simon->nx = -1;
 						simon->SetState(SIMON_STATE_WALKING_DOWN_STAIR);
+						simon->StartWalk1Stair();
 					}
 				}
 				else if (game->IsKeyDown(DIK_UP))
 				{
-					if (simon->y + SIMON_IDLE_BBOX_HEIGHT > InOb->y + INVI_HEIGHT)
+					if (simon->GetOnStair())
 					{
-						simon->y = InOb->y  + INVI_HEIGHT * 2 - SIMON_IDLE_BBOX_HEIGHT + 1;
-						simon->x += 1;
+						if (simon->y + SIMON_IDLE_BBOX_HEIGHT > InOb->y + INVI_HEIGHT)
+						{
+							simon->y = InOb->y + INVI_HEIGHT * 2 - SIMON_IDLE_BBOX_HEIGHT + 1;
+							simon->x += 3;
+						}
+						simon->SetState(SIMON_STATE_IDLE);
+						simon->SetOnStair(false);
+						simon->SetStairUp(false);
+						simon->StopWalkStair();
 					}
-					simon->SetOnStair(false);
-					simon->SetStairUp(false);
-					simon->StopWalkStair();
 				}
 			}
 			else if (InOb->type == STAIR_TYPE_UP_LEFT)
@@ -839,7 +844,7 @@ void SceneGame::Update(DWORD dt)
 			else if (InOb->type == STAIR_TYPE_DOWN_RIGHT)
 			{
 
-				if (game->IsKeyDown(DIK_DOWN) && simon->GetOnStair() == false && simon->GetWalk1Stair() == 0)
+				if (game->IsKeyDown(DIK_DOWN) && !simon->GetOnStair() && simon->GetWalk1Stair() == 0)
 				{
 					if (simon->x >= InOb->x - 5 || simon->x < InOb->x - 6 && simon->GetOnStair() == false)
 					{ 
@@ -847,23 +852,28 @@ void SceneGame::Update(DWORD dt)
 					}
 					if (simon->x == InOb->x - 5)
 					{
+						simon->SetOnStair(true);
+						simon->SetStairUp(false);
+						simon->nx = 1;
 						simon->SetState(SIMON_STATE_WALKING_DOWN_STAIR);
+						simon->StartWalk1Stair();
 					}
-				
-					simon->SetOnStair(true);
-					simon->SetStairUp(false);
-					simon->nx = 1;
 				}
 				else if (game->IsKeyDown(DIK_UP) && simon->GetOnStair() == true)
 				{
-					if (simon->y + SIMON_IDLE_BBOX_HEIGHT > InOb->y + INVI_HEIGHT)
+					if (simon->GetOnStair())
 					{
-						simon->y = InOb->y + 0.5 + INVI_HEIGHT * 2 - SIMON_IDLE_BBOX_HEIGHT - 1;
-						simon->x -= 0.5;
+						if (simon->y + SIMON_IDLE_BBOX_HEIGHT > InOb->y + INVI_HEIGHT)
+						{
+							simon->y = InOb->y + 0.5 + INVI_HEIGHT * 2 - SIMON_IDLE_BBOX_HEIGHT - 3;
+							simon->x -= 2;
+						}
+						simon->SetState(SIMON_STATE_IDLE);
+						simon->SetOnStair(false);
+						simon->SetStairUp(true);
+						simon->StopWalkStair();
 					}
-					simon->SetOnStair(false);
-					simon->SetStairUp(true);
-					simon->StopWalkStair();
+				
 				}
 			}
 			else if (InOb->type == GHOUL_SPAWNER)
@@ -1169,7 +1179,7 @@ void SceneGame::Update(DWORD dt)
 						{
 							simon->SetLives(-1);
 							phantombat->SetState(BOSS_STATE_SLEEP);
-							phantombat->SetActive(false);
+							//phantombat->SetActive(false);
 							phantombat->SetPosition(bossposx, bossposy);
 							phantombat->SetFirstPos(bossposx, bossposy * 2);
 						}

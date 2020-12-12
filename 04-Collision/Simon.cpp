@@ -157,18 +157,25 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		LPCOLLISIONEVENT e = coEventsResult[i];
 		if (dynamic_cast<CBrick*>(e->obj))
 		{
+			if (ny == 1 )
+			{
+				y += dy;
+				break;
+			}
 			x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
 			y += min_ty * dy + ny * 0.4f;
 			
 			if (nx != 0) vx = 0;
 			if (ny != 0) vy = 0;
 		
-			if (ny == 1 && isOnStair)
+		
+			if (ny == -1 && isOnStair)
 			{
 				y += dy;
 			}
 			if (nx != 0 && isOnStair)
 			{
+
 				x += dx;
 			}
 			if (ny == -1)
