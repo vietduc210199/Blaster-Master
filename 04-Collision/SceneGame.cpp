@@ -1180,9 +1180,9 @@ void SceneGame::Update(DWORD dt)
 						if (simon->GetHealth() <= 4)
 						{
 							phantombat->SetState(BOSS_STATE_SLEEP);
+							phantombat->SetActive(false);
 							phantombat->SetPosition(bossposx, bossposy);
 							phantombat->SetFirstPos(bossposx, bossposy * 2);
-							phantombat->SetActive(false);
 							simon->SetLives(-1);
 							
 						}
@@ -1273,7 +1273,7 @@ void SceneGame::Update(DWORD dt)
 	if (camera->GetPosition().x + SCREEN_WIDTH >= endmap)
 	{
 		camera->SetCamerax(endmap);
-		
+		camera->SetCamLock(true);
 	}
 	else
 	{
@@ -1394,6 +1394,7 @@ void SceneGame::Update(DWORD dt)
 	}
 	if (simon->GetHealth() == 0)
 	{
+		if (!camera->GetCamLock()) camera->SetCamLock(false);
 		if (timerSimonDie < 1000)
 		{
 			timerSimonDie += dt;

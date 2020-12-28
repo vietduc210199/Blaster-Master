@@ -8,8 +8,9 @@ class Axe : public CGameObject
 {
 private:
 	float firstPos;
-	DWORD throw_timer;
 	Camera* camera;
+	DWORD start_time;
+
 public:
 	Axe(float pos, Camera* camera, int nx) :CGameObject()
 	{
@@ -17,6 +18,7 @@ public:
 		firstPos = pos;
 		this->camera = camera;
 		this->nx = nx;
+		start_time = GetTickCount();
 	}
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	virtual void Render(Camera* camera);

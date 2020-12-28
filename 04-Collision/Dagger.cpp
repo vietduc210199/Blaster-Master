@@ -6,7 +6,11 @@ void Dagger::Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects)
 	{
 		return;
 	}
-	if (y > camera->GetPosition().y + SCREEN_HEIGHT || x > camera->GetPosition().x + SCREEN_WIDTH || x + DG_WIDTH < camera->GetPosition().x)
+	if (y > camera->GetPosition().y + SCREEN_HEIGHT || x > camera->GetPosition().x + SCREEN_WIDTH || x + DG_WIDTH < camera->GetPosition().x && !camera->GetCamLock())
+	{
+		SetActive(false);
+	}	
+	if (active == true && GetTickCount() - start_time == 3000)
 	{
 		SetActive(false);
 	}
@@ -23,8 +27,8 @@ void Dagger::Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects)
 void Dagger::Render(Camera* camera)
 {
 	int ani;
-	if (active == true)
-	{
+	/*if (active == true)
+	{*/
 		if (nx > 0)
 		{
 			ani = 0;
@@ -35,7 +39,7 @@ void Dagger::Render(Camera* camera)
 		animations[ani]->Render(camera->transform(x, y), alpha);
 
 		RenderBoundingBox(camera);
-	}
+	//}
 }
 
 void Dagger::SetState(int state)

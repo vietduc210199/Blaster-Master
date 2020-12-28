@@ -8,12 +8,14 @@ class Dagger :public CGameObject
 {
 private:
 	Camera* camera;
+	DWORD start_time;
 public:
 	Dagger(Camera* camera, int nx) :CGameObject()
 	{
 		this->animations = AnimationsManager::getInstance()->getData(aniType::ANI_DAGGER);
 		this->camera = camera;
 		this->nx = nx;
+		start_time = GetTickCount();
 	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	void Render(Camera* camera);

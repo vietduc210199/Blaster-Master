@@ -11,6 +11,7 @@ public:
 	int startpoint;
 	int endpoint;
 	bool CamMoving = false;
+	bool isLock = false;
 	float cameramovetime;
 	DWORD cammove_start;
 	Camera();
@@ -31,6 +32,10 @@ public:
 	{
 		return CamMoving;
 	}
+	boolean GetCamLock()
+	{
+		return isLock;
+	}
 	D3DXVECTOR2 GetPosition();
 	D3DXVECTOR2 transform(float x_world, float y_world);
 	void SetStartPoint(int a)
@@ -45,6 +50,7 @@ public:
 	{
 		this->cam_x = x;
 	}
+	void SetCamLock(bool a) { this->isLock = a; }
 	void SetCamera(float x, float y);
 	void SetCamMoving(bool a) { CamMoving = a; }
 	void StartCamMove(float a) { cammove = 1; cammove_start = GetTickCount(); cameramovetime = a; }

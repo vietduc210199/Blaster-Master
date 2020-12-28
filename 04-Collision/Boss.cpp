@@ -13,9 +13,9 @@ void Boss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CollisionWhenDead(coObjects);
 	DeleateWaeponWhenUnactive();
 
-	if (x <= camera->GetPosition().x && state != BOSS_STATE_SLEEP)
+	if (x <= camera->GetPosition().x && state != BOSS_STATE_SLEEP && !camera->GetCamLock())
 		vx = -vx;
-	if (x >= camera->GetPosition().x + SCREEN_WIDTH - BOSS_WIDTH && state != BOSS_STATE_SLEEP)
+	if (x >= camera->GetPosition().x + SCREEN_WIDTH - BOSS_WIDTH && state != BOSS_STATE_SLEEP && !camera->GetCamLock())
 		vx = -vx;
 	if (y <= BOSS_ATTACK_HEIGHT)
 		vy = 0;

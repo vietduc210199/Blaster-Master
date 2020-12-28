@@ -9,7 +9,11 @@ void Axe::Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects)
 
 	CGameObject::Update(dt);
 
-	if (y > camera->GetPosition().y + SCREEN_HEIGHT || x > camera->GetPosition().x + SCREEN_WIDTH || x + AXE_WIDTH < camera->GetPosition().x)
+	if (y > camera->GetPosition().y + SCREEN_HEIGHT || x > camera->GetPosition().x + SCREEN_WIDTH || x + AXE_WIDTH < camera->GetPosition().x && !camera->GetCamLock())
+	{
+		SetActive(false);
+	}
+	if (active == true && GetTickCount() - start_time == 3000)
 	{
 		SetActive(false);
 	}
