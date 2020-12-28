@@ -47,7 +47,7 @@ void SceneGame::InitGame()
 
 	board = new Board(BOARD_DEFAULT_POSITION_X, BOARD_DEFAULT_POSITION_Y);
 
-	stagename = 3;
+	stagename = 2;
 	simon->SetStartPoint(stages.at(stagename)->startpoint);
 	simon->SetEndPoint(stages.at(stagename)->endpoint);
 	camera->SetStartPoint(stages.at(stagename)->startpoint);
@@ -489,6 +489,7 @@ void SceneGame::Update(DWORD dt)
 		simon->SetPosition(stages.at(stagename)->simonposx, stages.at(stagename)->simonposy);
 		simon->SetStartPoint(stages.at(stagename)->startpoint);
 		simon->SetEndPoint(stages.at(stagename)->endpoint);
+		camera->SetCamerax(camera->GetStartPoint());
 		simon->StartIsUnTouchable(SIMON_UNTOUCHABLE_TIME);
 	}
 	//Push Objects
@@ -946,6 +947,7 @@ void SceneGame::Update(DWORD dt)
 			else if (InOb->type == BOSS_SPAWNER && phantombat->GetState() == BOSS_STATE_SLEEP)
 			{
 			//InOb->SetActive(false);
+			
 			phantombat->SetActive(true);
 			}
 		}
@@ -1177,11 +1179,12 @@ void SceneGame::Update(DWORD dt)
 					{
 						if (simon->GetHealth() <= 4)
 						{
-							simon->SetLives(-1);
 							phantombat->SetState(BOSS_STATE_SLEEP);
-							//phantombat->SetActive(false);
 							phantombat->SetPosition(bossposx, bossposy);
 							phantombat->SetFirstPos(bossposx, bossposy * 2);
+							phantombat->SetActive(false);
+							simon->SetLives(-1);
+							
 						}
 						simon->StartIsDamaged();
 						simon->SetHealth(4);
@@ -1267,7 +1270,12 @@ void SceneGame::Update(DWORD dt)
 	}
 
 	//Adjust Camera to Simon
-	if (camera->GetPosition().x + SCREEN_WIDTH <= endmap)
+	if (camera->GetPosition().x + SCREEN_WIDTH >= endmap)
+	{
+		camera->SetCamerax(endmap);
+		
+	}
+	else
 	{
 		if (simon->x - camera->GetPosition().x <= 100 && SimonMove == true)
 		{
@@ -1286,10 +1294,6 @@ void SceneGame::Update(DWORD dt)
 		{
 			camera->SetCamera((simon->x + SIMON_IDLE_BBOX_WIDTH) - SCREEN_WIDTH / 2, 200);
 		}
-	}
-	else
-	{
-		camera->SetCamerax(endmap);
 	}
 
 

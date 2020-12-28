@@ -82,13 +82,16 @@ void Boss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 		if (isAttack == true)
 		{
+			DebugOut(L"Boss Attaking\t\n");
 			if (simon->GetPosition().x < x)
 			{
+				DebugOut(L"attack left\t\n");
 				vx = -BOSS_ATTACK_SPEED_X;
 				vy = BOSS_ATTACK_SPEED_Y;
 			}
 			else
 			{
+				DebugOut(L"attack right\t\n");
 				vx = BOSS_ATTACK_SPEED_X;
 				vy = BOSS_ATTACK_SPEED_Y;
 			}

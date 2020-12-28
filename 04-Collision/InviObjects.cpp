@@ -19,4 +19,8 @@ void InviObjects::GetBoundingBox(float& l, float& t, float& r, float& b)
 	{
 		r = x + (INVI_WIDTH - 8);
 	}
+	if (type == BOSS_SPAWNER)
+	{
+		t = y - 10;
+	}
 }
