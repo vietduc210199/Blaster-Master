@@ -3,7 +3,7 @@
 BoardHealth::BoardHealth(float X, float Y)
 {
 	_Texture = TextureManager::getInstance()->getData()->Get(eType::BOARDHEALTH);
-	_Sprite = new CSprite(eType::BOARDHEALTH, 0, 0, 18, 10, _Texture);
+	_Sprite = new CSprite(eType::BOARDHEALTH, 0, 0, 18, 10, _Texture, 100);
 	this->x = X;
 	this->y = Y;
 }

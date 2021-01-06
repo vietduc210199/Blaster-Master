@@ -138,6 +138,9 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				y += -SIMON_AUTO_WALKING_STAIR_SPEED;
 			}
 		}
+		if(direction < 0)
+			x -= 3*SIMON_AUTO_WALKING_STAIR_SPEED;
+
 	}
 	// No collision occured, proceed normally
 	vector<LPCOLLISIONEVENT> coEvents;
@@ -202,6 +205,9 @@ void CSimon::Render(Camera* camera)
 	int ani = 0;
 	if (state == SIMON_STATE_DIE) {
 		ani = SIMON_ANI_DIE;
+	}
+	if (state == SIMON_STATE_BACK) {
+		ani = 29;
 	}
 	else if (state == SIMON_STATE_SIT)
 	{
@@ -331,6 +337,9 @@ void CSimon::Render(Camera* camera)
 	if (autowalking != 0)
 	{
 		ani = SIMON_ANI_WALKING_RIGHT;
+		if (direction > 0)
+			ani = SIMON_ANI_WALKING_RIGHT;
+		else ani = SIMON_ANI_WALKING_LEFT;
 		if (isOnStair)
 		{
 			if (nx > 0)
@@ -359,6 +368,10 @@ void CSimon::SetState(int state)
 		{
 			vy = 0;
 		}
+		break;
+	case SIMON_STATE_BACK:
+		vx = 0;
+		vy = 0;
 		break;
 	case SIMON_STATE_WALKING_RIGHT:
 		vx = SIMON_WALKING_SPEED;

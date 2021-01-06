@@ -84,6 +84,7 @@ using namespace std;
 #define SIMON_STATE_ON_STAIR_IDLE   102
 #define SIMON_STATE_WALKING_UP_STAIR 103
 #define SIMON_STATE_WALKING_DOWN_STAIR 104
+#define SIMON_STATE_BACK 10
 
 #define SIMON_JUMP_TIME             500
 #define SIMON_ATTACK_TIME           300
@@ -125,6 +126,7 @@ using namespace std;
 #define SIMON_ANI_IS_DAMAGED_LEFT 26
 #define SIMON_ANI_IS_DAMAGED_RIGHT 27
 #define SIMON_ANI_DIE		            28
+#define SIMON_ANI_BACK 29
 
 
 #define SIMON_LEVEL_MS_1            0

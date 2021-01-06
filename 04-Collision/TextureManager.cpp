@@ -34,6 +34,12 @@ void TextureManager::LoadResources()
 	TexList->Add(eType::HOLYWATER, L"textures\\item\\9.png", D3DCOLOR_XRGB(255, 0, 255));
 	TexList->Add(eType::BOOMERANG, L"textures\\item\\8.png", D3DCOLOR_XRGB(255, 0, 255));
 
+	//Intro Scene
+	TexList->Add(eType::MAINMENU, L"textures\\Intro\\mainmenu.png", D3DCOLOR_XRGB(255, 0, 255));
+	TexList->Add(eType::INTRO_BAT, L"textures\\Intro\\intro_bat.png", D3DCOLOR_XRGB(255, 0, 255));
+	TexList->Add(eType::INTRO_BAT_MENU, L"textures\\Intro\\IntroBatMenu.png", D3DCOLOR_XRGB(0, 0, 0));
+	TexList->Add(eType::INTRO_GO_SCENE1, L"textures\\Intro\\intro_go_scene_1.png", D3DCOLOR_XRGB(255, 0, 255));
+	TexList->Add(eType::HELICOPTER, L"textures\\Intro\\helicopter.png", D3DCOLOR_XRGB(255, 0, 255));
 
 }
 

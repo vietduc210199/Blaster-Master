@@ -3,7 +3,7 @@
 Font::Font()
 {
 	_Texture = TextureManager::getInstance()->getData()->Get(eType::FONT);
-	_Sprite = new CSprite(eType::FONT, 0, 0, 125, 27, _Texture);
+	_Sprite = new CSprite(eType::FONT, 0, 0, 125, 27, _Texture, 100);
 }
 
 Font::~Font()

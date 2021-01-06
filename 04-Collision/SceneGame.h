@@ -135,9 +135,6 @@ public:
 	void Update(DWORD dt);
 	void Render();
 
-	CSimon* getSimon()
-	{
-		return this->simon;
-	}
+	
 };
 

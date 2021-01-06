@@ -15,7 +15,6 @@ public:
 	virtual void Update(DWORD dt) = 0;
 	virtual void Render() = 0;
 
-	virtual CSimon* getSimon() = 0;
 
 	virtual ~Scene();
 

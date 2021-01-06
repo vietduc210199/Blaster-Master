@@ -11,9 +11,9 @@ string Board::FillNumber(string s, UINT MaxNumber)
 Board::Board(float X, float Y)
 {
 	_Texture = TextureManager::getInstance()->getData()->Get(eType::BOARD);
-	_Sprite = new CSprite(eType::BOARD, 0, 0, 273, 42, _Texture);
+	_Sprite = new CSprite(eType::BOARD, 0, 0, 273, 42, _Texture, 100);
 
-	_spriteIconDoubleShot = new CSprite(eType::ITEMDOUBLESHOT, 0, 0, 28, 28, TextureManager::getInstance()->getData()->Get(eType::ITEMDOUBLESHOT));
+	_spriteIconDoubleShot = new CSprite(eType::ITEMDOUBLESHOT, 0, 0, 28, 28, TextureManager::getInstance()->getData()->Get(eType::ITEMDOUBLESHOT), 100);
 
 	x = X;
 	y = Y;
@@ -47,16 +47,16 @@ void Board::Render(CSimon* simon, int state, int RemainingTime, Boss* boss)
 	switch (TypeWeaponCollect)
 	{
 	case eType::DAGGER:
-		_spriteWeapon = new CSprite(eType::DAGGER, 0, 0, 20, 11, TextureManager::getInstance()->getData()->Get(eType::DAGGER));
+		_spriteWeapon = new CSprite(eType::DAGGER, 0, 0, 20, 11, TextureManager::getInstance()->getData()->Get(eType::DAGGER), 100);
 		_spriteWeapon->Draw(x + 162, y + 19);
 		break;
 	case eType::HOLYWATER:
-		_spriteWeapon = new CSprite(eType::HOLYWATER, 0, 0, 16, 16, TextureManager::getInstance()->getData()->Get(eType::HOLYWATER));
+		_spriteWeapon = new CSprite(eType::HOLYWATER, 0, 0, 16, 16, TextureManager::getInstance()->getData()->Get(eType::HOLYWATER), 100);
 		_spriteWeapon->Draw(x + 164, y + 18);
 		break;
 	
 	case eType::THROWINGAXE:
-		_spriteWeapon = new CSprite(eType::THROWINGAXE, 0, 0, 16, 15, TextureManager::getInstance()->getData()->Get(eType::THROWINGAXE));
+		_spriteWeapon = new CSprite(eType::THROWINGAXE, 0, 0, 16, 15, TextureManager::getInstance()->getData()->Get(eType::THROWINGAXE), 100);
 		_spriteWeapon->Draw(x + 163, y + 18);
 		break;
 	default:

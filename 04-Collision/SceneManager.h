@@ -27,10 +27,6 @@ public:
 	void Update(DWORD dt);
 	void Render();
 
-	CSimon* getSimon()
-	{
-		return __scene->getSimon();
-	}
 
 	Scene* GetScene();
 	

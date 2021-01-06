@@ -138,7 +138,10 @@
     <ClInclude Include="GameTime.h" />
     <ClInclude Include="Ghoul.h" />
     <ClInclude Include="Grid.h" />
+    <ClInclude Include="HeliCopter.h" />
     <ClInclude Include="HolyWater.h" />
+    <ClInclude Include="IntroBat.h" />
+    <ClInclude Include="IntroScene.h" />
     <ClInclude Include="InviObjects.h" />
     <ClInclude Include="MS.h" />
     <ClInclude Include="debug.h" />
@@ -174,7 +177,10 @@
     <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="Ghoul.cpp" />
     <ClCompile Include="Grid.cpp" />
+    <ClCompile Include="HeliCopter.cpp" />
     <ClCompile Include="HolyWater.cpp" />
+    <ClCompile Include="IntroBat.cpp" />
+    <ClCompile Include="IntroScene.cpp" />
     <ClCompile Include="InviObjects.cpp" />
     <ClCompile Include="MS.cpp" />
     <ClCompile Include="debug.cpp" />

@@ -2,7 +2,7 @@
 #include "Game.h"
 #include "debug.h"
 
-CSprite::CSprite(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex)
+CSprite::CSprite(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex, DWORD TimeAnimation, int totalFrames, int collum, int row)
 {
 	this->id = id;
 	this->left = left;
@@ -10,6 +10,14 @@ CSprite::CSprite(int id, int left, int top, int right, int bottom, LPDIRECT3DTEX
 	this->right = right;
 	this->bottom = bottom;
 	this->texture = tex;
+	this->timeAnimation = TimeAnimation;
+	this->totalFrames = totalFrames - 1;
+	this->column = collum;
+	this->row = row;
+	this->frameWidth = this->right / this->column;
+	this->frameHeight = this->bottom / this->row;
+	this->currentFrame = 0;
+	this->timeAccumulated = 0;
 }
 
 CSprites * CSprites::__instance = NULL;
@@ -26,23 +34,53 @@ void CSprite::Draw(float x, float y, int alpha)
 	game->Draw(x, y, texture, left, top, right, bottom, alpha);
 }
 
-void CSprite::DrawFrame(int idFrame, float X, float Y, int Column, float FrameWidth, float Frameheight, int alpha, int R, int G, int B)
+
+
+void CSprite::DrawFrame(int idFrame, float X, float Y, int Column, float FrameWidth, float Frameheight, int row, int alpha, int R, int G, int B)
 {
 	spriteHandler = CGame::GetInstance()->GetSpriteHandler();
 	RECT r;
-	r.left = (idFrame % Column) * FrameWidth;
-	r.top = (idFrame / Column) * Frameheight;
-	r.right = r.left + FrameWidth;
-	r.bottom = r.top + Frameheight;
+	if (row == 1)
+	{
+		r.left = (idFrame % Column) * FrameWidth;
+		r.top = (idFrame / Column) * Frameheight;
+		r.right = r.left + FrameWidth;
+		r.bottom = r.top + Frameheight;
+	}
+	else
+	{
+		r.left = (idFrame % column) * FrameWidth;
+		r.top = (int)(idFrame / ((this->totalFrames + 1) / row)) * Frameheight;
+		r.right = r.left + FrameWidth;
+		r.bottom = r.top + Frameheight;
+	}
+	
 	D3DXVECTOR3 p(trunc(X), trunc(Y), 0);
 	spriteHandler->Draw(texture, &r, NULL, &p, D3DCOLOR_ARGB(alpha, R, G, B));
+}
+
+void CSprite::Update(DWORD dt)
+{
+	timeAccumulated += dt;
+	if (timeAccumulated >= timeAnimation)
+	{
+		timeAccumulated -= timeAnimation;
+		this->Next();
+	}
+}
+
+void CSprite::Next()
+{
+	currentFrame++;
+	if (currentFrame > totalFrames)
+		currentFrame = 0;
 }
 
 
 
 void CSprites::Add(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex)
 {
-	LPSPRITE s = new CSprite(id, left, top, right, bottom, tex);
+	LPSPRITE s = new CSprite(id, left, top, right, bottom, tex, 100);
 	sprites[id] = s;
 }
 

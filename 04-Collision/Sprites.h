@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <Windows.h>
 #include <d3dx9.h>
 #include <unordered_map>
@@ -19,11 +19,21 @@ class CSprite
 	LPD3DXSPRITE spriteHandler;
 	int currentFrame;
 	int totalFrames;
+
+	float frameWidth;
+	float frameHeight;
+
+	int column;
+	int row;
+
+	DWORD timeAccumulated;	 // thời gian chờ đã tích lũy
+	DWORD timeAnimation; // thời gian phải chờ giữa các frame
 public: 
-	CSprite(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex);
+	CSprite(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex, DWORD TimeAnimation, int totalFrames = 1, int collum = 1, int row = 1);
 
 	void Draw(float x, float y, int alpha = 255);
-	void DrawFrame(int idFrame, float X, float Y,int Column, float FrameWidth, float Frameheight, int alpha = 255, int R = 255, int G = 255, int B = 255);
+	void DrawFrame(int idFrame, float X, float Y,int Column, float FrameWidth, float Frameheight, int row = 1, int alpha = 255, int R = 255, int G = 255, int B = 255);
+
 
 	void SelectFrame(int idFrame)
 	{
@@ -33,6 +43,18 @@ public:
 	{
 		return currentFrame;
 	}
+
+	float GetFrameWidth()
+	{
+		return frameWidth;
+	}
+
+	float GetFrameHeight()
+	{
+		return frameHeight;
+	}
+	void Update(DWORD dt);
+	void Next();
 };
 
 typedef CSprite * LPSPRITE;

@@ -7,7 +7,7 @@
 
 #include "SceneManager.h"
 #include "SceneGame.h"
-
+#include "IntroScene.h"
 
 #define WINDOW_CLASS_NAME L"Castlevania"
 #define MAIN_WINDOW_TITLE L"Castlevania"
@@ -167,7 +167,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	//LoadResources();
 
-	_sceneManager->SetScene(new SceneGame());
+	_sceneManager->SetScene(new IntroScene());
 
 	SetWindowPos(hWnd, 0, 0, 0, SCREEN_WIDTH * 2, SCREEN_HEIGHT * 2, SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
 
