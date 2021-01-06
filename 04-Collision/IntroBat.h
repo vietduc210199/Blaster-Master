@@ -4,7 +4,8 @@
 
 class IntroBat : public CGameObject
 {
-	IntroBat(float X = 0, float Y = 0, float VX = 0, float VY = 0);
+public:
+	IntroBat(float X, float Y, float VX, float VY);
 	~IntroBat();
 
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* listObject = NULL);
