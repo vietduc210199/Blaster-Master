@@ -87,7 +87,7 @@ private:
 	bool isChangeColor;
 	bool isGrey;
 	bool SimonMove = false;
-	bool isGameOver = true;
+	bool isGameOver = false;
 	Font Text;
 
 	DWORD spawndelayghoultimer_start;

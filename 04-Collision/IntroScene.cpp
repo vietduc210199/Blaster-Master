@@ -61,7 +61,7 @@ void IntroScene::LoadResources(LPCWSTR picturePath, int idTex, const char* filep
 
 	Sprite_IntroGoScene1 = new CSprite(eType::INTRO_GO_SCENE1, 0, 0, 305, 224, _textureManager->getData()->Get(eType::INTRO_GO_SCENE1), 0);
 
-	//heliCopter = new HeliCopter(432, 146);
+	heliCopter = new HeliCopter(250, 70);
 	//introBat1 = new IntroBat(297, 129, -0.01f, 0.0f); // Đi ngang qua trái
 	//introBat2 = new IntroBat(47, 224, 0.02f, -0.01f); // Đi góc dưới trái lên phải trên
 }
@@ -113,9 +113,10 @@ void IntroScene::Update(DWORD dt)
 		{
 			simon->SetState(SIMON_STATE_BACK);
 		}
+		heliCopter->Update(dt);
 		simon->Update(dt, &listBrick);
 		TimeWaited += dt;
-		if (TimeWaited >= 7000)
+		if (TimeWaited >= 5000)
 			SceneManager::GetInstance()->SetScene(new SceneGame());
 		break;
 	}
@@ -138,6 +139,7 @@ void IntroScene::Render()
 	{
 		Sprite_IntroGoScene1->Draw(0, 0);
 		brick->Render(camera);
+		heliCopter->Render(camera);
 		simon->Render(camera);
 		break;
 	}

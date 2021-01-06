@@ -33,8 +33,8 @@ void SceneGame::InitGame()
 	phantombat->SetState(BOSS_STATE_SLEEP);
 	phantombat->SetActive(false);
 
-	//LoadResources(SOURCE_ENTRANCE_PNG, eType::ID_TEX_ENTRANCESTAGE, SOURCE_ENTRANCE_TXT, ID_SCENE_LEVEL_ENTRANCE);
-	LoadResources(SOURCE_CASTLE_PNG, eType::ID_TEX_CASTLE, SOURCE_CASTLE_TXT, ID_SCENE_LEVEL_CASTLE);
+	LoadResources(SOURCE_ENTRANCE_PNG, eType::ID_TEX_ENTRANCESTAGE, SOURCE_ENTRANCE_TXT, ID_SCENE_LEVEL_ENTRANCE);
+	//LoadResources(SOURCE_CASTLE_PNG, eType::ID_TEX_CASTLE, SOURCE_CASTLE_TXT, ID_SCENE_LEVEL_CASTLE);
 
 	//tokens
 	dagger = new Dagger(camera, simon->nx);
@@ -47,7 +47,7 @@ void SceneGame::InitGame()
 
 	board = new Board(BOARD_DEFAULT_POSITION_X, BOARD_DEFAULT_POSITION_Y);
 
-	stagename = 2;
+	stagename = 0;
 	simon->SetStartPoint(stages.at(stagename)->startpoint);
 	simon->SetEndPoint(stages.at(stagename)->endpoint);
 	camera->SetStartPoint(stages.at(stagename)->startpoint);

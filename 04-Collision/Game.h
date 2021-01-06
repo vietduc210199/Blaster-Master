@@ -40,7 +40,7 @@ class CGame
 
 	LPKEYEVENTHANDLER keyHandler;
 
-	bool isBboxDebugging = true;
+	bool isBboxDebugging = false;
 
 	float cam_x = 0.0f;
 	float cam_y = 0.0f;
