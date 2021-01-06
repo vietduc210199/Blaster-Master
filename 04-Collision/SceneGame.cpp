@@ -653,6 +653,7 @@ void SceneGame::Update(DWORD dt)
 			else if (InOb->type == SC_TYPE_AUTO_HELPER && simon->nx >= 0)
 			{
 				InOb->SetActive(false);
+				simon->SetDirection(1);
 				simon->StartAutoWalking(SIMON_AUTO_GO_SCENE1);
 			}
 			else if (InOb->type == SC_TYPE_DOOR)
@@ -1279,6 +1280,7 @@ void SceneGame::Update(DWORD dt)
 	{
 		if (simon->x - camera->GetPosition().x <= 100 && SimonMove == true)
 		{
+			
 			simon->StartAutoWalking(SIMON_AUTO_GO_TIME * 2);
 		}
 		if (camera->GetCamMove() == 0 && simon->nx > 0)
