@@ -47,12 +47,12 @@ void SceneGame::InitGame()
 
 	board = new Board(BOARD_DEFAULT_POSITION_X, BOARD_DEFAULT_POSITION_Y);
 
-	stagename = 0;
+	/*stagename = 0;
 	simon->SetStartPoint(stages.at(stagename)->startpoint);
 	simon->SetEndPoint(stages.at(stagename)->endpoint);
 	camera->SetStartPoint(stages.at(stagename)->startpoint);
 	camera->SetEndPoint(stages.at(stagename)->endpoint);
-	simon->SetPosition(stages.at(stagename)->simonposx, stages.at(stagename)->simonposy);
+	simon->SetPosition(stages.at(stagename)->simonposx, stages.at(stagename)->simonposy);*/
 }
 
 SceneGame::~SceneGame()
@@ -1171,6 +1171,7 @@ void SceneGame::Update(DWORD dt)
 			if (phantombat->GetState() == BOSS_STATE_BLOOD)
 			{
 				phantombat->SetActive(false);
+				this->isGameOver = true;
 			}
 			else
 			{
@@ -1181,7 +1182,7 @@ void SceneGame::Update(DWORD dt)
 						if (simon->GetHealth() <= 4)
 						{
 							phantombat->SetState(BOSS_STATE_SLEEP);
-							phantombat->SetActive(false);
+							//phantombat->SetActive(false);
 							phantombat->SetPosition(bossposx, bossposy);
 							phantombat->SetFirstPos(bossposx, bossposy * 2);
 							simon->SetLives(-1);
