@@ -47,7 +47,7 @@ void SceneGame::InitGame()
 
 	board = new Board(BOARD_DEFAULT_POSITION_X, BOARD_DEFAULT_POSITION_Y);
 
-	/*stagename = 0;
+	/*stagename = 3;
 	simon->SetStartPoint(stages.at(stagename)->startpoint);
 	simon->SetEndPoint(stages.at(stagename)->endpoint);
 	camera->SetStartPoint(stages.at(stagename)->startpoint);
@@ -668,6 +668,7 @@ void SceneGame::Update(DWORD dt)
 				camera->StartCamMove(CAM_MOVE_TIME1);
 				camera->SetCamMoving(true);
 				stagename = stagename + 1;
+				simon->SetDirection(1);
 				simon->SetEndPoint(stages.at(stagename)->endpoint);
 				camera->SetEndPoint(stages.at(stagename)->endpoint);
 				SimonMove = true;
